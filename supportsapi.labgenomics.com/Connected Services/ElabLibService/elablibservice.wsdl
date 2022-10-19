@@ -1,0 +1,1880 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GetELabLibMaster">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="param" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetELabLibMasterResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetELabLibMasterResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetELabSMSDataParse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="param" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetELabSMSDataParseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetELabSMSDataParseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetELabLibMasterParse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="param" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetELabLibMasterParseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetELabLibMasterParseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetELabLibMasterKeyParse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="param" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bzcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetELabLibMasterKeyParseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetELabLibMasterKeyParseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetELabLibMasterPriorityKeyParse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="param" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bzcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetELabLibMasterPriorityKeyParseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetELabLibMasterPriorityKeyParseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetELabLibSub">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="param" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetELabLibSubResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetELabLibSubResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetELabLibSubParse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="param" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetELabLibSubParseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetELabLibSubParseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetELabLibSubKeyParse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="param" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bzcode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetELabLibSubKeyParseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetELabLibSubKeyParseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetELabSpcLib">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetELabSpcLibResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetELabSpcLibResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetELabSpcLibParse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetELabSpcLibParseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetELabSpcLibParseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFtp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="param" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFtpResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFtpResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFtpParse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="param" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFtpParseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFtpParseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAuth">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAuthResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAuthResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLastONO">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="hosnum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cno" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="wno" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLastONOResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetLastONOResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLastONOParse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strData" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLastONOParseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetLastONOParseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLastLibDate">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetLastLibDateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetLastLibDateResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HRequestServerSend">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="requestXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HRequestServerSendResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="HRequestServerSendResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HRequestServerSendParse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="requestStr" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HRequestServerSendParseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HRequestServerSendParseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HRequestCancel">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="hosNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="wNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="oNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HRequestCancelResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="HRequestCancelResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HRequestCancelParse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strData" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HRequestCancelParseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HRequestCancelParseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SRequestCancelServerReceive">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sCid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="date1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="date2" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SRequestCancelServerReceiveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SRequestCancelServerReceiveResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SRequestServerReceive">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sCid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="date1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="date2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="status" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SRequestServerReceiveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SRequestServerReceiveResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SRequestServerReceiveHospital">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sCid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sHosNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="date1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="date2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="status" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SRequestServerReceiveHospitalResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SRequestServerReceiveHospitalResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HResultServerReceive">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="hosNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="date1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="date2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="status" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HResultServerReceiveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HResultServerReceiveResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HResultServerReceiveParse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="hosNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="date1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="date2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="status" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HResultServerReceiveParseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HResultServerReceiveParseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HResultServerReceivePatient">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="hosNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Cno" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Wno" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HResultServerReceivePatientResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HResultServerReceivePatientResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HResultServerReceivePatientParse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="hosNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Cno" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Wno" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HResultServerReceivePatientParseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HResultServerReceivePatientParseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HResultServerUpdate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="requestXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HResultServerUpdateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="HResultServerUpdateResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HResultServerUpdateParse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="requestStr" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HResultServerUpdateParseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HResultServerUpdateParseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SResultServerSend">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="resultXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SResultServerSendResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SResultServerSendResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HLabLibMapServerSend">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="requestXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HLabLibMapServerSendResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="HLabLibMapServerSendResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HLabLibMapServerSendParse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="requestStr" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HLabLibMapServerSendParseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HLabLibMapServerSendParseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SLabLibMapServerReceive">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sCid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SLabLibMapServerReceiveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SLabLibMapServerReceiveResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SLabLibMapServerSend">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="resultXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SLabLibMapServerSendResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SLabLibMapServerSendResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SLabLibMapServerCreate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="resultXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SLabLibMapServerCreateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SLabLibMapServerCreateResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HLabLibMapServerReceive">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="hosNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ocsGroup" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="date1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="date2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="status" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HLabLibMapServerReceiveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HLabLibMapServerReceiveResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HLabLibMapServerReceiveParse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="hosNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ocsGroup" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="date1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="date2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="status" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HLabLibMapServerReceiveParseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HLabLibMapServerReceiveParseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TestHRequest">
+        <s:complexType />
+      </s:element>
+      <s:element name="TestHRequestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="TestHRequestResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Test_SResultServerSend">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="XML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Test_SResultServerSendResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Test_SResultServerSendResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TestHMapSend">
+        <s:complexType />
+      </s:element>
+      <s:element name="TestHMapSendResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="TestHMapSendResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TestSLabLibMapServerCreate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="szCID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="szHOSNUM" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="szOCSGROUP" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TestSLabLibMapServerCreateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="TestSLabLibMapServerCreateResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TestHResultServerReceiveParse">
+        <s:complexType />
+      </s:element>
+      <s:element name="TestHResultServerReceiveParseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TestHResultServerReceiveParseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TestSRequestServerReceiveHospital">
+        <s:complexType />
+      </s:element>
+      <s:element name="TestSRequestServerReceiveHospitalResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TestSRequestServerReceiveHospitalResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TestSRequestServerReceive">
+        <s:complexType />
+      </s:element>
+      <s:element name="TestSRequestServerReceiveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TestSRequestServerReceiveResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetELabLibMasterSoapIn">
+    <wsdl:part name="parameters" element="tns:GetELabLibMaster" />
+  </wsdl:message>
+  <wsdl:message name="GetELabLibMasterSoapOut">
+    <wsdl:part name="parameters" element="tns:GetELabLibMasterResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetELabSMSDataParseSoapIn">
+    <wsdl:part name="parameters" element="tns:GetELabSMSDataParse" />
+  </wsdl:message>
+  <wsdl:message name="GetELabSMSDataParseSoapOut">
+    <wsdl:part name="parameters" element="tns:GetELabSMSDataParseResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetELabLibMasterParseSoapIn">
+    <wsdl:part name="parameters" element="tns:GetELabLibMasterParse" />
+  </wsdl:message>
+  <wsdl:message name="GetELabLibMasterParseSoapOut">
+    <wsdl:part name="parameters" element="tns:GetELabLibMasterParseResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetELabLibMasterKeyParseSoapIn">
+    <wsdl:part name="parameters" element="tns:GetELabLibMasterKeyParse" />
+  </wsdl:message>
+  <wsdl:message name="GetELabLibMasterKeyParseSoapOut">
+    <wsdl:part name="parameters" element="tns:GetELabLibMasterKeyParseResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetELabLibMasterPriorityKeyParseSoapIn">
+    <wsdl:part name="parameters" element="tns:GetELabLibMasterPriorityKeyParse" />
+  </wsdl:message>
+  <wsdl:message name="GetELabLibMasterPriorityKeyParseSoapOut">
+    <wsdl:part name="parameters" element="tns:GetELabLibMasterPriorityKeyParseResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetELabLibSubSoapIn">
+    <wsdl:part name="parameters" element="tns:GetELabLibSub" />
+  </wsdl:message>
+  <wsdl:message name="GetELabLibSubSoapOut">
+    <wsdl:part name="parameters" element="tns:GetELabLibSubResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetELabLibSubParseSoapIn">
+    <wsdl:part name="parameters" element="tns:GetELabLibSubParse" />
+  </wsdl:message>
+  <wsdl:message name="GetELabLibSubParseSoapOut">
+    <wsdl:part name="parameters" element="tns:GetELabLibSubParseResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetELabLibSubKeyParseSoapIn">
+    <wsdl:part name="parameters" element="tns:GetELabLibSubKeyParse" />
+  </wsdl:message>
+  <wsdl:message name="GetELabLibSubKeyParseSoapOut">
+    <wsdl:part name="parameters" element="tns:GetELabLibSubKeyParseResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetELabSpcLibSoapIn">
+    <wsdl:part name="parameters" element="tns:GetELabSpcLib" />
+  </wsdl:message>
+  <wsdl:message name="GetELabSpcLibSoapOut">
+    <wsdl:part name="parameters" element="tns:GetELabSpcLibResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetELabSpcLibParseSoapIn">
+    <wsdl:part name="parameters" element="tns:GetELabSpcLibParse" />
+  </wsdl:message>
+  <wsdl:message name="GetELabSpcLibParseSoapOut">
+    <wsdl:part name="parameters" element="tns:GetELabSpcLibParseResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFtpSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFtp" />
+  </wsdl:message>
+  <wsdl:message name="GetFtpSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFtpResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFtpParseSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFtpParse" />
+  </wsdl:message>
+  <wsdl:message name="GetFtpParseSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFtpParseResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAuthSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAuth" />
+  </wsdl:message>
+  <wsdl:message name="GetAuthSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAuthResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLastONOSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLastONO" />
+  </wsdl:message>
+  <wsdl:message name="GetLastONOSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLastONOResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLastONOParseSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLastONOParse" />
+  </wsdl:message>
+  <wsdl:message name="GetLastONOParseSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLastONOParseResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLastLibDateSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLastLibDate" />
+  </wsdl:message>
+  <wsdl:message name="GetLastLibDateSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLastLibDateResponse" />
+  </wsdl:message>
+  <wsdl:message name="HRequestServerSendSoapIn">
+    <wsdl:part name="parameters" element="tns:HRequestServerSend" />
+  </wsdl:message>
+  <wsdl:message name="HRequestServerSendSoapOut">
+    <wsdl:part name="parameters" element="tns:HRequestServerSendResponse" />
+  </wsdl:message>
+  <wsdl:message name="HRequestServerSendParseSoapIn">
+    <wsdl:part name="parameters" element="tns:HRequestServerSendParse" />
+  </wsdl:message>
+  <wsdl:message name="HRequestServerSendParseSoapOut">
+    <wsdl:part name="parameters" element="tns:HRequestServerSendParseResponse" />
+  </wsdl:message>
+  <wsdl:message name="HRequestCancelSoapIn">
+    <wsdl:part name="parameters" element="tns:HRequestCancel" />
+  </wsdl:message>
+  <wsdl:message name="HRequestCancelSoapOut">
+    <wsdl:part name="parameters" element="tns:HRequestCancelResponse" />
+  </wsdl:message>
+  <wsdl:message name="HRequestCancelParseSoapIn">
+    <wsdl:part name="parameters" element="tns:HRequestCancelParse" />
+  </wsdl:message>
+  <wsdl:message name="HRequestCancelParseSoapOut">
+    <wsdl:part name="parameters" element="tns:HRequestCancelParseResponse" />
+  </wsdl:message>
+  <wsdl:message name="SRequestCancelServerReceiveSoapIn">
+    <wsdl:part name="parameters" element="tns:SRequestCancelServerReceive" />
+  </wsdl:message>
+  <wsdl:message name="SRequestCancelServerReceiveSoapOut">
+    <wsdl:part name="parameters" element="tns:SRequestCancelServerReceiveResponse" />
+  </wsdl:message>
+  <wsdl:message name="SRequestServerReceiveSoapIn">
+    <wsdl:part name="parameters" element="tns:SRequestServerReceive" />
+  </wsdl:message>
+  <wsdl:message name="SRequestServerReceiveSoapOut">
+    <wsdl:part name="parameters" element="tns:SRequestServerReceiveResponse" />
+  </wsdl:message>
+  <wsdl:message name="SRequestServerReceiveHospitalSoapIn">
+    <wsdl:part name="parameters" element="tns:SRequestServerReceiveHospital" />
+  </wsdl:message>
+  <wsdl:message name="SRequestServerReceiveHospitalSoapOut">
+    <wsdl:part name="parameters" element="tns:SRequestServerReceiveHospitalResponse" />
+  </wsdl:message>
+  <wsdl:message name="HResultServerReceiveSoapIn">
+    <wsdl:part name="parameters" element="tns:HResultServerReceive" />
+  </wsdl:message>
+  <wsdl:message name="HResultServerReceiveSoapOut">
+    <wsdl:part name="parameters" element="tns:HResultServerReceiveResponse" />
+  </wsdl:message>
+  <wsdl:message name="HResultServerReceiveParseSoapIn">
+    <wsdl:part name="parameters" element="tns:HResultServerReceiveParse" />
+  </wsdl:message>
+  <wsdl:message name="HResultServerReceiveParseSoapOut">
+    <wsdl:part name="parameters" element="tns:HResultServerReceiveParseResponse" />
+  </wsdl:message>
+  <wsdl:message name="HResultServerReceivePatientSoapIn">
+    <wsdl:part name="parameters" element="tns:HResultServerReceivePatient" />
+  </wsdl:message>
+  <wsdl:message name="HResultServerReceivePatientSoapOut">
+    <wsdl:part name="parameters" element="tns:HResultServerReceivePatientResponse" />
+  </wsdl:message>
+  <wsdl:message name="HResultServerReceivePatientParseSoapIn">
+    <wsdl:part name="parameters" element="tns:HResultServerReceivePatientParse" />
+  </wsdl:message>
+  <wsdl:message name="HResultServerReceivePatientParseSoapOut">
+    <wsdl:part name="parameters" element="tns:HResultServerReceivePatientParseResponse" />
+  </wsdl:message>
+  <wsdl:message name="HResultServerUpdateSoapIn">
+    <wsdl:part name="parameters" element="tns:HResultServerUpdate" />
+  </wsdl:message>
+  <wsdl:message name="HResultServerUpdateSoapOut">
+    <wsdl:part name="parameters" element="tns:HResultServerUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="HResultServerUpdateParseSoapIn">
+    <wsdl:part name="parameters" element="tns:HResultServerUpdateParse" />
+  </wsdl:message>
+  <wsdl:message name="HResultServerUpdateParseSoapOut">
+    <wsdl:part name="parameters" element="tns:HResultServerUpdateParseResponse" />
+  </wsdl:message>
+  <wsdl:message name="SResultServerSendSoapIn">
+    <wsdl:part name="parameters" element="tns:SResultServerSend" />
+  </wsdl:message>
+  <wsdl:message name="SResultServerSendSoapOut">
+    <wsdl:part name="parameters" element="tns:SResultServerSendResponse" />
+  </wsdl:message>
+  <wsdl:message name="HLabLibMapServerSendSoapIn">
+    <wsdl:part name="parameters" element="tns:HLabLibMapServerSend" />
+  </wsdl:message>
+  <wsdl:message name="HLabLibMapServerSendSoapOut">
+    <wsdl:part name="parameters" element="tns:HLabLibMapServerSendResponse" />
+  </wsdl:message>
+  <wsdl:message name="HLabLibMapServerSendParseSoapIn">
+    <wsdl:part name="parameters" element="tns:HLabLibMapServerSendParse" />
+  </wsdl:message>
+  <wsdl:message name="HLabLibMapServerSendParseSoapOut">
+    <wsdl:part name="parameters" element="tns:HLabLibMapServerSendParseResponse" />
+  </wsdl:message>
+  <wsdl:message name="SLabLibMapServerReceiveSoapIn">
+    <wsdl:part name="parameters" element="tns:SLabLibMapServerReceive" />
+  </wsdl:message>
+  <wsdl:message name="SLabLibMapServerReceiveSoapOut">
+    <wsdl:part name="parameters" element="tns:SLabLibMapServerReceiveResponse" />
+  </wsdl:message>
+  <wsdl:message name="SLabLibMapServerSendSoapIn">
+    <wsdl:part name="parameters" element="tns:SLabLibMapServerSend" />
+  </wsdl:message>
+  <wsdl:message name="SLabLibMapServerSendSoapOut">
+    <wsdl:part name="parameters" element="tns:SLabLibMapServerSendResponse" />
+  </wsdl:message>
+  <wsdl:message name="SLabLibMapServerCreateSoapIn">
+    <wsdl:part name="parameters" element="tns:SLabLibMapServerCreate" />
+  </wsdl:message>
+  <wsdl:message name="SLabLibMapServerCreateSoapOut">
+    <wsdl:part name="parameters" element="tns:SLabLibMapServerCreateResponse" />
+  </wsdl:message>
+  <wsdl:message name="HLabLibMapServerReceiveSoapIn">
+    <wsdl:part name="parameters" element="tns:HLabLibMapServerReceive" />
+  </wsdl:message>
+  <wsdl:message name="HLabLibMapServerReceiveSoapOut">
+    <wsdl:part name="parameters" element="tns:HLabLibMapServerReceiveResponse" />
+  </wsdl:message>
+  <wsdl:message name="HLabLibMapServerReceiveParseSoapIn">
+    <wsdl:part name="parameters" element="tns:HLabLibMapServerReceiveParse" />
+  </wsdl:message>
+  <wsdl:message name="HLabLibMapServerReceiveParseSoapOut">
+    <wsdl:part name="parameters" element="tns:HLabLibMapServerReceiveParseResponse" />
+  </wsdl:message>
+  <wsdl:message name="TestHRequestSoapIn">
+    <wsdl:part name="parameters" element="tns:TestHRequest" />
+  </wsdl:message>
+  <wsdl:message name="TestHRequestSoapOut">
+    <wsdl:part name="parameters" element="tns:TestHRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="Test_SResultServerSendSoapIn">
+    <wsdl:part name="parameters" element="tns:Test_SResultServerSend" />
+  </wsdl:message>
+  <wsdl:message name="Test_SResultServerSendSoapOut">
+    <wsdl:part name="parameters" element="tns:Test_SResultServerSendResponse" />
+  </wsdl:message>
+  <wsdl:message name="TestHMapSendSoapIn">
+    <wsdl:part name="parameters" element="tns:TestHMapSend" />
+  </wsdl:message>
+  <wsdl:message name="TestHMapSendSoapOut">
+    <wsdl:part name="parameters" element="tns:TestHMapSendResponse" />
+  </wsdl:message>
+  <wsdl:message name="TestSLabLibMapServerCreateSoapIn">
+    <wsdl:part name="parameters" element="tns:TestSLabLibMapServerCreate" />
+  </wsdl:message>
+  <wsdl:message name="TestSLabLibMapServerCreateSoapOut">
+    <wsdl:part name="parameters" element="tns:TestSLabLibMapServerCreateResponse" />
+  </wsdl:message>
+  <wsdl:message name="TestHResultServerReceiveParseSoapIn">
+    <wsdl:part name="parameters" element="tns:TestHResultServerReceiveParse" />
+  </wsdl:message>
+  <wsdl:message name="TestHResultServerReceiveParseSoapOut">
+    <wsdl:part name="parameters" element="tns:TestHResultServerReceiveParseResponse" />
+  </wsdl:message>
+  <wsdl:message name="TestSRequestServerReceiveHospitalSoapIn">
+    <wsdl:part name="parameters" element="tns:TestSRequestServerReceiveHospital" />
+  </wsdl:message>
+  <wsdl:message name="TestSRequestServerReceiveHospitalSoapOut">
+    <wsdl:part name="parameters" element="tns:TestSRequestServerReceiveHospitalResponse" />
+  </wsdl:message>
+  <wsdl:message name="TestSRequestServerReceiveSoapIn">
+    <wsdl:part name="parameters" element="tns:TestSRequestServerReceive" />
+  </wsdl:message>
+  <wsdl:message name="TestSRequestServerReceiveSoapOut">
+    <wsdl:part name="parameters" element="tns:TestSRequestServerReceiveResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ELabLibServiceSoap">
+    <wsdl:operation name="GetELabLibMaster">
+      <wsdl:input message="tns:GetELabLibMasterSoapIn" />
+      <wsdl:output message="tns:GetELabLibMasterSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetELabSMSDataParse">
+      <wsdl:input message="tns:GetELabSMSDataParseSoapIn" />
+      <wsdl:output message="tns:GetELabSMSDataParseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetELabLibMasterParse">
+      <wsdl:input message="tns:GetELabLibMasterParseSoapIn" />
+      <wsdl:output message="tns:GetELabLibMasterParseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetELabLibMasterKeyParse">
+      <wsdl:input message="tns:GetELabLibMasterKeyParseSoapIn" />
+      <wsdl:output message="tns:GetELabLibMasterKeyParseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetELabLibMasterPriorityKeyParse">
+      <wsdl:input message="tns:GetELabLibMasterPriorityKeyParseSoapIn" />
+      <wsdl:output message="tns:GetELabLibMasterPriorityKeyParseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetELabLibSub">
+      <wsdl:input message="tns:GetELabLibSubSoapIn" />
+      <wsdl:output message="tns:GetELabLibSubSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetELabLibSubParse">
+      <wsdl:input message="tns:GetELabLibSubParseSoapIn" />
+      <wsdl:output message="tns:GetELabLibSubParseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetELabLibSubKeyParse">
+      <wsdl:input message="tns:GetELabLibSubKeyParseSoapIn" />
+      <wsdl:output message="tns:GetELabLibSubKeyParseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetELabSpcLib">
+      <wsdl:input message="tns:GetELabSpcLibSoapIn" />
+      <wsdl:output message="tns:GetELabSpcLibSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetELabSpcLibParse">
+      <wsdl:input message="tns:GetELabSpcLibParseSoapIn" />
+      <wsdl:output message="tns:GetELabSpcLibParseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFtp">
+      <wsdl:input message="tns:GetFtpSoapIn" />
+      <wsdl:output message="tns:GetFtpSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFtpParse">
+      <wsdl:input message="tns:GetFtpParseSoapIn" />
+      <wsdl:output message="tns:GetFtpParseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAuth">
+      <wsdl:input message="tns:GetAuthSoapIn" />
+      <wsdl:output message="tns:GetAuthSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLastONO">
+      <wsdl:input message="tns:GetLastONOSoapIn" />
+      <wsdl:output message="tns:GetLastONOSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLastONOParse">
+      <wsdl:input message="tns:GetLastONOParseSoapIn" />
+      <wsdl:output message="tns:GetLastONOParseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLastLibDate">
+      <wsdl:input message="tns:GetLastLibDateSoapIn" />
+      <wsdl:output message="tns:GetLastLibDateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HRequestServerSend">
+      <wsdl:input message="tns:HRequestServerSendSoapIn" />
+      <wsdl:output message="tns:HRequestServerSendSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HRequestServerSendParse">
+      <wsdl:input message="tns:HRequestServerSendParseSoapIn" />
+      <wsdl:output message="tns:HRequestServerSendParseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HRequestCancel">
+      <wsdl:input message="tns:HRequestCancelSoapIn" />
+      <wsdl:output message="tns:HRequestCancelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HRequestCancelParse">
+      <wsdl:input message="tns:HRequestCancelParseSoapIn" />
+      <wsdl:output message="tns:HRequestCancelParseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SRequestCancelServerReceive">
+      <wsdl:input message="tns:SRequestCancelServerReceiveSoapIn" />
+      <wsdl:output message="tns:SRequestCancelServerReceiveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SRequestServerReceive">
+      <wsdl:input message="tns:SRequestServerReceiveSoapIn" />
+      <wsdl:output message="tns:SRequestServerReceiveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SRequestServerReceiveHospital">
+      <wsdl:input message="tns:SRequestServerReceiveHospitalSoapIn" />
+      <wsdl:output message="tns:SRequestServerReceiveHospitalSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HResultServerReceive">
+      <wsdl:input message="tns:HResultServerReceiveSoapIn" />
+      <wsdl:output message="tns:HResultServerReceiveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HResultServerReceiveParse">
+      <wsdl:input message="tns:HResultServerReceiveParseSoapIn" />
+      <wsdl:output message="tns:HResultServerReceiveParseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HResultServerReceivePatient">
+      <wsdl:input message="tns:HResultServerReceivePatientSoapIn" />
+      <wsdl:output message="tns:HResultServerReceivePatientSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HResultServerReceivePatientParse">
+      <wsdl:input message="tns:HResultServerReceivePatientParseSoapIn" />
+      <wsdl:output message="tns:HResultServerReceivePatientParseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HResultServerUpdate">
+      <wsdl:input message="tns:HResultServerUpdateSoapIn" />
+      <wsdl:output message="tns:HResultServerUpdateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HResultServerUpdateParse">
+      <wsdl:input message="tns:HResultServerUpdateParseSoapIn" />
+      <wsdl:output message="tns:HResultServerUpdateParseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SResultServerSend">
+      <wsdl:input message="tns:SResultServerSendSoapIn" />
+      <wsdl:output message="tns:SResultServerSendSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HLabLibMapServerSend">
+      <wsdl:input message="tns:HLabLibMapServerSendSoapIn" />
+      <wsdl:output message="tns:HLabLibMapServerSendSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HLabLibMapServerSendParse">
+      <wsdl:input message="tns:HLabLibMapServerSendParseSoapIn" />
+      <wsdl:output message="tns:HLabLibMapServerSendParseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SLabLibMapServerReceive">
+      <wsdl:input message="tns:SLabLibMapServerReceiveSoapIn" />
+      <wsdl:output message="tns:SLabLibMapServerReceiveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SLabLibMapServerSend">
+      <wsdl:input message="tns:SLabLibMapServerSendSoapIn" />
+      <wsdl:output message="tns:SLabLibMapServerSendSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SLabLibMapServerCreate">
+      <wsdl:input message="tns:SLabLibMapServerCreateSoapIn" />
+      <wsdl:output message="tns:SLabLibMapServerCreateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HLabLibMapServerReceive">
+      <wsdl:input message="tns:HLabLibMapServerReceiveSoapIn" />
+      <wsdl:output message="tns:HLabLibMapServerReceiveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HLabLibMapServerReceiveParse">
+      <wsdl:input message="tns:HLabLibMapServerReceiveParseSoapIn" />
+      <wsdl:output message="tns:HLabLibMapServerReceiveParseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TestHRequest">
+      <wsdl:input message="tns:TestHRequestSoapIn" />
+      <wsdl:output message="tns:TestHRequestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Test_SResultServerSend">
+      <wsdl:input message="tns:Test_SResultServerSendSoapIn" />
+      <wsdl:output message="tns:Test_SResultServerSendSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TestHMapSend">
+      <wsdl:input message="tns:TestHMapSendSoapIn" />
+      <wsdl:output message="tns:TestHMapSendSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TestSLabLibMapServerCreate">
+      <wsdl:input message="tns:TestSLabLibMapServerCreateSoapIn" />
+      <wsdl:output message="tns:TestSLabLibMapServerCreateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TestHResultServerReceiveParse">
+      <wsdl:input message="tns:TestHResultServerReceiveParseSoapIn" />
+      <wsdl:output message="tns:TestHResultServerReceiveParseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TestSRequestServerReceiveHospital">
+      <wsdl:input message="tns:TestSRequestServerReceiveHospitalSoapIn" />
+      <wsdl:output message="tns:TestSRequestServerReceiveHospitalSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TestSRequestServerReceive">
+      <wsdl:input message="tns:TestSRequestServerReceiveSoapIn" />
+      <wsdl:output message="tns:TestSRequestServerReceiveSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ELabLibServiceSoap" type="tns:ELabLibServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetELabLibMaster">
+      <soap:operation soapAction="http://tempuri.org/GetELabLibMaster" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetELabSMSDataParse">
+      <soap:operation soapAction="http://tempuri.org/GetELabSMSDataParse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetELabLibMasterParse">
+      <soap:operation soapAction="http://tempuri.org/GetELabLibMasterParse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetELabLibMasterKeyParse">
+      <soap:operation soapAction="http://tempuri.org/GetELabLibMasterKeyParse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetELabLibMasterPriorityKeyParse">
+      <soap:operation soapAction="http://tempuri.org/GetELabLibMasterPriorityKeyParse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetELabLibSub">
+      <soap:operation soapAction="http://tempuri.org/GetELabLibSub" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetELabLibSubParse">
+      <soap:operation soapAction="http://tempuri.org/GetELabLibSubParse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetELabLibSubKeyParse">
+      <soap:operation soapAction="http://tempuri.org/GetELabLibSubKeyParse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetELabSpcLib">
+      <soap:operation soapAction="http://tempuri.org/GetELabSpcLib" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetELabSpcLibParse">
+      <soap:operation soapAction="http://tempuri.org/GetELabSpcLibParse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFtp">
+      <soap:operation soapAction="http://tempuri.org/GetFtp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFtpParse">
+      <soap:operation soapAction="http://tempuri.org/GetFtpParse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuth">
+      <soap:operation soapAction="http://tempuri.org/GetAuth" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastONO">
+      <soap:operation soapAction="http://tempuri.org/GetLastONO" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastONOParse">
+      <soap:operation soapAction="http://tempuri.org/GetLastONOParse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastLibDate">
+      <soap:operation soapAction="http://tempuri.org/GetLastLibDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HRequestServerSend">
+      <soap:operation soapAction="http://tempuri.org/HRequestServerSend" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HRequestServerSendParse">
+      <soap:operation soapAction="http://tempuri.org/HRequestServerSendParse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HRequestCancel">
+      <soap:operation soapAction="http://tempuri.org/HRequestCancel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HRequestCancelParse">
+      <soap:operation soapAction="http://tempuri.org/HRequestCancelParse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SRequestCancelServerReceive">
+      <soap:operation soapAction="http://tempuri.org/SRequestCancelServerReceive" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SRequestServerReceive">
+      <soap:operation soapAction="http://tempuri.org/SRequestServerReceive" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SRequestServerReceiveHospital">
+      <soap:operation soapAction="http://tempuri.org/SRequestServerReceiveHospital" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HResultServerReceive">
+      <soap:operation soapAction="http://tempuri.org/HResultServerReceive" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HResultServerReceiveParse">
+      <soap:operation soapAction="http://tempuri.org/HResultServerReceiveParse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HResultServerReceivePatient">
+      <soap:operation soapAction="http://tempuri.org/HResultServerReceivePatient" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HResultServerReceivePatientParse">
+      <soap:operation soapAction="http://tempuri.org/HResultServerReceivePatientParse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HResultServerUpdate">
+      <soap:operation soapAction="http://tempuri.org/HResultServerUpdate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HResultServerUpdateParse">
+      <soap:operation soapAction="http://tempuri.org/HResultServerUpdateParse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SResultServerSend">
+      <soap:operation soapAction="http://tempuri.org/SResultServerSend" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HLabLibMapServerSend">
+      <soap:operation soapAction="http://tempuri.org/HLabLibMapServerSend" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HLabLibMapServerSendParse">
+      <soap:operation soapAction="http://tempuri.org/HLabLibMapServerSendParse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SLabLibMapServerReceive">
+      <soap:operation soapAction="http://tempuri.org/SLabLibMapServerReceive" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SLabLibMapServerSend">
+      <soap:operation soapAction="http://tempuri.org/SLabLibMapServerSend" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SLabLibMapServerCreate">
+      <soap:operation soapAction="http://tempuri.org/SLabLibMapServerCreate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HLabLibMapServerReceive">
+      <soap:operation soapAction="http://tempuri.org/HLabLibMapServerReceive" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HLabLibMapServerReceiveParse">
+      <soap:operation soapAction="http://tempuri.org/HLabLibMapServerReceiveParse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestHRequest">
+      <soap:operation soapAction="http://tempuri.org/TestHRequest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Test_SResultServerSend">
+      <soap:operation soapAction="http://tempuri.org/Test_SResultServerSend" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestHMapSend">
+      <soap:operation soapAction="http://tempuri.org/TestHMapSend" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestSLabLibMapServerCreate">
+      <soap:operation soapAction="http://tempuri.org/TestSLabLibMapServerCreate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestHResultServerReceiveParse">
+      <soap:operation soapAction="http://tempuri.org/TestHResultServerReceiveParse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestSRequestServerReceiveHospital">
+      <soap:operation soapAction="http://tempuri.org/TestSRequestServerReceiveHospital" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestSRequestServerReceive">
+      <soap:operation soapAction="http://tempuri.org/TestSRequestServerReceive" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ELabLibServiceSoap12" type="tns:ELabLibServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetELabLibMaster">
+      <soap12:operation soapAction="http://tempuri.org/GetELabLibMaster" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetELabSMSDataParse">
+      <soap12:operation soapAction="http://tempuri.org/GetELabSMSDataParse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetELabLibMasterParse">
+      <soap12:operation soapAction="http://tempuri.org/GetELabLibMasterParse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetELabLibMasterKeyParse">
+      <soap12:operation soapAction="http://tempuri.org/GetELabLibMasterKeyParse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetELabLibMasterPriorityKeyParse">
+      <soap12:operation soapAction="http://tempuri.org/GetELabLibMasterPriorityKeyParse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetELabLibSub">
+      <soap12:operation soapAction="http://tempuri.org/GetELabLibSub" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetELabLibSubParse">
+      <soap12:operation soapAction="http://tempuri.org/GetELabLibSubParse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetELabLibSubKeyParse">
+      <soap12:operation soapAction="http://tempuri.org/GetELabLibSubKeyParse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetELabSpcLib">
+      <soap12:operation soapAction="http://tempuri.org/GetELabSpcLib" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetELabSpcLibParse">
+      <soap12:operation soapAction="http://tempuri.org/GetELabSpcLibParse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFtp">
+      <soap12:operation soapAction="http://tempuri.org/GetFtp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFtpParse">
+      <soap12:operation soapAction="http://tempuri.org/GetFtpParse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAuth">
+      <soap12:operation soapAction="http://tempuri.org/GetAuth" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastONO">
+      <soap12:operation soapAction="http://tempuri.org/GetLastONO" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastONOParse">
+      <soap12:operation soapAction="http://tempuri.org/GetLastONOParse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastLibDate">
+      <soap12:operation soapAction="http://tempuri.org/GetLastLibDate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HRequestServerSend">
+      <soap12:operation soapAction="http://tempuri.org/HRequestServerSend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HRequestServerSendParse">
+      <soap12:operation soapAction="http://tempuri.org/HRequestServerSendParse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HRequestCancel">
+      <soap12:operation soapAction="http://tempuri.org/HRequestCancel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HRequestCancelParse">
+      <soap12:operation soapAction="http://tempuri.org/HRequestCancelParse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SRequestCancelServerReceive">
+      <soap12:operation soapAction="http://tempuri.org/SRequestCancelServerReceive" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SRequestServerReceive">
+      <soap12:operation soapAction="http://tempuri.org/SRequestServerReceive" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SRequestServerReceiveHospital">
+      <soap12:operation soapAction="http://tempuri.org/SRequestServerReceiveHospital" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HResultServerReceive">
+      <soap12:operation soapAction="http://tempuri.org/HResultServerReceive" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HResultServerReceiveParse">
+      <soap12:operation soapAction="http://tempuri.org/HResultServerReceiveParse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HResultServerReceivePatient">
+      <soap12:operation soapAction="http://tempuri.org/HResultServerReceivePatient" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HResultServerReceivePatientParse">
+      <soap12:operation soapAction="http://tempuri.org/HResultServerReceivePatientParse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HResultServerUpdate">
+      <soap12:operation soapAction="http://tempuri.org/HResultServerUpdate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HResultServerUpdateParse">
+      <soap12:operation soapAction="http://tempuri.org/HResultServerUpdateParse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SResultServerSend">
+      <soap12:operation soapAction="http://tempuri.org/SResultServerSend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HLabLibMapServerSend">
+      <soap12:operation soapAction="http://tempuri.org/HLabLibMapServerSend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HLabLibMapServerSendParse">
+      <soap12:operation soapAction="http://tempuri.org/HLabLibMapServerSendParse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SLabLibMapServerReceive">
+      <soap12:operation soapAction="http://tempuri.org/SLabLibMapServerReceive" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SLabLibMapServerSend">
+      <soap12:operation soapAction="http://tempuri.org/SLabLibMapServerSend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SLabLibMapServerCreate">
+      <soap12:operation soapAction="http://tempuri.org/SLabLibMapServerCreate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HLabLibMapServerReceive">
+      <soap12:operation soapAction="http://tempuri.org/HLabLibMapServerReceive" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HLabLibMapServerReceiveParse">
+      <soap12:operation soapAction="http://tempuri.org/HLabLibMapServerReceiveParse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestHRequest">
+      <soap12:operation soapAction="http://tempuri.org/TestHRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Test_SResultServerSend">
+      <soap12:operation soapAction="http://tempuri.org/Test_SResultServerSend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestHMapSend">
+      <soap12:operation soapAction="http://tempuri.org/TestHMapSend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestSLabLibMapServerCreate">
+      <soap12:operation soapAction="http://tempuri.org/TestSLabLibMapServerCreate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestHResultServerReceiveParse">
+      <soap12:operation soapAction="http://tempuri.org/TestHResultServerReceiveParse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestSRequestServerReceiveHospital">
+      <soap12:operation soapAction="http://tempuri.org/TestSRequestServerReceiveHospital" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestSRequestServerReceive">
+      <soap12:operation soapAction="http://tempuri.org/TestSRequestServerReceive" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ELabLibService">
+    <wsdl:port name="ELabLibServiceSoap" binding="tns:ELabLibServiceSoap">
+      <soap:address location="http://medi.bizment.kr/ELabService/elablibservice.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ELabLibServiceSoap12" binding="tns:ELabLibServiceSoap12">
+      <soap12:address location="http://medi.bizment.kr/ELabService/elablibservice.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
