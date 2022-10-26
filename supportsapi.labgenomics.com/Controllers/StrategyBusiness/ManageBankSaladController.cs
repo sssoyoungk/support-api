@@ -18,7 +18,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             {
                 sql =
                     $"SELECT\r\n" +
-                    $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2,\r\n" +
+                    $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.EmailAddress, \r\n" +
                     $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.PrevTrakingNumber, ppi.PrevBarcode, ppi.TrakingNumber, ppi.ReshippedCode , ppi.AgreeThirdPartySensitive, ppi.Barcode, \r\n" +
                     $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, ltcoi.LabRegDate, ltcoi.LabRegNo\r\n" +
                     $"FROM PGSPatientInfo ppi\r\n" +
@@ -35,7 +35,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             {
                 sql =
                     $"SELECT\r\n" +
-                    $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2,\r\n" +
+                    $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2,  ppi.EmailAddress, \r\n" +
                     $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive, ppi.ReshippedCode, ppi.PrevTrakingNumber, ppi.PrevBarcode, ppi.TrakingNumber, ppi.Barcode, \r\n" +
                     $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, ltcoi.LabRegDate, ltcoi.LabRegNo\r\n" +
                     $"FROM PGSPatientInfo ppi\r\n" +
@@ -52,7 +52,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             {
                 sql =
                     $"SELECT\r\n" +
-                    $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.CheckSendCollectReSample, \r\n" +
+                    $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.CheckSendCollectReSample, ppi.EmailAddress, \r\n" +
                     $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive, ppi.ReshippedCode, ppi.PrevTrakingNumber, ppi.PrevBarcode, ppi.TrakingNumber, ppi.Barcode, \r\n" +
                     $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, ltcoi.LabRegDate, ltcoi.LabRegNo\r\n" +
                     $"FROM PGSPatientInfo ppi\r\n" +
