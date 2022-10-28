@@ -91,6 +91,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 }
                 sql += "ORDER BY EMRequestNo";
                 MySqlCommand cmd = new MySqlCommand(sql, wooriMadiConn);
+                cmd.CommandTimeout = 360;
                 MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
