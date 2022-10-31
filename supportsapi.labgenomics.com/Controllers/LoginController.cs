@@ -85,7 +85,7 @@ namespace supportsapi.labgenomics.com.Controllers
             {
                 string sql;
 
-                sql = $"SELECT A.MemberPassword, A.MemberName, A.AuthGroupCode, A.MemberDeptName, A.MemberEmpClass \r\n" +
+                sql = $"SELECT A.MemberID, A.MemberPassword, A.MemberName, A.AuthGroupCode, A.MemberDeptName, A.MemberEmpClass \r\n" +
                       $"     , A.MemberGroupCode, B.AuthGroupName, A.IsMemberActive\r\n" +
                       $"     , CONVERT(bit, CASE WHEN A.MemberEndDate < GETDATE() THEN 1 ELSE 0 END) AS IDExpired\r\n" +
                       $"  FROM ProgMember AS A \r\n" +
@@ -113,6 +113,7 @@ namespace supportsapi.labgenomics.com.Controllers
 
                 if (objAccount["MemberPassword"].ToString() == request["LoginPW"].ToString())
                 {
+                    objResponse.Add("MemberID", objAccount["MemberID"].ToString());
                     objResponse.Add("MemberName", objAccount["MemberName"].ToString());
                     objResponse.Add("AuthGroupCode", objAccount["AuthGroupCode"].ToString());
                     objResponse.Add("MemberDeptName", objAccount["MemberDeptName"].ToString());
