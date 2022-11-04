@@ -63,7 +63,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                     $"WHERE ppi.CustomerCode = 'banksalad'\r\n" +
                     $"AND ppi.CompOrderDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
                     $"AND (ppi.Server <> 'Develop' or ppi.Server is null)\r\n" +
-                    $"AND ppi.OrderStatus = 'Returned' \r\n" +
+                    $"AND ppi.OrderStatus = 'Returned' AND ppi.PrevBarcode != '' \r\n" +
                     $"AND ppi.CheckSendCollectReSample = '0' ";
             }
             var arrResponse = LabgeDatabase.SqlToJArray(sql);
