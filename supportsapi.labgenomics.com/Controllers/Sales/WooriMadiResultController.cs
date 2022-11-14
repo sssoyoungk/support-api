@@ -27,7 +27,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
             {
                 JArray jArrayResult = new JArray();
 
-                MySqlCommand cmdPrepare = new MySqlCommand("procCenterPrepare", wooriMadiConn);
+                MySqlCommand cmdPrepare = new MySqlCommand("procCenterPrepare3", wooriMadiConn);
                 cmdPrepare.CommandType = CommandType.StoredProcedure;
                 cmdPrepare.Parameters.AddWithValue("@vKubun", "G");
                 cmdPrepare.Parameters.AddWithValue("@vCenter", "랩지");
@@ -35,7 +35,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 cmdPrepare.Parameters["@vRet"].Direction = ParameterDirection.Output;
                 cmdPrepare.ExecuteNonQuery();
 
-                MySqlCommand cmdGetRes = new MySqlCommand("procCenterGetRes", wooriMadiConn);
+                MySqlCommand cmdGetRes = new MySqlCommand("procCenterGetRes3", wooriMadiConn);
                 cmdGetRes.CommandType = CommandType.StoredProcedure;
                 cmdGetRes.Parameters.AddWithValue("@vKubun", "G");
                 cmdGetRes.Parameters.AddWithValue("@vCenter", "랩지");
