@@ -20,7 +20,9 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
         {
             string sql;
             sql =
-                $"SELECT oo.*, pcc.CompName\r\n" +
+                $"SELECT oo.CompCode, oo.CompOrderDate, pcc.CompName " +
+                $", oo.CompOrderDate, oo.PatientName, oo.CompTestName, oo.CompTestCode, oo.BirthDay, oo.Height, oo.Weight, oo.Gender, oo.FetusNumber" +
+                $", oo.GestationalAgeWeek, oo.GestationalAgeDay, oo.SampleDrawDate, CONVERT(varchar, oo.LabRegDate, 23) AS LabRegDate, oo.LabRegNo, oo.InvoiceFileName, oo.Comment\r\n" +
                 $"FROM OsbOrders oo\r\n" +
                 $"JOIN ProgCompCode pcc\r\n" +
                 $"ON pcc.CompCode = oo.CompCode\r\n" +

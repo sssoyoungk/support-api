@@ -108,11 +108,11 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                     BankSalad bankSalad = new BankSalad();
                     arrayResponse = bankSalad.GetOrder(objRequest);
                 }
-                else if (objRequest["TransKind"].ToString() == "GenoCore")
-                {
-
-
-                }
+                //else if (objRequest["TransKind"].ToString() == "GenoCore")
+                //{
+                //
+                //
+                //}
                 //통합 API
                 else
                 {
@@ -532,18 +532,18 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 {
                     customerCode = "banksalad";
                 }
-                else if (transKind.Contains("Ju"))
-                {
-                    customerCode = "Juvis";
-                }
-                else if (transKind.Contains("FE"))
-                {
-                    customerCode = "fiet";
-                }
-                else
-                {
-
-                }
+                //else if (transKind.Contains("Ju"))
+                //{
+                //    customerCode = "Juvis";
+                //}
+                //else if (transKind.Contains("FE"))
+                //{
+                //    customerCode = "fiet";
+                //}
+                //else
+                //{
+                //
+                //}
 
 
                 string sql = string.Empty;
