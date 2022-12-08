@@ -20,28 +20,28 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
         // GET api/<controller>
         public IHttpActionResult Get(DateTime beginDate, DateTime endDate)
         {
-            List<SqlParameter> sqlParameters = new List<SqlParameter>();
-            sqlParameters.Add(new SqlParameter("@BeginDate", System.Data.SqlDbType.DateTime));
-            sqlParameters[0].Value = beginDate.ToString("yyyy-MM-dd");
-            sqlParameters.Add(new SqlParameter("@EndDate", System.Data.SqlDbType.DateTime));
-            sqlParameters[1].Value = endDate.ToString("yyyy-MM-dd");
-
-            JArray arrResponse = LabgeDatabase.SqlProcedureToJArray("USP_LST_ManageInfoOsb", sqlParameters);
-            sqlParameters.Clear();
-
-
-            //string sql;
-            //sql =
-            //    $"SELECT oo.CompCode, oo.CompOrderDate, pcc.CompName " +
-            //    $", oo.CompOrderDate, oo.PatientName, oo.CompTestName, oo.CompTestCode, oo.BirthDay, oo.Height, oo.Weight, oo.Gender, oo.FetusNumber" +
-            //    $", oo.GestationalAgeWeek, oo.GestationalAgeDay, oo.SampleDrawDate, CONVERT(varchar, oo.LabRegDate, 23) AS LabRegDate, oo.LabRegNo, oo.InvoiceFileName, oo.Comment\r\n" +
-            //    $"FROM OsbOrders oo\r\n" +
-            //    $"JOIN ProgCompCode pcc\r\n" +
-            //    $"ON pcc.CompCode = oo.CompCode\r\n" +
-            //    $"WHERE oo.CompOrderDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
-            //    $"ORDER BY oo.RegsitDateTime";
+            //List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            //sqlParameters.Add(new SqlParameter("@BeginDate", System.Data.SqlDbType.DateTime));
+            //sqlParameters[0].Value = beginDate.ToString("yyyy-MM-dd");
+            //sqlParameters.Add(new SqlParameter("@EndDate", System.Data.SqlDbType.DateTime));
+            //sqlParameters[1].Value = endDate.ToString("yyyy-MM-dd");
             //
-            //JArray arrResponse = LabgeDatabase.SqlToJArray(sql);
+            //JArray arrResponse = LabgeDatabase.SqlProcedureToJArray("USP_LST_ManageInfoOsb", sqlParameters);
+            //sqlParameters.Clear();
+
+
+            string sql;
+            sql =
+                $"SELECT oo.CompCode, oo.CompOrderDate, pcc.CompName " +
+                $", oo.CompOrderDate, oo.PatientName, oo.CompTestName, oo.CompTestCode, oo.BirthDay, oo.Height, oo.Weight, oo.Gender, oo.FetusNumber" +
+                $", oo.GestationalAgeWeek, oo.GestationalAgeDay, oo.SampleDrawDate, CONVERT(varchar, oo.LabRegDate, 23) AS LabRegDate, oo.LabRegNo, oo.InvoiceFileName, oo.Comment\r\n" +
+                $"FROM OsbOrders oo\r\n" +
+                $"JOIN ProgCompCode pcc\r\n" +
+                $"ON pcc.CompCode = oo.CompCode\r\n" +
+                $"WHERE oo.CompOrderDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
+                $"ORDER BY oo.RegsitDateTime";
+            
+            JArray arrResponse = LabgeDatabase.SqlToJArray(sql);
 
             return Ok(arrResponse);
         }
