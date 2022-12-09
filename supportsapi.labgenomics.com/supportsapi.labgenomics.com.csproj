@@ -282,6 +282,7 @@
     <Compile Include="Controllers\Molecular\Banking\BankingExportController.cs" />
     <Compile Include="Controllers\Molecular\Banking\BankingStockController.cs" />
     <Compile Include="Controllers\Molecular\GenoPacOrderMessageController.cs" />
+    <Compile Include="Controllers\Molecular\WasteListController.cs" />
     <Compile Include="Controllers\Preference\FormListController.cs" />
     <Compile Include="Controllers\Sales\BankSaladOrderController.cs" />
     <Compile Include="Controllers\Sales\BizmentMappingController.cs" />
