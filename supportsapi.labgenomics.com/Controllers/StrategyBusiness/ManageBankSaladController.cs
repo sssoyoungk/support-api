@@ -20,7 +20,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                     $"SELECT\r\n" +
                     $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.EmailAddress, \r\n" +
                     $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.PrevTrakingNumber, ppi.PrevBarcode, ppi.TrakingNumber, ppi.ReshippedCode , ppi.AgreeThirdPartySensitive, ppi.Barcode, \r\n" +
-                    $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, ltcoi.LabRegDate, ltcoi.LabRegNo\r\n" +
+                    $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo\r\n" +
                     $"FROM PGSPatientInfo ppi\r\n" +
                     $"LEFT OUTER JOIN LabTransCompOrderInfo ltcoi\r\n" +
                     $"ON ltcoi.CompOrderDate = ppi.CompOrderDate\r\n" +
@@ -37,7 +37,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                     $"SELECT\r\n" +
                     $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2,  ppi.EmailAddress, \r\n" +
                     $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive, ppi.ReshippedCode, ppi.PrevTrakingNumber, ppi.PrevBarcode, ppi.TrakingNumber, ppi.Barcode, \r\n" +
-                    $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, ltcoi.LabRegDate, ltcoi.LabRegNo\r\n" +
+                    $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo\r\n" +
                     $"FROM PGSPatientInfo ppi\r\n" +
                     $"LEFT OUTER JOIN LabTransCompOrderInfo ltcoi\r\n" +
                     $"ON ltcoi.CompOrderDate = ppi.CompOrderDate\r\n" +
@@ -54,7 +54,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                     $"SELECT\r\n" +
                     $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.CheckSendCollectReSample, ppi.EmailAddress, \r\n" +
                     $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive, ppi.ReshippedCode, ppi.PrevTrakingNumber, ppi.PrevBarcode, ppi.TrakingNumber, ppi.Barcode, \r\n" +
-                    $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, ltcoi.LabRegDate, ltcoi.LabRegNo\r\n" +
+                    $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo\r\n" +
                     $"FROM PGSPatientInfo ppi\r\n" +
                     $"LEFT OUTER JOIN LabTransCompOrderInfo ltcoi\r\n" +
                     $"ON ltcoi.CompOrderDate = ppi.CompOrderDate\r\n" +
@@ -63,7 +63,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                     $"WHERE ppi.CustomerCode = 'banksalad'\r\n" +
                     $"AND ppi.CompOrderDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
                     $"AND (ppi.Server <> 'Develop' or ppi.Server is null)\r\n" +
-                    $"AND ppi.OrderStatus = 'Returned' AND ppi.PrevBarcode != '' \r\n" +
+                    $"AND ppi.OrderStatus in('Returned', 'Reshipped') AND ppi.PrevBarcode != '' \r\n" +
                     $"AND ppi.CheckSendCollectReSample = '0' ";
             }
             var arrResponse = LabgeDatabase.SqlToJArray(sql);

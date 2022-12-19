@@ -108,6 +108,11 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                     BankSalad bankSalad = new BankSalad();
                     arrayResponse = bankSalad.GetOrder(objRequest);
                 }
+                //else if (objRequest["TransKind"].ToString() == "GenoCore")
+                //{
+                //
+                //
+                //}
                 //통합 API
                 else
                 {
@@ -522,6 +527,25 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
         {
             try
             {
+                string customerCode = string.Empty;
+                if (transKind == "Banksalad")
+                {
+                    customerCode = "banksalad";
+                }
+                //else if (transKind.Contains("Ju"))
+                //{
+                //    customerCode = "Juvis";
+                //}
+                //else if (transKind.Contains("FE"))
+                //{
+                //    customerCode = "fiet";
+                //}
+                //else
+                //{
+                //
+                //}
+
+
                 string sql = string.Empty;
                 if (transKind == "Banksalad")
                 {
@@ -531,7 +555,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                         $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.CompOrderNo , CONVERT(varchar, ppi.SampleDrawDate, 120) SampleDrawDate,\r\n" +
                         $"    Gender AS PatientSex,\r\n" +
                         $"    CONVERT(CHAR(6), BirthDay, 12) AS IdentificationNo1, \r\n" +
-                        $"    FLOOR(CAST(DATEDIFF(DAY, ppi.BirthDay, ppi.CompOrderDate) AS INTEGER) / 365.2422) AS PatientAge, \r\n "+
+                        $"    FLOOR(CAST(DATEDIFF(DAY, ppi.BirthDay, ppi.CompOrderDate) AS INTEGER) / 365.2422) AS PatientAge, \r\n " +
                         $"    ppi.Age AS PatientAge, ppi.Barcode,\r\n" +
                         $"    ltmc.CenterMatchCode AS TestCode, ltmc.CenterMatchOrderCode AS OrderCode,\r\n" +
                         $"    pti.CompTestCode, null As CompTestSubCode, pti.CompTestName,\r\n" +
@@ -555,10 +579,11 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                         $"ON ppi.CompOrderDate = ltcoi.CompOrderDate\r\n" +
                         $"AND ppi.CompOrderNo = ltcoi.CompOrderNo\r\n" +
                         $"AND pti.CompTestCode = ltcoi.CompTestCode\r\n" +
-                        $"WHERE ppi.CustomerCode = 'banksalad'\r\n" +
-                        $"AND ppi.Barcode = '{barcode}'"+
+                        $"WHERE ppi.CustomerCode = '{customerCode}'\r\n" +
+                        $"AND ppi.Barcode = '{barcode}'" +
                         $"AND ltcoi.LabRegNo is null";
                 }
+
 
                 JArray arrResponse = LabgeDatabase.SqlToJArray(sql);
 

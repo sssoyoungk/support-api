@@ -27,7 +27,9 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
             {
                 JArray jArrayResult = new JArray();
 
-                MySqlCommand cmdPrepare = new MySqlCommand("procCenterPrepare", wooriMadiConn);
+                MySqlCommand cmdPrepare = new MySqlCommand("procCenterPrepare3", wooriMadiConn);
+
+                cmdPrepare.CommandTimeout = 1000;
                 cmdPrepare.CommandType = CommandType.StoredProcedure;
                 cmdPrepare.Parameters.AddWithValue("@vKubun", "G");
                 cmdPrepare.Parameters.AddWithValue("@vCenter", "랩지");
@@ -35,7 +37,8 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 cmdPrepare.Parameters["@vRet"].Direction = ParameterDirection.Output;
                 cmdPrepare.ExecuteNonQuery();
 
-                MySqlCommand cmdGetRes = new MySqlCommand("procCenterGetRes", wooriMadiConn);
+                MySqlCommand cmdGetRes = new MySqlCommand("procCenterGetRes3", wooriMadiConn);
+                cmdGetRes.CommandTimeout = 1000;
                 cmdGetRes.CommandType = CommandType.StoredProcedure;
                 cmdGetRes.Parameters.AddWithValue("@vKubun", "G");
                 cmdGetRes.Parameters.AddWithValue("@vCenter", "랩지");
@@ -200,14 +203,34 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                     return Content(HttpStatusCode.BadRequest, ex.Message);
                 }
 
-                //결과 등록이 끝나면 프로시저 실행
-                MySqlCommand cmdPrepare = new MySqlCommand("procCenterFinal", wooriMadiConn);
-                cmdPrepare.CommandType = CommandType.StoredProcedure;
-                cmdPrepare.Parameters.AddWithValue("@vKubun", "G");
-                cmdPrepare.Parameters.AddWithValue("@vCenter", "랩지");
-                cmdPrepare.Parameters.Add("@vRet", MySqlDbType.VarChar, 50);
-                cmdPrepare.Parameters["@vRet"].Direction = ParameterDirection.Output;
-                cmdPrepare.ExecuteNonQuery();
+
+                    //결과 등록이 끝나면 프로시저 실행
+                    MySqlCommand cmdPrepare = new MySqlCommand("procCenterFinal", wooriMadiConn);
+                    cmdPrepare.CommandType = CommandType.StoredProcedure;
+                    cmdPrepare.Parameters.AddWithValue("@vKubun", "G");
+                    cmdPrepare.Parameters.AddWithValue("@vCenter", "랩지");
+                    cmdPrepare.Parameters.Add("@vRet", MySqlDbType.VarChar, 50);
+                    cmdPrepare.Parameters["@vRet"].Direction = ParameterDirection.Output;
+                    cmdPrepare.ExecuteNonQuery();
+
+                //int update = arrResults.IndexOf("IsUpdate");
+                //
+                //if (update >= 0)
+                //{
+                //    if (bool.TryParse(arrResults["IsUpdate"].ToString(), out bool isUpdate))
+                //    {
+                //        if (isUpdate)
+                //        {
+                //            MySqlCommand cmdPrepare = new MySqlCommand("procCenterFinal", wooriMadiConn);
+                //            cmdPrepare.CommandType = CommandType.StoredProcedure;
+                //            cmdPrepare.Parameters.AddWithValue("@vKubun", "G");
+                //            cmdPrepare.Parameters.AddWithValue("@vCenter", "랩지");
+                //            cmdPrepare.Parameters.Add("@vRet", MySqlDbType.VarChar, 50);
+                //            cmdPrepare.Parameters["@vRet"].Direction = ParameterDirection.Output;
+                //            cmdPrepare.ExecuteNonQuery();
+                //        }
+                //    }
+                //}
 
                 return Ok();
             }

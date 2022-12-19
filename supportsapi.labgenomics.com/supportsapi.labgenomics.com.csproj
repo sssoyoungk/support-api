@@ -272,6 +272,7 @@
     <Compile Include="Controllers\Common\MakeApiQueryController.cs" />
     <Compile Include="Controllers\Common\SendBizTalkController.cs" />
     <Compile Include="Controllers\Common\SendBizTalkDeferredPaymentController.cs" />
+    <Compile Include="Controllers\Common\GenoCoreAuthController.cs" />
     <Compile Include="Controllers\Common\TestCodeInfoController.cs" />
     <Compile Include="Controllers\Diagnostic\GCLabInterfaceOrderController.cs" />
     <Compile Include="Controllers\Diagnostic\GCLabInterfaceResultController.cs" />
@@ -282,6 +283,7 @@
     <Compile Include="Controllers\Molecular\Banking\BankingExportController.cs" />
     <Compile Include="Controllers\Molecular\Banking\BankingStockController.cs" />
     <Compile Include="Controllers\Molecular\GenoPacOrderMessageController.cs" />
+    <Compile Include="Controllers\Molecular\WasteListController.cs" />
     <Compile Include="Controllers\Preference\FormListController.cs" />
     <Compile Include="Controllers\Preference\GenocoreCompListController.cs" />
     <Compile Include="Controllers\Sales\BankSaladOrderController.cs" />
@@ -289,6 +291,8 @@
     <Compile Include="Controllers\Sales\BizmentResultController.cs" />
     <Compile Include="Controllers\Sales\CheckListController.cs" />
     <Compile Include="Controllers\Sales\CompRegistOrder\BankSalad.cs" />
+    <Compile Include="Controllers\Sales\Covid19SameRegistMatchController.cs" />
+    <Compile Include="Controllers\Sales\Covid19RegistUnMatchController.cs" />
     <Compile Include="Controllers\Sales\ResultStateController.cs" />
     <Compile Include="Controllers\Sales\BrainResultController.cs" />
     <Compile Include="Controllers\Sales\CodeMappingController.cs" />
@@ -336,6 +340,7 @@
     <Compile Include="Controllers\StrategyBusiness\ManageKyoboGenoPacController.cs" />
     <Compile Include="Controllers\StrategyBusiness\ManageLotteGenoPacController.cs" />
     <Compile Include="Controllers\StrategyBusiness\ManageOsbController.cs" />
+    <Compile Include="Controllers\StrategyBusiness\ManageDBProjectInfoController.cs" />
     <Compile Include="Controllers\StrategyBusiness\ManagePersonalInfoController.cs" />
     <Compile Include="Controllers\StrategyBusiness\ManageSamsungFireGenoPacController.cs" />
     <Compile Include="Filters\AuthenticationFailureResult.cs" />
