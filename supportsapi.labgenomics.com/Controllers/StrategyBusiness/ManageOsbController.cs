@@ -37,23 +37,33 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
         /// <returns></returns>
         public IHttpActionResult Put([FromBody]JObject objRequest)
         {
-            string sql;
-            sql =
-                $"UPDATE OsbOrders\r\n" +
-                $"SET\r\n" +
-                $"    PatientName = '{objRequest["PatientName"].ToString()}',\r\n" +
-                $"    BirthDay = '{objRequest["BirthDay"].ToString()}',\r\n" +
-                $"    Height = {objRequest["Height"].ToString()},\r\n" +
-                $"    Weight = {objRequest["Weight"].ToString()},\r\n" +
-                $"    Gender = '{objRequest["Gender"].ToString()}',\r\n" +
-                $"    FetusNumber = {objRequest["FetusNumber"].ToString()},\r\n" +
-                $"    GestationalAgeWeek = {objRequest["GestationalAgeWeek"].ToString()},\r\n" +
-                $"    GestationalAgeDay = {objRequest["GestationalAgeDay"].ToString()},\r\n" +
-                $"    SampleDrawDate = '{objRequest["SampleDrawDate"].ToString()}',\r\n" +
-                $"    Comment = '{objRequest["Comment"].ToString()}'\r\n" +
-                $"WHERE OsbOrderID = '{objRequest["OsbOrderID"].ToString()}'";
-            LabgeDatabase.ExecuteSql(sql);
-            return Ok();
+            try
+            {
+                string sql;
+                sql =
+                    $"UPDATE OsbOrders\r\n" +
+                    $"SET\r\n" +
+                    $"    PatientName = '{objRequest["PatientName"].ToString()}',\r\n" +
+                    $"    BirthDay = '{objRequest["BirthDay"].ToString()}',\r\n" +
+                    $"    Height = {objRequest["Height"].ToString()},\r\n" +
+                    $"    Weight = {objRequest["Weight"].ToString()},\r\n" +
+                    $"    Gender = '{objRequest["Gender"].ToString()}',\r\n" +
+                    $"    FetusNumber = {objRequest["FetusNumber"].ToString()},\r\n" +
+                    $"    GestationalAgeWeek = {objRequest["GestationalAgeWeek"].ToString()},\r\n" +
+                    $"    GestationalAgeDay = {objRequest["GestationalAgeDay"].ToString()},\r\n" +
+                    $"    SampleDrawDate = '{objRequest["SampleDrawDate"].ToString()}',\r\n" +
+                    $"    Comment = '{objRequest["Comment"].ToString()}'\r\n" +
+                    $"WHERE OsbOrderID = '{objRequest["OsbOrderID"].ToString()}'";
+                LabgeDatabase.ExecuteSql(sql);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                JObject objResponse = new JObject();
+                objResponse.Add("Status", Convert.ToInt32(HttpStatusCode.BadRequest));
+                objResponse.Add("Message", ex.Message);
+                return Content(HttpStatusCode.BadRequest, objResponse);
+            }
         }
 
         public IHttpActionResult Delete(string osbOrderId)
