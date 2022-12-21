@@ -108,11 +108,11 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                     BankSalad bankSalad = new BankSalad();
                     arrayResponse = bankSalad.GetOrder(objRequest);
                 }
+                //제노코어
                 else if (objRequest["TransKind"].ToString() == "GenoCore")
                 {
-
-                    GenoCore bankSalad = new GenoCore();
-                    arrayResponse = bankSalad.GetOrder(objRequest);
+                    GenoCore genoCore = new GenoCore();
+                    arrayResponse = genoCore.GetOrder(objRequest);
                 }
                 //통합 API
                 else

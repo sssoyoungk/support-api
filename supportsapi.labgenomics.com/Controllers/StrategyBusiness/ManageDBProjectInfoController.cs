@@ -30,7 +30,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             sql =
                 $"SELECT\r\n" +
                 $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.EmailAddress, \r\n" +
-                $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.TrakingNumber, ppi.ReshippedCode , ppi.AgreeThirdPartySensitive, \r\n" +
+                $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive, \r\n" +
                 $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis,  CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo, lrr.ReportTransEndTime, \r\n" +
                 $"    pcc.ClientCustomerName, pcc.ClientCustomerIdx, ppi.CompCode \r\n" +
                 $"FROM {infoTable} ppi\r\n" +
