@@ -22,6 +22,7 @@ namespace supportsapi.labgenomics.com.Services
             try
             {
                 DataTable dt = new DataTable();
+
                 //SET ARITHABORT ON을 하니 속도가 느려지는 현상이 발생하여 쿼리별로 구문에 추가하는것으로 한다.
                 //SqlCommand cmd0 = new SqlCommand("SET ARITHABORT ON", conn);
                 //cmd0.ExecuteNonQuery();
@@ -85,6 +86,7 @@ namespace supportsapi.labgenomics.com.Services
             try
             {
                 DataTable dt = new DataTable();
+
                 //SET ARITHABORT ON을 하니 속도가 느려지는 현상이 발생하여 쿼리별로 구문에 추가하는것으로 한다.
                 //SqlCommand cmd0 = new SqlCommand("SET ARITHABORT ON", conn);
                 //cmd0.ExecuteNonQuery();
@@ -155,6 +157,7 @@ namespace supportsapi.labgenomics.com.Services
             try
             {
                 DataTable dt = new DataTable();
+
                 //SET ARITHABORT ON을 하니 속도가 느려지는 현상이 발생하여 쿼리별로 구문에 추가하는것으로 한다.
                 //SqlCommand cmd0 = new SqlCommand("SET ARITHABORT ON", conn);
                 //cmd0.ExecuteNonQuery();
