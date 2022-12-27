@@ -169,6 +169,10 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                     return array;
                 }
             }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
             finally
             {
                 conn.Close();
