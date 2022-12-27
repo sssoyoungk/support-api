@@ -23,13 +23,14 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                 if (request["RegKind"].ToString() == "W") //등록대기
                 {
                     //자료를 불러와서 테이블에 넣어준다.
-                    sql = $"SELECT '{request["CompCode"].ToString()}' AS \"CompCode\", hosp_no, hosp_nm, clinic_ymd, ord_ymd, recept_no, ord_cd, ord_no, ord_seq_no\r\n" +
-                          $"     , ptnt_no, DECODING(ptnt_nm, hosp_no) AS ptnt_nm, sex, age, ord_nm, spc_cd, spc_nm, ord_type, ord_type_nm, trans_ymd\r\n" +
-                          $"     , trans_time, sutak_cd, sts_cd, sts_nm, sutak_ord, sutak_spc, sutak_seq, DECODING(ptnt_prsn_no, hosp_no) AS ptnt_prsn_no\r\n" +
-                          $"     , acc_ymd, acc_time, sutak_sts, edi_cd, dept_cd, dept_nm, doct_nm, health_gb\r\n" +
-                          $"FROM labge.interface_ord\r\n " +
-                          $"WHERE hosp_no = '{request["InstitutionNo"].ToString()}'\r\n " +
-                          $"AND ord_ymd  BETWEEN '{Convert.ToDateTime(request["BeginDate"]).ToString("yyyyMMdd")}' AND '{Convert.ToDateTime(request["EndDate"]).ToString("yyyyMMdd")}'\r\n";
+                    sql = 
+                        $"SELECT '{request["CompCode"].ToString()}' AS \"CompCode\", hosp_no, hosp_nm, clinic_ymd, ord_ymd, recept_no, ord_cd, ord_no, ord_seq_no\r\n" +
+                        $"     , ptnt_no, DECODING(ptnt_nm, hosp_no) AS ptnt_nm, sex, age, ord_nm, spc_cd, spc_nm, ord_type, ord_type_nm, trans_ymd\r\n" +
+                        $"     , trans_time, sutak_cd, sts_cd, sts_nm, sutak_ord, sutak_spc, sutak_seq, DECODING(ptnt_prsn_no, hosp_no) AS ptnt_prsn_no\r\n" +
+                        $"     , acc_ymd, acc_time, sutak_sts, edi_cd, dept_cd, dept_nm, doct_nm, health_gb\r\n" +
+                        $"FROM labge.interface_ord\r\n" +
+                        $"WHERE hosp_no = '{request["InstitutionNo"].ToString()}'\r\n " +
+                        $"AND ord_ymd  BETWEEN '{Convert.ToDateTime(request["BeginDate"]).ToString("yyyyMMdd")}' AND '{Convert.ToDateTime(request["EndDate"]).ToString("yyyyMMdd")}'\r\n";
 
                     DataTable dtOrder = new DataTable();
                     dtOrder.TableName = "EghisOrder";
