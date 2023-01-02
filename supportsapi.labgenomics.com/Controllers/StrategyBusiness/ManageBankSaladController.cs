@@ -14,12 +14,12 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
         public IHttpActionResult Get(DateTime beginDate, DateTime endDate, string mode)
         {
             string sql;
-            if (mode == "Ordered")
+            if (mode == "Ordered") 
             {
                 sql =
                     $"SELECT\r\n" +
                     $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.EmailAddress, \r\n" +
-                    $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.PrevTrackingNumber, ppi.PrevBarcode, ppi.TrakingNumber, ppi.TrackingNumber, ppi.ReshippedCode , ppi.AgreeThirdPartySensitive, ppi.Barcode, \r\n" +
+                    $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.PrevTrackingNumber, ppi.PrevBarcode, ppi.TrackingNumber, ppi.ReshippedCode , ppi.AgreeThirdPartySensitive, ppi.Barcode, \r\n" +
                     $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo\r\n" +
                     $"FROM PGSPatientInfo ppi\r\n" +
                     $"LEFT OUTER JOIN LabTransCompOrderInfo ltcoi\r\n" +
@@ -53,7 +53,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                 sql =
                     $"SELECT\r\n" +
                     $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.CheckSendCollectReSample, ppi.EmailAddress, \r\n" +
-                    $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive, ppi.ReshippedCode, ppi.PrevTrakingNumber,  ppi.PrevBarcode, ppi.TrackingNumber, ppi.Barcode, \r\n" +
+                    $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive, ppi.ReshippedCode, ppi.PrevBarcode, ppi.TrackingNumber, ppi.Barcode, \r\n" +
                     $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo\r\n" +
                     $"FROM PGSPatientInfo ppi\r\n" +
                     $"LEFT OUTER JOIN LabTransCompOrderInfo ltcoi\r\n" +
