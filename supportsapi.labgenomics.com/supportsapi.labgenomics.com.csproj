@@ -320,6 +320,7 @@
     <Compile Include="Controllers\Sales\SHHPathOrderController.cs" />
     <Compile Include="Controllers\Sales\SHHPathResultController.cs" />
     <Compile Include="Controllers\Sales\SungmoPathOrderController.cs" />
+    <Compile Include="Controllers\StrategyBusiness\ManageFietController.cs" />
     <Compile Include="Controllers\StrategyBusiness\ManageBankSaladController.cs" />
     <Compile Include="Controllers\StrategyBusiness\ManageJuvisInfoController.cs" />
     <Compile Include="Controllers\Sales\PatientAddressController.cs" />
