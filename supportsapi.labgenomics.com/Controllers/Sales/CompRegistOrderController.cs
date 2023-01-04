@@ -456,9 +456,17 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
             try
             {
                 string customerCode = string.Empty;
-                if (transKind == "Banksalad")
+                if (compCode == "BKS01")
                 {
                     customerCode = "banksalad";
+                }
+                else if (compCode == "FET01")
+                {
+                    customerCode = "fiet";
+                }
+                else
+                {
+                    customerCode = "";
                 }
                 //else if (transKind.Contains("Ju"))
                 //{
@@ -475,11 +483,11 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
 
 
                 string sql = string.Empty;
-                if (transKind == "Banksalad")
+                if (customerCode == "banksalad" || customerCode == "fiet")
                 {
                     sql =
                         $"SELECT\r\n" +
-                        $"    CONVERT(bit,1) AS ColumnCheck, GETDATE() AS LabRegDate, null AS LabRegNo, ppi.PatientName, ppi.Barcode AS PatientChartNo, \r\n" +
+                        $"    CONVERT(bit,1) AS ColumnCheck, GETDATE() AS LabRegDate, null AS LabRegNo, ppi.PatientName, ppi.Barcode AS PatientChartNo, \r\n" + //PSG 사업부 요청으로 바코드 번호가 차트 번호로 설정
                         $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.CompOrderNo , CONVERT(varchar, ppi.SampleDrawDate, 120) SampleDrawDate,\r\n" +
                         $"    Gender AS PatientSex,\r\n" +
                         $"    CONVERT(CHAR(6), BirthDay, 12) AS IdentificationNo1, \r\n" +

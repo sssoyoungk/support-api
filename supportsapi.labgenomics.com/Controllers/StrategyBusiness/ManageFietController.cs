@@ -37,8 +37,8 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             {
                 sql =
                     $"SELECT\r\n" +
-                    $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.PatientRegNo, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2,  ppi.EmailAddress, \r\n" +
-                    $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive, ppi.ReshippedCode, ppi.PrevTrackingNumber, ppi.PrevBarcode, ppi.TrackingNumber, ppi.Barcode, \r\n" +
+                    $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.PatientRegNo, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.EmailAddress, \r\n" +
+                    $"    ppi.PhoneNumber, ppi.AgreeRequestTest, ppi.AgreePrivacyPolicy, ppi.AgreeLabgePrivacyPolicy ,ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.PrevTrackingNumber, ppi.PrevBarcode, ppi.TrackingNumber, ppi.ReshippedCode , ppi.Barcode, \r\n" +
                     $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo\r\n" +
                     $"FROM PGSPatientInfo ppi\r\n" +
                     $"LEFT OUTER JOIN LabTransCompOrderInfo ltcoi\r\n" +
@@ -77,11 +77,10 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                           $"  , Address2 = '{objRequest["Address2"]}'\r\n" +
                           $"  , EmailAddress = '{objRequest["EmailAddress"]}'\r\n" +
                           $"  , PhoneNumber = '{objRequest["PhoneNumber"]}'\r\n" +
-                          $"  , AgreeRequestTest = '{objRequest["AgreeRequestTest"]}'\r\n" +
-                          $"  , AgreeGeneTest = '{objRequest["AgreeGeneTest"]}'\r\n" +
-                          $"  , AgreeLabgePrivacyPolicy = '{objRequest["AgreeLabgePrivacyPolicy"]}'\r\n" +
-                          $"  , AgreeThirdPartyOffer = '{objRequest["AgreeThirdPartyOffer"]}'\r\n" +
-                          $"  , AgreeSendResultEmail = '{objRequest["AgreeSendResultEmail"]}'\r\n" +
+                          $"  , AgreeGeneTest = '{objRequest["agreeGeneTest"]}'\r\n" +
+                          $"  , AgreeLabgePrivacyPolicy = '{objRequest["agreeLabgePrivacyPolicy"]}'\r\n" +
+                          $"  , AgreeThirdPartyOffer = '{objRequest["agreeThirdPartyOffer"]}'\r\n" +
+                          $"  , AgreeSendResultEmail = '{objRequest["agreeSendResultEmail"]}'\r\n" +
                           $"WHERE CompOrderDate = '{Convert.ToDateTime(objRequest["CompOrderDate"]).ToString("yyyy-MM-dd")}'\r\n" +
                           $"AND CompOrderNo = '{objRequest["CompOrderNo"].ToString()}'\r\n"+
                           $"AND CustomerCode = 'fiet' ";
