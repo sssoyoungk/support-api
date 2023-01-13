@@ -81,64 +81,65 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                         }
                     }
 
-                    sql = $"SELECT ColumnCheck, LabRegDate, LabRegNo, PatientName, PatientChartNo, IdentificationNo1, IdentificationNo2, PatientSex, PatientAge, CompOrderDate, CompOrderNo\r\n" +
-                          $"     , TestCode, OrderCode, CompTestSampleCode, CompTestCode, CompTestSubCode, CompTestName, Dept, DoctorName, CenterTestName, CenterOrderName\r\n" +
-                          $"     , InsureCode, CompExpansionField01, CompExpansionField02, Gongdan\r\n" +
-                          $"     , CASE WHEN ISNULL(CenterMatchSampleCode, '') = ''\r\n" +
-                          $"            THEN (SELECT SampleCode FROM LabTestCode WHERE TestCode = Sub1.TestCode)\r\n" +
-                          $"            ELSE CenterMatchSampleCode\r\n" +
-                          $"       END AS SampleCode\r\n" +
-                          $"     , CONVERT(char(19), TestSendDateTime, 20) AS TestSendDateTime\r\n" +
-                          $"FROM\r\n" +
-                          $"(\r\n" +
-                          $"    SELECT CONVERT(bit,0) AS ColumnCheck, GETDATE() AS LabRegDate, '' AS LabRegNo, eghisOrder.ptnt_nm AS PatientName, eghisOrder.ptnt_no AS PatientChartNo\r\n" +
-                          $"         , SUBSTRING(master.dbo.AES_DecryptFunc(eghisOrder.ptnt_prsn_no, N'labge$%#!dleorms'), 1, 6) AS IdentificationNo1\r\n" +
-                          $"         , SUBSTRING(master.dbo.AES_DecryptFunc(eghisOrder.ptnt_prsn_no, N'labge$%#!dleorms'), 7, 7) AS IdentificationNo2\r\n" +
-                          $"         , eghisOrder.sex AS PatientSex, eghisOrder.age AS PatientAge, CONVERT(Date, eghisOrder.ord_ymd) AS CompOrderDate, eghisOrder.recept_no AS CompOrderNo\r\n" +
-                          $"         , CASE WHEN eghisOrder.health_gb = 'Y' THEN match.CenterGongDanCode ELSE match.CenterMatchCode END AS TestCode\r\n" +
-                          $"         , CASE WHEN eghisOrder.health_gb = 'Y' THEN '' ELSE match.CenterMatchOrderCode END AS OrderCode\r\n" +
-                          $"         , eghisOrder.spc_cd AS CompTestSampleCode\r\n" +
-                          $"         , eghisOrder.ord_cd AS CompTestCode, '' AS CompTestSubCode, eghisOrder.ord_nm AS CompTestName\r\n" +
-                          $"         , CASE" +
-                          $"               WHEN eghisOrder.dept_nm = '진료실' THEN ''\r\n" +
-                          $"               ELSE eghisOrder.dept_nm\r\n" +
-                          $"           END AS Dept\r\n" +
-                          $"         , eghisOrder.doct_nm AS DoctorName\r\n" +
-                          $"         , CASE\r\n" +
-                          $"               WHEN eghisOrder.health_gb = 'Y'\r\n" +
-                          $"               THEN (SELECT TestDisplayName FROM LabTestCode WHERE TestCode = match.CenterGongDanCode)\r\n" +
-                          $"               ELSE (SELECT TestDisplayName FROM LabTestCode WHERE TestCode = match.CenterMatchCode)\r\n" +
-                          $"           END AS CenterTestName\r\n" +
-                          $"         , CASE\r\n" +
-                          $"               WHEN eghisOrder.health_gb = 'Y'\r\n" +
-                          $"               THEN ''\r\n" +
-                          $"               ELSE (SELECT TestDisplayName FROM LabTestCode WHERE TestCode = match.CenterMatchOrderCode)\r\n" +
-                          $"           END AS CenterOrderName\r\n" +
-                          $"         , eghisOrder.edi_cd AS InsureCode, eghisOrder.ord_no AS CompExpansionField01, eghisOrder.ord_seq_no AS CompExpansionField02\r\n" +
-                          $"         , eghisOrder.health_gb AS Gongdan, eghisOrder.clinic_ymd, eghisOrder.sutak_spc\r\n" +
-                          $"         , match.CenterMatchSampleCode\r\n" +
-                          $"         , CONVERT(DATETIME, STUFF(STUFF(STUFF(trans_ymd + trans_time, 13,0 , ':'), 11, 0, ':'), 9, 0, ' ')) AS TestSendDateTime\r\n" +
-                          $"    FROM RsltTransEghisOrder eghisOrder\r\n" +
-                          $"    LEFT OUTER JOIN LabTransMatchCode match\r\n" +
-                          $"    ON match.CompCode = eghisOrder.CompCode\r\n" +
-                          $"    AND match.CompMatchCode = eghisOrder.ord_cd\r\n" +
-                          $"    LEFT OUTER JOIN LabTestCode AS testCode\r\n" +
-                          $"    ON match.CenterMatchCode = testCode.TestCode\r\n" +
-                          $"    WHERE eghisOrder.CompCode = '{request["CompCode"].ToString()}'\r\n" +
-                          $"    AND eghisOrder.ord_ymd BETWEEN '{Convert.ToDateTime(request["BeginDate"]).ToString("yyyyMMdd")}' AND '{Convert.ToDateTime(request["EndDate"]).ToString("yyyyMMdd")}'\r\n" +
-                          $"    AND NOT EXISTS\r\n" +
-                          $"    (\r\n" +
-                          $"        SELECT NULL FROM LabTransCompOrderInfo orderInfo\r\n" +
-                          $"        WHERE orderInfo.CompCode = eghisOrder.CompCode\r\n" +
-                          $"        AND orderinfo.CompOrderDate = CONVERT(DATE, eghisOrder.ord_ymd)\r\n" +
-                          $"        AND orderinfo.CompOrderNo = eghisOrder.recept_no\r\n" +
-                          $"        AND orderInfo.CompTestCode = eghisOrder.ord_cd\r\n" +
-                          $"        AND orderInfo.CompExpansionField01 = eghisOrder.ord_no\r\n" +
-                          $"        AND orderInfo.CompExpansionField02 = eghisOrder.ord_seq_no\r\n" +
-                          $"    )\r\n" +
-                          $") AS Sub1\r\n" +
-                          $"ORDER BY clinic_ymd, CompOrderNo, CompOrderDate, CompExpansionField01, CompExpansionField02\r\n" +
-                          $"       , CompTestCode, InsureCode, sutak_spc";
+                    sql = 
+                        $"SELECT ColumnCheck, LabRegDate, LabRegNo, PatientName, PatientChartNo, IdentificationNo1, IdentificationNo2, PatientSex, PatientAge, CompOrderDate, CompOrderNo\r\n" +
+                        $"     , TestCode, OrderCode, CompTestSampleCode, CompTestCode, CompTestSubCode, CompTestName, Dept, DoctorName, CenterTestName, CenterOrderName\r\n" +
+                        $"     , InsureCode, CompExpansionField01, CompExpansionField02, Gongdan\r\n" +
+                        $"     , CASE WHEN ISNULL(CenterMatchSampleCode, '') = ''\r\n" +
+                        $"            THEN (SELECT SampleCode FROM LabTestCode WHERE TestCode = Sub1.TestCode)\r\n" +
+                        $"            ELSE CenterMatchSampleCode\r\n" +
+                        $"       END AS SampleCode\r\n" +
+                        $"     , CONVERT(char(19), TestSendDateTime, 20) AS TestSendDateTime\r\n" +
+                        $"FROM\r\n" +
+                        $"(\r\n" +
+                        $"    SELECT CONVERT(bit,0) AS ColumnCheck, GETDATE() AS LabRegDate, '' AS LabRegNo, eghisOrder.ptnt_nm AS PatientName, eghisOrder.ptnt_no AS PatientChartNo\r\n" +
+                        $"         , SUBSTRING(master.dbo.AES_DecryptFunc(eghisOrder.ptnt_prsn_no, N'labge$%#!dleorms'), 1, 6) AS IdentificationNo1\r\n" +
+                        $"         , SUBSTRING(master.dbo.AES_DecryptFunc(eghisOrder.ptnt_prsn_no, N'labge$%#!dleorms'), 7, 7) AS IdentificationNo2\r\n" +
+                        $"         , eghisOrder.sex AS PatientSex, eghisOrder.age AS PatientAge, CONVERT(Date, eghisOrder.ord_ymd) AS CompOrderDate, eghisOrder.recept_no AS CompOrderNo\r\n" +
+                        $"         , CASE WHEN eghisOrder.health_gb = 'Y' THEN match.CenterGongDanCode ELSE match.CenterMatchCode END AS TestCode\r\n" +
+                        $"         , CASE WHEN eghisOrder.health_gb = 'Y' THEN '' ELSE match.CenterMatchOrderCode END AS OrderCode\r\n" +
+                        $"         , eghisOrder.spc_cd AS CompTestSampleCode\r\n" +
+                        $"         , eghisOrder.ord_cd AS CompTestCode, '' AS CompTestSubCode, eghisOrder.ord_nm AS CompTestName\r\n" +
+                        $"         , CASE" +
+                        $"               WHEN eghisOrder.dept_nm = '진료실' THEN ''\r\n" +
+                        $"               ELSE eghisOrder.dept_nm\r\n" +
+                        $"           END AS Dept\r\n" +
+                        $"         , eghisOrder.doct_nm AS DoctorName\r\n" +
+                        $"         , CASE\r\n" +
+                        $"               WHEN eghisOrder.health_gb = 'Y'\r\n" +
+                        $"               THEN (SELECT TestDisplayName FROM LabTestCode WHERE TestCode = match.CenterGongDanCode)\r\n" +
+                        $"               ELSE (SELECT TestDisplayName FROM LabTestCode WHERE TestCode = match.CenterMatchCode)\r\n" +
+                        $"           END AS CenterTestName\r\n" +
+                        $"         , CASE\r\n" +
+                        $"               WHEN eghisOrder.health_gb = 'Y'\r\n" +
+                        $"               THEN ''\r\n" +
+                        $"               ELSE (SELECT TestDisplayName FROM LabTestCode WHERE TestCode = match.CenterMatchOrderCode)\r\n" +
+                        $"           END AS CenterOrderName\r\n" +
+                        $"         , eghisOrder.edi_cd AS InsureCode, eghisOrder.ord_no AS CompExpansionField01, eghisOrder.ord_seq_no AS CompExpansionField02\r\n" +
+                        $"         , eghisOrder.health_gb AS Gongdan, eghisOrder.clinic_ymd, eghisOrder.sutak_spc\r\n" +
+                        $"         , match.CenterMatchSampleCode\r\n" +
+                        $"         , CONVERT(DATETIME, STUFF(STUFF(STUFF(trans_ymd + trans_time, 13,0 , ':'), 11, 0, ':'), 9, 0, ' ')) AS TestSendDateTime\r\n" +
+                        $"    FROM RsltTransEghisOrder eghisOrder\r\n" +
+                        $"    LEFT OUTER JOIN LabTransMatchCode match\r\n" +
+                        $"    ON match.CompCode = eghisOrder.CompCode\r\n" +
+                        $"    AND match.CompMatchCode = eghisOrder.ord_cd\r\n" +
+                        $"    LEFT OUTER JOIN LabTestCode AS testCode\r\n" +
+                        $"    ON match.CenterMatchCode = testCode.TestCode\r\n" +
+                        $"    WHERE eghisOrder.CompCode = '{request["CompCode"].ToString()}'\r\n" +
+                        $"    AND eghisOrder.ord_ymd BETWEEN '{Convert.ToDateTime(request["BeginDate"]).ToString("yyyyMMdd")}' AND '{Convert.ToDateTime(request["EndDate"]).ToString("yyyyMMdd")}'\r\n" +
+                        $"    AND NOT EXISTS\r\n" +
+                        $"    (\r\n" +
+                        $"        SELECT NULL FROM LabTransCompOrderInfo orderInfo\r\n" +
+                        $"        WHERE orderInfo.CompCode = eghisOrder.CompCode\r\n" +
+                        $"        AND orderinfo.CompOrderDate = CONVERT(DATE, eghisOrder.ord_ymd)\r\n" +
+                        $"        AND orderinfo.CompOrderNo = eghisOrder.recept_no\r\n" +
+                        $"        AND orderInfo.CompTestCode = eghisOrder.ord_cd\r\n" +
+                        $"        AND orderInfo.CompExpansionField01 = eghisOrder.ord_no\r\n" +
+                        $"        AND orderInfo.CompExpansionField02 = eghisOrder.ord_seq_no\r\n" +
+                        $"    )\r\n" +
+                        $") AS Sub1\r\n" +
+                        $"ORDER BY clinic_ymd, CompOrderNo, CompOrderDate, CompExpansionField01, CompExpansionField02\r\n" +
+                        $"       , CompTestCode, InsureCode, sutak_spc";
 
                     DataTable dt = new DataTable("EghisOrder");
                     SqlCommand cmdSelect = new SqlCommand(sql, conn);
