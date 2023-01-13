@@ -80,14 +80,14 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
             {
                 string sql;
 
-                sql = $"INSERT INTO uploadmst \r\n" +
-                      $"     ( REQDTE, CSTCD, SAMPLENO, SEQ, CSTITEMCD, CSTITEMNM \r\n" +
-                      $"     , HOSNO, PATNM, SAMPLECD \r\n" +
-                      $"     , SAMPLENM, BIRDTE, SEX, RESULT_DOWN, UP_DATE, ITEMGUBN) \r\n" +
-                      $"VALUES \r\n" +
-                      $"     ( '{request["REQDTE"].ToString()}', '30000', '{request["SAMPLENO"].ToString()}', '{request["SEQ"].ToString()}', '{request["CSTITEMCD"].ToString()}', '{request["CSTITEMNM"].ToString()}' \r\n" +
-                      $"     , '{request["HOSNO"].ToString()}', '{request["PATNM"].ToString()}', '{request["SAMPLECD"].ToString()}' \r\n" +
-                      $"     , '{request["SAMPLENM"].ToString()}', '{request["BIRDTE"].ToString()}', '{request["SEX"].ToString()}', 'F', SYSDATE(), 'G') ";
+                sql = $"INSERT INTO uploadmst\r\n" +
+                      $"     ( REQDTE, CSTCD, SAMPLENO, SEQ, CSTITEMCD, CSTITEMNM\r\n" +
+                      $"     , HOSNO, PATNM, SAMPLECD\r\n" +
+                      $"     , SAMPLENM, BIRDTE, SEX, RESULT_DOWN, UP_DATE, ITEMGUBN)\r\n" +
+                      $"VALUES\r\n" +
+                      $"     ( '{request["REQDTE"].ToString()}', '30000', '{request["SAMPLENO"].ToString()}', '{request["SEQ"].ToString()}', '{request["CSTITEMCD"].ToString()}', '{request["CSTITEMNM"].ToString()}'\r\n" +
+                      $"     , '{request["HOSNO"].ToString()}', '{request["PATNM"].ToString()}', '{request["SAMPLECD"].ToString()}'\r\n" +
+                      $"     , '{request["SAMPLENM"].ToString()}', '{request["BIRDTE"].ToString()}', '{request["SEX"].ToString()}', 'F', SYSDATE(), 'G')";
 
                 MySqlCommand cmd = new MySqlCommand(sql, wooriMadiConn);
                 cmd.ExecuteNonQuery();
