@@ -17,6 +17,11 @@ namespace supportsapi.labgenomics.com.Controllers.Preference
 
     public class GenocoreCompListController : ApiController
     {
+#if DEBUG
+        private string genocoreUrl = "https://sapi.genocorebs.com";
+#else
+        private string genocoreUrl = "https://api.genocorebs.com";
+#endif
         public IHttpActionResult Get()
         {
             string sql;
@@ -41,8 +46,8 @@ namespace supportsapi.labgenomics.com.Controllers.Preference
                 {
                     throw new Exception("제노코어 토큰발급을 실패했습니다.");
                 }
-                //거래처 목록 수신
-                var client = new RestClient("https://api.genocorebs.com/customers");
+                //거래처 목록 수신                
+                var client = new RestClient($"{genocoreUrl}/customers");
                 client.Timeout = -1;
                 var request = new RestRequest(Method.GET);
                 request.AddHeader("Authorization", $"Bearer {token}");
@@ -56,7 +61,7 @@ namespace supportsapi.labgenomics.com.Controllers.Preference
                         //수신받은 거래처 목록 등록
                         string sql;
                         sql =
-                            $"MSERGE INTO GenocoreCompCode AS target\r\n" +
+                            $"MERGE INTO GenocoreCompCode AS target\r\n" +
                             $"USING (SELECT '{objCustomer["clientCustomerIdx"]}' AS ClientCustomerIdx ) AS source\r\n" +
                             $"ON (target.ClientCustomerIdx = source.clientCustomerIdx)\r\n" +
                             $"WHEN NOT MATCHED THEN\r\n" +
@@ -64,7 +69,7 @@ namespace supportsapi.labgenomics.com.Controllers.Preference
                             $"VALUES\r\n" +
                             $"(\r\n" +
                             $"    {objCustomer["clientCustomerIdx"]}, '{objCustomer["clientCustomerName"]}'\r\n " +
-                            $")\r\n";
+                            $");\r\n";
 
                         LabgeDatabase.ExecuteSql(sql);
                     }
@@ -94,7 +99,13 @@ namespace supportsapi.labgenomics.com.Controllers.Preference
                     $"WHERE ClientCustomerIdx = '{request["ClientCustomerIdx"].ToString()}'";
 
                 LabgeDatabase.ExecuteSql(sql);
-                return Ok();
+
+                sql =
+                    $"SELECT CompName\r\n" +
+                    $"FROM ProgCompCode\r\n" +
+                    $"WHERE CompCode = '{request["CompCode"].ToString()}'";
+                JObject objResponse = LabgeDatabase.SqlToJObject(sql);
+                return Ok(objResponse);
             }
             catch (Exception ex)
             {
@@ -107,10 +118,10 @@ namespace supportsapi.labgenomics.com.Controllers.Preference
 
         private string GetGenocoreToken()
         {
-            var client = new RestClient("https://api.genocorebs.com/auth");
+            var client = new RestClient($"{genocoreUrl}/auth");
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "applicatgion/json");
-            request.AddParameter("application/json", "{\"x-id\": \"labgenomics\", \"x-pw\": \"Foawlsh#226\"}", ParameterType.RequestBody);
+            request.AddParameter("application/json", "{\"x-id\": \"labgenomics\", \"x-pw\": \"Foawlsh#226@\"}", ParameterType.RequestBody);
             var response = client.Execute(request);
             if (response.IsSuccessful)
             {
