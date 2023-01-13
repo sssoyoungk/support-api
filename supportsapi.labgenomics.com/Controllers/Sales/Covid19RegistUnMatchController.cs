@@ -22,8 +22,20 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
         /// <param name="endDate">종료일</param>
         /// <param name="authGroupCode">그룹 코드</param>
         /// <returns></returns>
-        public IHttpActionResult Get(DateTime beginDate, DateTime endDate, string authGroupCode)
+        public IHttpActionResult Get(DateTime beginDate, DateTime endDate, string authGroupCode, string option)
         {
+            string strOption = "";
+
+            if (option == "un")
+            {
+                strOption = "and r.SampleNo != ''\n"
+                      + "and r.SampleNo not like 'SC%'\n"
+                      + "and r.SampleNo not like 'SA%'\n"
+                      + "and r.SampleNo not like 'TI%'\n"
+                      + "and r.SampleNo not like 'KP%'\n"
+                      + "and r.SampleNo not like 'IR%'\n";
+            }
+            
 
             StringBuilder query = new StringBuilder();
             query.Append("select *\n");
@@ -44,12 +56,13 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
             query.Append("--and isnull(a.CenterCode, '') = 'Covid19Excel'\n");
             query.Append(") as r\n");
             query.Append($"where r.CompCode in (select CompCode from ProgAuthGroupAccessComp where AuthGroupCode = '{authGroupCode}')\n");
-            query.Append("and r.SampleNo != ''\n");
-            query.Append("and r.SampleNo not like 'SC%'\n");
-            query.Append("and r.SampleNo not like 'SA%'\n");
-            query.Append("and r.SampleNo not like 'TI%'\n");
-            query.Append("and r.SampleNo not like 'KP%'\n");
-            query.Append("and r.SampleNo not like 'IR%'\n");
+            query.Append(strOption);
+            //query.Append("and r.SampleNo != ''\n");
+            //query.Append("and r.SampleNo not like 'SC%'\n");
+            //query.Append("and r.SampleNo not like 'SA%'\n");
+            //query.Append("and r.SampleNo not like 'TI%'\n");
+            //query.Append("and r.SampleNo not like 'KP%'\n");
+            //query.Append("and r.SampleNo not like 'IR%'\n");
             query.Append("order by r.LabRegDate, r.LabRegNo\n");
 
             var arrResponse = LabgeDatabase.SqlToJArray(query.ToString());

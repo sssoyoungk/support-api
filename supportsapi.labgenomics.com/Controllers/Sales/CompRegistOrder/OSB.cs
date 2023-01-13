@@ -45,7 +45,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                 {
                     sql = 
                         $"SELECT\r\n" +
-                        $"    oo.LabRegDate, oo.LabRegNo,\r\n" +
+                        $"    CONVERT(bit, 0) AS ColumnCheck, oo.LabRegDate, oo.LabRegNo,\r\n" +
                         $"    oo.CompCode, CompOrderDate, OsbOrderID AS CompOrderNo, PatientName, CompTestName, CompTestCode, BirthDay,\r\n" +
                         $"    ltmc.CenterMatchCode AS TestCode,\r\n" +
                         $"    Height, Weight, Gender AS PatientSex, FetusNumber, GestationalAgeWeek, GestationalAgeDay,\r\n" +
