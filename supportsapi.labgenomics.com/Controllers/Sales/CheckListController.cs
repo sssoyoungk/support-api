@@ -12,7 +12,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
     public class CheckListController : ApiController
     {
         // GET api/<controller>
-        public IHttpActionResult Get(string memberId, string isOwnOrder)
+        public IHttpActionResult Get(string memberId, bool isOwnOrder)
         {
             string sql;
 
@@ -33,7 +33,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 "JOIN ProgMember pm\r\n" +
                 "ON pm.MemberID = lro.RegistMemberID\r\n" +
                 "WHERE IsOrderCheck = 0\r\n";
-            if (isOwnOrder == "1")
+            if (isOwnOrder)
             {
                 sql += $"AND lro.RegistMemberID = '{memberId}'\r\n";
             }
@@ -48,7 +48,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
         {
             foreach (JObject objRequest in arrRequest)
             {
-                //LabRegTest 등록
+                //LabRegTest 등록                
 
                 //LabRegReport 등록
 
@@ -59,16 +59,6 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 //LabRegOrder에 체크리스 등록완료 플래그 처리
             }
             return Ok();
-        }
-
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
         }
     }
 }
