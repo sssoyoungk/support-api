@@ -18,7 +18,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                   $"       ELSE PatientSex END AS PatientSex\r\n" +
                   $"     , DeptCode, SampleNo, CompOrderDate, IsCenterRegist, IdentificationNo1, IdentificationNo2\r\n" +
                   $"     , DoctorName, SampleDrawDate, CompTestCode, CompTestName, OrderCode\r\n" +
-                  $"     , TestCode, SampleCode, Dept, Ward, PatientRemark\r\n" +
+                  $"     , TestCode, SampleCode, Dept, Ward, PatientRemark, PatientCustomKind\r\n" +
                   $"FROM\r\n" +
                   $"(\r\n" +
                   $"    SELECT ImportDataID\r\n" +
@@ -36,7 +36,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                   $"                WHEN ISNULL(lid.CenterSampleCode, '') = '' AND ISNULL(ltmc.CenterMatchSampleCode, '') = '' THEN\r\n" +
                   $"                     (SELECT SampleCode FROM LabTestCode WHERE TestCode = ltmc.CenterMatchCode)\r\n" +
                   $"           END AS SampleCode\r\n" +
-                  $"         , lid.CompDeptName AS Dept, lid.PatientSickRoom AS Ward, lid.PatientRemark\r\n" +
+                  $"         , lid.CompDeptName AS Dept, lid.PatientSickRoom AS Ward, lid.PatientRemark, lid.PatientCustomKind\r\n" +
                   //$"         , CASE WHEN lid.CompDeptName <> '' THEN lid.CompDeptName ELSE lid.PatientSickRoom END AS Dept\r\n" +
                   $"         , lid.RegistTime\r\n" +
                   $"    FROM LabImportData lid\r\n" +

@@ -62,22 +62,30 @@ namespace supportsapi.labgenomics.com.Services
                   "USING (SELECT @LabRegDate AS LabRegDate, @LabRegNo AS LabRegNo ) AS source\r\n" +
                   "ON (target.LabRegDate = source.LabRegDate and target.LabRegNo = source.LabRegNo)\r\n" +
                   "WHEN NOT MATCHED BY TARGET THEN\r\n" +
-                  "    INSERT ( LabRegDate, LabRegNo, CompCode, CompSubCode\r\n" +
-                  "           , CompSubName, CompDeptCode, CompDeptName, IsPatientEmergency\r\n" +
-                  "           , PatientName, PatientAge, PatientSex, PatientJuminNo01\r\n" +
-                  "           , PatientChartNo, PatientDoctorName, PatientSampleGetTime, EditTime, EditorMemberID\r\n" +
-                  "           , IsPatientJonggumFinish, CenterCode, IsJonggumReport, IsTrustOrder, RegistTime\r\n" +
-                  "           , RegistMemberID, IsJonggumPrintEnd, PatientJuminNo02, PatientSickRoom\r\n" +
-                  "           , PatientZipCode, PatientAddress01, PatientPhoneNo\r\n" +
-                  "           , PatientImportCustomData01, PatientImportCustomData02, PatientImportCustomData03, SystemUniqID, PatientRemark)\r\n" +
-                  "    VALUES ( source.LabRegDate, source.LabRegNo, @CompCode, @CompSubCode\r\n" +
-                  "           , @CompSubName, @CompDeptCode, @CompDeptName, '0'\r\n" +
-                  "           , @PatientName, @PatientAge, @PatientSex, @PatientJuminNo01\r\n" +
-                  "           , @PatientChartNo, @PatientDoctorName, @PatientSampleGetTime, GETDATE(), @RegistMemberID\r\n" +
-                  "           , '0', @ChartKind, '0', '1', GETDATE()\r\n" +
-                  "           , @RegistMemberID, '0', master.dbo.AES_EncryptFunc(@PatientJuminNo02, 'labge$%#!dleorms'), @PatientSickRoom\r\n" +
-                  "           , @PatientZipCode, @PatientAddress01, @PatientPhoneNo\r\n" +
-                  "           , @PatientImportCustomData01, @PatientImportCustomData02, @PatientImportCustomData03, @SystemUniqID, @PatientRemark);";
+                  "    INSERT\r\n" +
+                  "    (\r\n" +
+                  "        LabRegDate, LabRegNo, CompCode, CompSubCode\r\n" +
+                  "      , CompSubName, CompDeptCode, CompDeptName, IsPatientEmergency\r\n" +
+                  "      , PatientName, PatientAge, PatientSex, PatientJuminNo01\r\n" +
+                  "      , PatientChartNo, PatientDoctorName, PatientSampleGetTime, EditTime, EditorMemberID\r\n" +
+                  "      , IsPatientJonggumFinish, CenterCode, IsJonggumReport, IsTrustOrder, RegistTime\r\n" +
+                  "      , RegistMemberID, IsJonggumPrintEnd, PatientJuminNo02, PatientSickRoom\r\n" +
+                  "      , PatientZipCode, PatientAddress01, PatientPhoneNo\r\n" +
+                  "      , PatientImportCustomData01, PatientImportCustomData02, PatientImportCustomData03, SystemUniqID, PatientRemark\r\n" +
+                  "      , PatientCustomKind\r\n" +
+                  "    )\r\n" +
+                  "    VALUES\r\n" +
+                  "    (\r\n" +
+                  "        source.LabRegDate, source.LabRegNo, @CompCode, @CompSubCode\r\n" +
+                  "      , @CompSubName, @CompDeptCode, @CompDeptName, '0'\r\n" +
+                  "      , @PatientName, @PatientAge, @PatientSex, @PatientJuminNo01\r\n" +
+                  "      , @PatientChartNo, @PatientDoctorName, @PatientSampleGetTime, GETDATE(), @RegistMemberID\r\n" +
+                  "      , '0', @ChartKind, '0', '1', GETDATE()\r\n" +
+                  "      , @RegistMemberID, '0', master.dbo.AES_EncryptFunc(@PatientJuminNo02, 'labge$%#!dleorms'), @PatientSickRoom\r\n" +
+                  "      , @PatientZipCode, @PatientAddress01, @PatientPhoneNo\r\n" +
+                  "      , @PatientImportCustomData01, @PatientImportCustomData02, @PatientImportCustomData03, @SystemUniqID, @PatientRemark\r\n" +
+                  "      , @PatientCustomKind\r\n" +
+                  "    );";
 
             SqlCommand cmd = new SqlCommand(sql);
 
@@ -111,7 +119,7 @@ namespace supportsapi.labgenomics.com.Services
             cmd.Parameters.AddWithValue("@PatientImportCustomData03", request["PatientImportCustomData03"] == null ? string.Empty : request["PatientImportCustomData03"].ToString());
             cmd.Parameters.AddWithValue("@SystemUniqID", request["SystemUniqID"] == null ? string.Empty : request["SystemUniqID"].ToString());
             cmd.Parameters.AddWithValue("@PatientRemark", request["PatientRemark"] == null ? string.Empty : request["PatientRemark"].ToString());
-
+            cmd.Parameters.AddWithValue("@PatientCustomKind", request["PatientCustomKind"] == null ? string.Empty : request["PatientCustomKind"].ToString());
 
             LabgeDatabase.ExecuteSqlCommand(cmd);
         }
