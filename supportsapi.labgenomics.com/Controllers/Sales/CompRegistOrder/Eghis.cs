@@ -28,119 +28,109 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                     //속도 저하 이슈로 오더 수신을 스케줄러로 빼서 일괄 수신. 영업소는 이지스 서버에 접속하여 오더를 가져오는 동작을 하지 않음.                
                     //if (request["RegistOrder"] != null && Convert.ToBoolean(request["RegistOrder"]))
                     //{
-                        //자료를 불러와서 테이블에 넣어준다.
+                    //자료를 불러와서 테이블에 넣어준다.
+                    sql =
+                        $"SELECT hosp_no, hosp_nm, clinic_ymd, ord_ymd, recept_no, ord_cd, ord_no, ord_seq_no\r\n" +
+                        $"     , ptnt_no, DECODING(ptnt_nm, hosp_no) AS ptnt_nm, sex, age, ord_nm, spc_cd, spc_nm, ord_type, ord_type_nm, trans_ymd\r\n" +
+                        $"     , trans_time, sutak_cd, sts_cd, sts_nm, sutak_ord, sutak_spc, sutak_seq, DECODING(ptnt_prsn_no, hosp_no) AS ptnt_prsn_no\r\n" +
+                        $"     , acc_ymd, acc_time, sutak_sts, edi_cd, dept_cd, dept_nm, doct_nm, health_gb\r\n" +
+                        $"FROM labge.interface_ord\r\n";
+
+                    if (request["InstitutionNo"].ToString() != string.Empty)
+                    {
+                        sql += $"WHERE hosp_no = '{request["InstitutionNo"].ToString()}'\r\n";
+                    }
+                    else
+                    {
+                        sql += $"WHERE hosp_no <> ''\r\n";
+                    }
+
+                    sql +=
+                        $"AND ord_ymd  BETWEEN '{Convert.ToDateTime(request["BeginDate"]).ToString("yyyyMMdd")}' AND '{Convert.ToDateTime(request["EndDate"]).ToString("yyyyMMdd")}'\r\n" +
+                        $"AND sutak_sts is null";
+
+                    DataTable dtOrder = new DataTable();
+                    dtOrder.TableName = "EghisOrder";
+
+                    NpgsqlCommand eghisCmd = new NpgsqlCommand(sql, eghisConn);
+                    eghisCmd.CommandTimeout = 45;
+                    NpgsqlDataAdapter eghisAdapter = new NpgsqlDataAdapter(eghisCmd);
+
+                    eghisAdapter.Fill(dtOrder);
+
+
+                    sql = string.Empty;
+                    foreach (DataRow row in dtOrder.Rows)
+                    {
+                        //sql += $"MERGE INTO RsltTransEghisOrder AS target\r\n" +
+                        //       $"USING (SELECT '{row["hosp_no"]}' AS hosp_no,\r\n" +
+                        //       $"              (SELECT pcc.CompCode FROM ProgCompCode pcc\r\n" +
+                        //       $"               JOIN RsltTransCompSet rtcs ON rtcs.CompCode = pcc.CompCode AND rtcs.TransKind = 'Eghis'\r\n" +
+                        //       $"               WHERE CompInstitutionNo = '{row["hosp_no"]}') AS CompCode,\r\n" +
+                        //       $"              '{row["clinic_ymd"]}' AS clinic_ymd, '{row["ord_ymd"]}' AS ord_ymd,\r\n" +
+                        //       $"              '{row["recept_no"]}' AS recept_no, '{row["ord_cd"]}' AS ord_cd, '{row["ord_no"]}' AS ord_no, '{row["ord_seq_no"]}' AS ord_seq_no,\r\n" +
+                        //       $"              '{row["ptnt_no"]}' AS ptnt_no, '{row["ptnt_nm"]}' AS ptnt_nm) AS source\r\n" +
+                        //       $"ON (source.hosp_no = target.hosp_no AND source.CompCode = target.CompCode AND source.clinic_ymd = target.clinic_ymd AND source.ord_ymd = target.ord_ymd AND\r\n" +
+                        //       $"    source.recept_no = target.recept_no AND source.ord_cd = target.ord_cd AND source.ord_no = target.ord_no AND\r\n" +
+                        //       $"    source.ord_seq_no = target.ord_seq_no AND source.ptnt_no = target.ptnt_no AND source.ptnt_nm = target.ptnt_nm)\r\n" +
+                        //       $"WHEN NOT MATCHED THEN\r\n" +
+                        //       $"INSERT ( hosp_no, hosp_nm, CompCode, clinic_ymd, ord_ymd, recept_no, ord_cd\r\n" +
+                        //       $"       , ord_no, ord_seq_no, ptnt_no, ptnt_nm, sex, age, ord_nm, spc_cd\r\n" +
+                        //       $"       , spc_nm, ord_type, ord_type_nm, trans_ymd, trans_time, sutak_cd, sts_cd\r\n" +
+                        //       $"       , sts_nm, sutak_ord, sutak_spc, sutak_seq, ptnt_prsn_no\r\n" +
+                        //       $"       , acc_ymd, acc_time, sutak_sts, edi_cd, dept_cd, dept_nm, doct_nm, health_gb)\r\n" +
+                        //       $"VALUES ( '{row["hosp_no"]}', '{row["hosp_nm"]}',\r\n" +
+                        //       $"         (SELECT pcc.CompCode FROM ProgCompCode pcc\r\n" +
+                        //       $"          JOIN RsltTransCompSet rtcs ON rtcs.CompCode = pcc.CompCode AND rtcs.TransKind = 'Eghis'\r\n" +
+                        //       $"          WHERE CompInstitutionNo = '{row["hosp_no"]}'),\r\n" +
+                        //       $"         '{row["clinic_ymd"]}', '{row["ord_ymd"]}', '{row["recept_no"]}', '{row["ord_cd"]}',\r\n" +
+                        //       $"         '{row["ord_no"]}', '{row["ord_seq_no"]}', '{row["ptnt_no"]}', '{row["ptnt_nm"]}', '{row["sex"]}', '{row["age"]}', '{row["ord_nm"]}', '{row["spc_cd"]}',\r\n" +
+                        //       $"         '{row["spc_nm"]}', '{row["ord_type"]}', '{row["ord_type_nm"]}', '{row["trans_ymd"]}', '{row["trans_time"]}', '{row["sutak_cd"]}', '{row["sts_cd"]}',\r\n" +
+                        //       $"         '{row["sts_nm"]}', '{row["sutak_ord"]}', '{row["sutak_spc"]}', '{row["sutak_seq"]}', master.dbo.AES_EncryptFunc('{row["ptnt_prsn_no"]}', N'labge$%#!dleorms'),\r\n" +
+                        //       $"         '{row["acc_ymd"]}', '{row["acc_time"]}', '{row["sutak_sts"]}', '{row["edi_cd"]}', '{row["dept_cd"]}', '{row["dept_nm"]}', '{row["doct_nm"]}', '{row["health_gb"]}');\r\n";
                         sql =
-                            $"SELECT hosp_no, hosp_nm, clinic_ymd, ord_ymd, recept_no, ord_cd, ord_no, ord_seq_no\r\n" +
-                            $"     , ptnt_no, DECODING(ptnt_nm, hosp_no) AS ptnt_nm, sex, age, ord_nm, spc_cd, spc_nm, ord_type, ord_type_nm, trans_ymd\r\n" +
-                            $"     , trans_time, sutak_cd, sts_cd, sts_nm, sutak_ord, sutak_spc, sutak_seq, DECODING(ptnt_prsn_no, hosp_no) AS ptnt_prsn_no\r\n" +
-                            $"     , acc_ymd, acc_time, sutak_sts, edi_cd, dept_cd, dept_nm, doct_nm, health_gb\r\n" +
-                            $"FROM labge.interface_ord\r\n";
-
-                        if (request["InstitutionNo"].ToString() != string.Empty)
+                            $"INSERT INTO RsltTransEghisOrder\r\n" +
+                            $"(\r\n" +
+                            $"    hosp_no, hosp_nm, CompCode, clinic_ymd, ord_ymd, recept_no, ord_cd,\r\n" +
+                            $"    ord_no, ord_seq_no, ptnt_no, ptnt_nm, sex, age, ord_nm, spc_cd,\r\n" +
+                            $"    spc_nm, ord_type, ord_type_nm, trans_ymd, trans_time, sutak_cd, sts_cd,\r\n" +
+                            $"    sts_nm, sutak_ord, sutak_spc, sutak_seq, ptnt_prsn_no\r\n," +
+                            $"    acc_ymd, acc_time, sutak_sts, edi_cd, dept_cd, dept_nm, doct_nm, health_gb\r\n" +
+                            $")\r\n" +
+                            $"VALUES\r\n" +
+                            $"(\r\n" +
+                            $"    '{row["hosp_no"]}', '{row["hosp_nm"]}',\r\n" +
+                            $"    (SELECT pcc.CompCode FROM ProgCompCode pcc\r\n" +
+                            $"     JOIN RsltTransCompSet rtcs ON rtcs.CompCode = pcc.CompCode AND rtcs.TransKind = 'Eghis'　AND pcc.IsCompUseCode = 1\r\n" +
+                            $"     WHERE CompInstitutionNo = '{row["hosp_no"]}'),\r\n" +
+                            $"    '{row["clinic_ymd"]}', '{row["ord_ymd"]}', '{row["recept_no"]}', '{row["ord_cd"]}',\r\n" +
+                            $"    '{row["ord_no"]}', '{row["ord_seq_no"]}', '{row["ptnt_no"]}', '{row["ptnt_nm"]}', '{row["sex"]}', '{row["age"]}', '{row["ord_nm"]}', '{row["spc_cd"]}',\r\n" +
+                            $"    '{row["spc_nm"]}', '{row["ord_type"]}', '{row["ord_type_nm"]}', '{row["trans_ymd"]}', '{row["trans_time"]}', '{row["sutak_cd"]}', '{row["sts_cd"]}',\r\n" +
+                            $"    '{row["sts_nm"]}', '{row["sutak_ord"]}', '{row["sutak_spc"]}', '{row["sutak_seq"]}', master.dbo.AES_EncryptFunc('{row["ptnt_prsn_no"]}', N'labge$%#!dleorms'),\r\n" +
+                            $"    '{row["acc_ymd"]}', '{row["acc_time"]}', '{row["sutak_sts"]}', '{row["edi_cd"]}', '{row["dept_cd"]}', '{row["dept_nm"]}', '{row["doct_nm"]}', '{row["health_gb"]}'\r\n" +
+                            $")";
+                        try
                         {
-                            sql += $"WHERE hosp_no = '{request["InstitutionNo"].ToString()}'\r\n";
+                            SqlCommand cmd = new SqlCommand(sql, conn);
+                            cmd.ExecuteNonQuery();
+
+                            sql =
+                                $"UPDATE interface_ord\r\n" +
+                                $"SET sutak_sts = 'D'\r\n" +
+                                $"WHERE hosp_no = '{row["hosp_no"]}'\r\n" +
+                                $"AND clinic_ymd = '{row["clinic_ymd"]}'\r\n" +
+                                $"AND recept_no = '{row["recept_no"]}'\r\n" +
+                                $"AND ord_cd = '{row["ord_cd"]}'\r\n" +
+                                $"AND ord_no = '{row["ord_no"]}'\r\n" +
+                                $"AND ord_seq_no = '{row["ord_seq_no"]}'";
+                            NpgsqlCommand eghisCmd2 = new NpgsqlCommand(sql, eghisConn);
+                            eghisCmd2.ExecuteNonQuery();
                         }
-                        else
+                        catch
                         {
-                            sql += $"WHERE hosp_no <> ''\r\n";
+
                         }
-
-                        sql += 
-                            $"AND ord_ymd  BETWEEN '{Convert.ToDateTime(request["BeginDate"]).ToString("yyyyMMdd")}' AND '{Convert.ToDateTime(request["EndDate"]).ToString("yyyyMMdd")}'\r\n" +
-                            $"AND sutak_sts is null";
-
-                        DataTable dtOrder = new DataTable();
-                        dtOrder.TableName = "EghisOrder";
-                        
-                        NpgsqlCommand eghisCmd = new NpgsqlCommand(sql, eghisConn);
-                        eghisCmd.CommandTimeout = 45;
-                        NpgsqlDataAdapter eghisAdapter = new NpgsqlDataAdapter(eghisCmd);
-
-                        eghisAdapter.Fill(dtOrder);
-                        
-                        
-                        sql = string.Empty;
-                        foreach (DataRow row in dtOrder.Rows)
-                        {
-                            //sql += $"MERGE INTO RsltTransEghisOrder AS target\r\n" +
-                            //       $"USING (SELECT '{row["hosp_no"]}' AS hosp_no,\r\n" +
-                            //       $"              (SELECT pcc.CompCode FROM ProgCompCode pcc\r\n" +
-                            //       $"               JOIN RsltTransCompSet rtcs ON rtcs.CompCode = pcc.CompCode AND rtcs.TransKind = 'Eghis'\r\n" +
-                            //       $"               WHERE CompInstitutionNo = '{row["hosp_no"]}') AS CompCode,\r\n" +
-                            //       $"              '{row["clinic_ymd"]}' AS clinic_ymd, '{row["ord_ymd"]}' AS ord_ymd,\r\n" +
-                            //       $"              '{row["recept_no"]}' AS recept_no, '{row["ord_cd"]}' AS ord_cd, '{row["ord_no"]}' AS ord_no, '{row["ord_seq_no"]}' AS ord_seq_no,\r\n" +
-                            //       $"              '{row["ptnt_no"]}' AS ptnt_no, '{row["ptnt_nm"]}' AS ptnt_nm) AS source\r\n" +
-                            //       $"ON (source.hosp_no = target.hosp_no AND source.CompCode = target.CompCode AND source.clinic_ymd = target.clinic_ymd AND source.ord_ymd = target.ord_ymd AND\r\n" +
-                            //       $"    source.recept_no = target.recept_no AND source.ord_cd = target.ord_cd AND source.ord_no = target.ord_no AND\r\n" +
-                            //       $"    source.ord_seq_no = target.ord_seq_no AND source.ptnt_no = target.ptnt_no AND source.ptnt_nm = target.ptnt_nm)\r\n" +
-                            //       $"WHEN NOT MATCHED THEN\r\n" +
-                            //       $"INSERT ( hosp_no, hosp_nm, CompCode, clinic_ymd, ord_ymd, recept_no, ord_cd\r\n" +
-                            //       $"       , ord_no, ord_seq_no, ptnt_no, ptnt_nm, sex, age, ord_nm, spc_cd\r\n" +
-                            //       $"       , spc_nm, ord_type, ord_type_nm, trans_ymd, trans_time, sutak_cd, sts_cd\r\n" +
-                            //       $"       , sts_nm, sutak_ord, sutak_spc, sutak_seq, ptnt_prsn_no\r\n" +
-                            //       $"       , acc_ymd, acc_time, sutak_sts, edi_cd, dept_cd, dept_nm, doct_nm, health_gb)\r\n" +
-                            //       $"VALUES ( '{row["hosp_no"]}', '{row["hosp_nm"]}',\r\n" +
-                            //       $"         (SELECT pcc.CompCode FROM ProgCompCode pcc\r\n" +
-                            //       $"          JOIN RsltTransCompSet rtcs ON rtcs.CompCode = pcc.CompCode AND rtcs.TransKind = 'Eghis'\r\n" +
-                            //       $"          WHERE CompInstitutionNo = '{row["hosp_no"]}'),\r\n" +
-                            //       $"         '{row["clinic_ymd"]}', '{row["ord_ymd"]}', '{row["recept_no"]}', '{row["ord_cd"]}',\r\n" +
-                            //       $"         '{row["ord_no"]}', '{row["ord_seq_no"]}', '{row["ptnt_no"]}', '{row["ptnt_nm"]}', '{row["sex"]}', '{row["age"]}', '{row["ord_nm"]}', '{row["spc_cd"]}',\r\n" +
-                            //       $"         '{row["spc_nm"]}', '{row["ord_type"]}', '{row["ord_type_nm"]}', '{row["trans_ymd"]}', '{row["trans_time"]}', '{row["sutak_cd"]}', '{row["sts_cd"]}',\r\n" +
-                            //       $"         '{row["sts_nm"]}', '{row["sutak_ord"]}', '{row["sutak_spc"]}', '{row["sutak_seq"]}', master.dbo.AES_EncryptFunc('{row["ptnt_prsn_no"]}', N'labge$%#!dleorms'),\r\n" +
-                            //       $"         '{row["acc_ymd"]}', '{row["acc_time"]}', '{row["sutak_sts"]}', '{row["edi_cd"]}', '{row["dept_cd"]}', '{row["dept_nm"]}', '{row["doct_nm"]}', '{row["health_gb"]}');\r\n";
-                            sql =                                 
-                                $"INSERT INTO RsltTransEghisOrder\r\n" +
-                                $"(\r\n" +
-                                $"    hosp_no, hosp_nm, CompCode, clinic_ymd, ord_ymd, recept_no, ord_cd,\r\n" +
-                                $"    ord_no, ord_seq_no, ptnt_no, ptnt_nm, sex, age, ord_nm, spc_cd,\r\n" +
-                                $"    spc_nm, ord_type, ord_type_nm, trans_ymd, trans_time, sutak_cd, sts_cd,\r\n" +
-                                $"    sts_nm, sutak_ord, sutak_spc, sutak_seq, ptnt_prsn_no\r\n," +
-                                $"    acc_ymd, acc_time, sutak_sts, edi_cd, dept_cd, dept_nm, doct_nm, health_gb\r\n" +
-                                $")\r\n" +
-                                $"VALUES\r\n" +
-                                $"(\r\n" +
-                                $"    '{row["hosp_no"]}', '{row["hosp_nm"]}',\r\n" +
-                                $"    (SELECT pcc.CompCode FROM ProgCompCode pcc\r\n" +
-                                $"     JOIN RsltTransCompSet rtcs ON rtcs.CompCode = pcc.CompCode AND rtcs.TransKind = 'Eghis'\r\n" +
-                                $"     WHERE CompInstitutionNo = '{row["hosp_no"]}'),\r\n" +
-                                $"    '{row["clinic_ymd"]}', '{row["ord_ymd"]}', '{row["recept_no"]}', '{row["ord_cd"]}',\r\n" +
-                                $"    '{row["ord_no"]}', '{row["ord_seq_no"]}', '{row["ptnt_no"]}', '{row["ptnt_nm"]}', '{row["sex"]}', '{row["age"]}', '{row["ord_nm"]}', '{row["spc_cd"]}',\r\n" +
-                                $"    '{row["spc_nm"]}', '{row["ord_type"]}', '{row["ord_type_nm"]}', '{row["trans_ymd"]}', '{row["trans_time"]}', '{row["sutak_cd"]}', '{row["sts_cd"]}',\r\n" +
-                                $"    '{row["sts_nm"]}', '{row["sutak_ord"]}', '{row["sutak_spc"]}', '{row["sutak_seq"]}', master.dbo.AES_EncryptFunc('{row["ptnt_prsn_no"]}', N'labge$%#!dleorms'),\r\n" +
-                                $"    '{row["acc_ymd"]}', '{row["acc_time"]}', '{row["sutak_sts"]}', '{row["edi_cd"]}', '{row["dept_cd"]}', '{row["dept_nm"]}', '{row["doct_nm"]}', '{row["health_gb"]}'\r\n" +
-                                $")";
-                            try
-                            {
-                                SqlCommand cmd = new SqlCommand(sql, conn);
-                                cmd.ExecuteNonQuery();
-
-                                sql = 
-                                    $"UPDATE interface_ord\r\n" +
-                                    $"SET sutak_sts = 'D'\r\n" +
-                                    $"WHERE hosp_no = '{row["hosp_no"]}'\r\n" +
-                                    $"AND clinic_ymd = '{row["clinic_ymd"]}'\r\n" +
-                                    $"AND recept_no = '{row["recept_no"]}'\r\n" +
-                                    $"AND ord_cd = '{row["ord_cd"]}'\r\n" +
-                                    $"AND ord_no = '{row["ord_no"]}'\r\n" +
-                                    $"AND ord_seq_no = '{row["ord_seq_no"]}'";
-                                NpgsqlCommand eghisCmd2 = new NpgsqlCommand(sql, eghisConn);
-                                eghisCmd2.ExecuteNonQuery();
-                            }
-                            catch
-                            {
-                                sql =
-                                        $"UPDATE interface_ord\r\n" +
-                                        $"SET sutak_sts = 'D'\r\n" +
-                                        $"WHERE hosp_no = '{row["hosp_no"]}'\r\n" +
-                                        $"AND clinic_ymd = '{row["clinic_ymd"]}'\r\n" +
-                                        $"AND recept_no = '{row["recept_no"]}'\r\n" +
-                                        $"AND ord_cd = '{row["ord_cd"]}'\r\n" +
-                                        $"AND ord_no = '{row["ord_no"]}'\r\n" +
-                                        $"AND ord_seq_no = '{row["ord_seq_no"]}'";
-                                NpgsqlCommand eghisCmd2 = new NpgsqlCommand(sql, eghisConn);
-                                eghisCmd2.ExecuteNonQuery();
-                        }
-                        }
+                    }
                     //}
 
                     sql =
