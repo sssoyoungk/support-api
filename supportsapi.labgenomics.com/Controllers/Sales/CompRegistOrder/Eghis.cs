@@ -128,8 +128,18 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                             }
                             catch
                             {
-
-                            }
+                                sql =
+                                        $"UPDATE interface_ord\r\n" +
+                                        $"SET sutak_sts = 'D'\r\n" +
+                                        $"WHERE hosp_no = '{row["hosp_no"]}'\r\n" +
+                                        $"AND clinic_ymd = '{row["clinic_ymd"]}'\r\n" +
+                                        $"AND recept_no = '{row["recept_no"]}'\r\n" +
+                                        $"AND ord_cd = '{row["ord_cd"]}'\r\n" +
+                                        $"AND ord_no = '{row["ord_no"]}'\r\n" +
+                                        $"AND ord_seq_no = '{row["ord_seq_no"]}'";
+                                NpgsqlCommand eghisCmd2 = new NpgsqlCommand(sql, eghisConn);
+                                eghisCmd2.ExecuteNonQuery();
+                        }
                         }
                     //}
 
