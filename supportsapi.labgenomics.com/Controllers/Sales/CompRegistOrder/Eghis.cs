@@ -101,7 +101,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                             $"(\r\n" +
                             $"    '{row["hosp_no"]}', '{row["hosp_nm"]}',\r\n" +
                             $"    (SELECT pcc.CompCode FROM ProgCompCode pcc\r\n" +
-                            $"     JOIN RsltTransCompSet rtcs ON rtcs.CompCode = pcc.CompCode AND rtcs.TransKind = 'Eghis'　AND pcc.IsCompUseCode = 1\r\n" +
+                            $"     JOIN RsltTransCompSet rtcs ON rtcs.CompCode = pcc.CompCode AND rtcs.TransKind = 'Eghis'　AND pcc.IsCompUseCode = 1 AND rtcs.IsUse = 1\r\n" +
                             $"     WHERE CompInstitutionNo = '{row["hosp_no"]}'),\r\n" +
                             $"    '{row["clinic_ymd"]}', '{row["ord_ymd"]}', '{row["recept_no"]}', '{row["ord_cd"]}',\r\n" +
                             $"    '{row["ord_no"]}', '{row["ord_seq_no"]}', '{row["ptnt_no"]}', '{row["ptnt_nm"]}', '{row["sex"]}', '{row["age"]}', '{row["ord_nm"]}', '{row["spc_cd"]}',\r\n" +
