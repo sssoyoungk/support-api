@@ -21,22 +21,34 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
         {
             string sql;
 
-            sql = "SELECT ProgCompCode.CompCode, ProgCompCode.CompName, ProgCompCode.CompInstitutionNo, RsltTransCompSet.TransKind\r\n" +
-                  "FROM ProgCompCode\r\n" +
-                  "JOIN RsltTransCompSet\r\n" +
-                  "ON ProgCompCode.CompCode = RsltTransCompSet.CompCode\r\n" +
-                  "AND IsUse = 1 ";
+            sql = "SELECT pcc.CompCode, pcc.CompName, pcc.CompInstitutionNo, rtcs.TransKind\r\n" +
+                  "FROM ProgCompCode pcc\r\n" +
+                  "JOIN RsltTransCompSet rtcs\r\n" +
+                  "ON pcc.CompCode = rtcs.CompCode\r\n" +
+                  "AND IsUse = 1\r\n";
             if ((chartKind ?? string.Empty) != string.Empty)
-                sql += $"AND RsltTransCompSet.TransKind = '{chartKind}'\r\n";
+                sql += $"AND rtcs.TransKind = '{chartKind}'\r\n";
 
-            sql += $"WHERE ProgCompCode.CompCode IN\r\n" +
-                   $"(\r\n" +
-                   $"    SELECT CompCode\r\n" +
-                   $"    FROM ProgAuthGroupAccessComp\r\n" +
-                   $"    WHERE AuthGroupCode = '{authGroup}'\r\n" +
-                   $")\r\n" +
-                   $"AND ProgCompCode.IsCompUseCode = 1\r\n" +
-                   $"ORDER BY ProgCompCode.CompCode";
+            sql += 
+                $"WHERE rtcs.CompCode IN\r\n" +
+                $"(\r\n" +
+                $"    SELECT CompCode\r\n" +
+                $"    FROM ProgAuthGroupAccessComp\r\n" +
+                $"    WHERE AuthGroupCode = '{authGroup}'\r\n" +
+                $")\r\n" +
+                $"AND pcc.IsCompUseCode = 1\r\n" +
+                $"UNION\r\n" +
+                $"SELECT pcc.CompCode, pcc.CompName, pcc.CompInstitutionNo, 'Genocore'\r\n" +
+                $"FROM GenocoreCompCode gcc\r\n" +
+                $"JOIN ProgCompCode pcc\r\n" +
+                $"ON gcc.CompCode = pcc.CompCode\r\n" +
+                $"WHERE pcc.CompCode IN\r\n" +
+                $"(\r\n" +
+                $"    SELECT CompCode\r\n" +
+                $"    FROM ProgAuthGroupAccessComp\r\n" +
+                $"    WHERE AuthGroupCode = 'it22'    \r\n" +
+                $")\r\n" +
+                $"ORDER BY CompCode";
 
             JArray arrResponse = LabgeDatabase.SqlToJArray(sql);
             return Ok(arrResponse);
