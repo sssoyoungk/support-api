@@ -269,6 +269,11 @@ namespace supportsapi.labgenomics.com.Controllers.Preference
             return Ok(arrResponse);
         }
 
+        /// <summary>
+        /// 연동거래처 등록
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [Route("api/Preference/Authority/RegOrderComp")]
         public IHttpActionResult PostRegOrderComp([FromBody]JObject request)
         {
@@ -316,6 +321,9 @@ namespace supportsapi.labgenomics.com.Controllers.Preference
                 return Content(HttpStatusCode.BadRequest, objResponse);
             }
         }
+
+        /// <param name="compCode"></param>
+        /// <returns></returns>
 
         [Route("api/Preference/Authority/RegOrderComp")]
         public IHttpActionResult DeleteRegOrderComp(string compCode)
