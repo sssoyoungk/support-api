@@ -24,8 +24,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                 string sql;
 
                 if (request["RegKind"].ToString() == "W") //등록대기
-                {
-                    //속도 저하 이슈로 오더 수신을 스케줄러로 빼서 일괄 수신. 영업소는 이지스 서버에 접속하여 오더를 가져오는 동작을 하지 않음.                
+                {                    
                     //if (request["RegistOrder"] != null && Convert.ToBoolean(request["RegistOrder"]))
                     //{
                     //자료를 불러와서 테이블에 넣어준다.
@@ -46,7 +45,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                     }
 
                     sql +=
-                        $"AND ord_ymd  BETWEEN '{Convert.ToDateTime(request["BeginDate"]).ToString("yyyyMMdd")}' AND '{Convert.ToDateTime(request["EndDate"]).ToString("yyyyMMdd")}'\r\n" +
+                        $"AND ord_ymd BETWEEN '{Convert.ToDateTime(request["BeginDate"]).ToString("yyyyMMdd")}' AND '{Convert.ToDateTime(request["EndDate"]).ToString("yyyyMMdd")}'\r\n" +
                         $"AND sutak_sts is null";
 
                     DataTable dtOrder = new DataTable();
