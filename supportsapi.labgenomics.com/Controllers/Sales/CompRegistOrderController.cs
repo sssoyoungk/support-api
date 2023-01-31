@@ -46,7 +46,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 $"(\r\n" +
                 $"    SELECT CompCode\r\n" +
                 $"    FROM ProgAuthGroupAccessComp\r\n" +
-                $"    WHERE AuthGroupCode = 'it22'    \r\n" +
+                $"    WHERE AuthGroupCode = '{authGroup}'\r\n" +
                 $")\r\n" +
                 $"ORDER BY CompCode";
 
