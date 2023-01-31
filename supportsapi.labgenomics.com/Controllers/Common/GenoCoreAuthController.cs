@@ -13,17 +13,18 @@ namespace supportsapi.labgenomics.com.Controllers.Common
     {
         public IHttpActionResult Get()
         {
-            string genoCoreUrl = "http://api.genocorebs.com/auth";
+            string genoCoreUrl = "https://sapi.genocorebs.com/auth";
+            //string genoCoreUrl = "http://api.genocorebs.com/auth";
             string authToken = string.Empty;
             var client = new RestClient(genoCoreUrl);
             client.Timeout = -1;
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/json");
-            request.AddCookie("Cookie", "PHPSESSID=1ffokj5o56bqtahj5qq3p8hde2"); //저번에는 꼭 사용하여야했음. 혹시 몰라 추가
+            //request.AddCookie("Cookie", "PHPSESSID=1ffokj5o56bqtahj5qq3p8hde2"); //저번에는 꼭 사용하여야했음. 혹시 몰라 추가
 
             JObject jobj = new JObject();
             jobj.Add("x-id", "labgenomics");
-            jobj.Add("x-pw", "Foawlsh#226");
+            jobj.Add("x-pw", "Foawlsh#226@");
 
 
             request.AddParameter("application/json", jobj, ParameterType.RequestBody);
@@ -44,23 +45,14 @@ namespace supportsapi.labgenomics.com.Controllers.Common
                     }
                     
 
-                    authToken = recvjboj["token"].ToString();
+                    authToken = recvjboj["data"]["token"].ToString();
                     if (authToken == string.Empty)
                     {
                         receive.Add("message", recvjboj["message"].ToString());
                         receive.Add("code", recvjboj["code"].ToString());
                         return Ok(receive);
                     }
-
-                    DateTime dteTokenExpriedTime = DateTime.Parse(recvjboj["expiredTime"].ToString());
-
-                    if (dteTokenExpriedTime <= DateTime.Now)
-                    {
-                        receive.Add("message", recvjboj["message"].ToString());
-                        receive.Add("code", recvjboj["code"].ToString());
-                        receive.Add("authToken", recvjboj["token"].ToString());
-                        return Ok(receive);
-                    }
+                    
 
                     receive.Add("authToken", authToken);
                     return Ok(receive);
