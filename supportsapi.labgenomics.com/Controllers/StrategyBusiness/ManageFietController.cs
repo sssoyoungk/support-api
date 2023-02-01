@@ -79,6 +79,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                           $"  , Address = '{objRequest["Address"]}'\r\n" +
                           $"  , Address2 = '{objRequest["Address2"]}'\r\n" +
                           $"  , PatientRegNo = '{objRequest["PatientRegNo"]}'\r\n" +
+                          $"  , BirthDay = '{objRequest["PatientRegNo"]}'\r\n" +
                           $"  , EmailAddress = '{objRequest["EmailAddress"]}'\r\n" +
                           $"  , PhoneNumber = '{objRequest["PhoneNumber"]}'\r\n" +
                           $"  , AgreeGeneTest = '{objRequest["agreeGeneTest"]}'\r\n" +
