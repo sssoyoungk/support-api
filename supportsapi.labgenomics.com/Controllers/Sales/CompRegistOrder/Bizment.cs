@@ -158,7 +158,8 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                         sCodeSeq = node.Attributes["SCODESEQ"].Value.ToString();
                         bzCode = node.Attributes["BZCODE"].Value.ToString();
                         sbzCode = node.Attributes["SBZCODE"].Value.ToString();
-                        compRegDate = node.Attributes["CREDATE"].Value.ToString().Substring(0, 10);
+                        compRegDate = DateTime.Parse(node.Attributes["CREDATE"].Value.ToString()).ToString("yyyy-MM-dd");
+                        //compRegDate = node.Attributes["CREDATE"].Value.ToString().Substring(0, 10);
                         ocsName = node["OCSNAME"].InnerText;
 
                         string sql;
