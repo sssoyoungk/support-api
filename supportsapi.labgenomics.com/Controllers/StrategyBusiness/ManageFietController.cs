@@ -74,8 +74,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                 {
                     string sql;
                     sql = $"UPDATE PGSPatientInfo\r\n" +
-                          $"SET AgreeRequestTest = '{objRequest["AgreeRequestTest"]}'\r\n" +
-                          $"  , ZipCode = '{objRequest["ZipCode"]}'\r\n" +
+                          $"SET ZipCode = '{objRequest["ZipCode"]}'\r\n" +
                           $"  , Address = '{objRequest["Address"]}'\r\n" +
                           $"  , Address2 = '{objRequest["Address2"]}'\r\n" +
                           $"  , PatientRegNo = '{objRequest["PatientRegNo"]}'\r\n" +
@@ -83,6 +82,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                           $"  , EmailAddress = '{objRequest["EmailAddress"]}'\r\n" +
                           $"  , PhoneNumber = '{objRequest["PhoneNumber"]}'\r\n" +
                           $"  , AgreeGeneTest = '{objRequest["agreeGeneTest"]}'\r\n" +
+                          $"  , AgreeRequestTest = '{objRequest["agreeRequestTest"]}'\r\n" + 
                           $"  , AgreeLabgePrivacyPolicy = '{objRequest["agreeLabgePrivacyPolicy"]}'\r\n" +
                           $"  , AgreeThirdPartyOffer = '{objRequest["agreeThirdPartyOffer"]}'\r\n" +
                           $"  , AgreeSendResultEmail = '{objRequest["agreeSendResultEmail"]}'\r\n" +
