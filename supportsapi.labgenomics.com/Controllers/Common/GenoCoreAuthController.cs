@@ -13,8 +13,8 @@ namespace supportsapi.labgenomics.com.Controllers.Common
     {
         public IHttpActionResult Get()
         {
-            string genoCoreUrl = "https://sapi.genocorebs.com/auth";
-            //string genoCoreUrl = "http://api.genocorebs.com/auth";
+            string genoCoreUrl = "https://api.genocorebs.com/auth";
+            //string genoCoreUrl = "http://sapi.genocorebs.com/auth";
             string authToken = string.Empty;
             var client = new RestClient(genoCoreUrl);
             client.Timeout = -1;
