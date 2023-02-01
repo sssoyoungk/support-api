@@ -20,7 +20,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             {
                 sql =
                     $"SELECT\r\n" +
-                    $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.PatientRegNo, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.EmailAddress, \r\n" +
+                    $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, CONVERT(varchar, ppi.BirthDay, 23) as BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.EmailAddress, \r\n" +
                     $"    ppi.PhoneNumber, ppi.AgreeRequestTest, ppi.AgreePrivacyPolicy, ppi.AgreeLabgePrivacyPolicy ,ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.PrevTrackingNumber, ppi.PrevBarcode, ppi.TrackingNumber, ppi.ReshippedCode , ppi.Barcode, \r\n" +
                     $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo\r\n" +
                     $"FROM PGSPatientInfo ppi\r\n" +
@@ -37,7 +37,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             {
                 sql =
                     $"SELECT\r\n" +
-                    $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.PatientRegNo, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.EmailAddress, \r\n" +
+                    $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, CONVERT(varchar, ppi.BirthDay, 23) as BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.EmailAddress, \r\n" +
                     $"    ppi.PhoneNumber, ppi.AgreeRequestTest, ppi.AgreePrivacyPolicy, ppi.AgreeLabgePrivacyPolicy ,ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.PrevTrackingNumber, ppi.PrevBarcode, ppi.TrackingNumber, ppi.ReshippedCode , ppi.Barcode, \r\n" +
                     $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo, CONVERT(varchar(19), lrr.ReportTransEndTime, 21) AS ReportTransEndTime, ISNULL(lrr.IsReportTransEnd, 0) as IsReportTransEnd\r\n" +
                     $"FROM PGSPatientInfo ppi\r\n" +
@@ -79,7 +79,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                           $"  , Address = '{objRequest["Address"]}'\r\n" +
                           $"  , Address2 = '{objRequest["Address2"]}'\r\n" +
                           $"  , PatientRegNo = '{objRequest["PatientRegNo"]}'\r\n" +
-                          $"  , BirthDay = '{objRequest["PatientRegNo"]}'\r\n" +
+                          $"  , BirthDay = '{objRequest["BirthDay"]}'\r\n" +
                           $"  , EmailAddress = '{objRequest["EmailAddress"]}'\r\n" +
                           $"  , PhoneNumber = '{objRequest["PhoneNumber"]}'\r\n" +
                           $"  , AgreeGeneTest = '{objRequest["agreeGeneTest"]}'\r\n" +
