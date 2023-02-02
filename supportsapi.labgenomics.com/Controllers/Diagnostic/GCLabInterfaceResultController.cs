@@ -94,12 +94,12 @@ namespace supportsapi.labgenomics.com.Controllers.Diagnostic
                 //수진자 정보가 일치하지 않는 경우
                 else if (cmd.Parameters["@PatientName"].Value.ToString() != request["PatientName"].ToString())
                 {
-                    throw new Exception("수진자명 불일치");                    
+                    throw new Exception("수진자명 불일치");
                 }
                 else
                 {
                     string testCode = request["TestCode"].ToString();
-                    
+
                     if (Convert.ToBoolean(cmd.Parameters["@IsTestHeader"].Value) == true)
                         testCode += "01";
 
@@ -126,7 +126,7 @@ namespace supportsapi.labgenomics.com.Controllers.Diagnostic
                           $"AND LabRegNo = {request["LabRegNo"].ToString()}\r\n" +
                           $"AND TestCode = '{orderCode}'";
 
-                    LabgeDatabase.ExecuteSql(sql);                    
+                    LabgeDatabase.ExecuteSql(sql);
                 }
 
                 return Ok();
