@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 using supportsapi.labgenomics.com.Attributes;
 using supportsapi.labgenomics.com.Services;
@@ -53,7 +54,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
 
 
 
-        public IHttpActionResult Put([FromBody]JArray request)
+        public IHttpActionResult Put([FromBody]JObject request)
         {
             //업데이트
 
@@ -64,25 +65,27 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                 var client = new RestClient($"{apiUrl}");
                 client.Timeout = -1;
                 var requestKey = new RestRequest(Method.GET);
+                requestKey.AddHeader("Content-Type", "application/json");
+                requestKey.AddCookie("Cookie", "PHPSESSID=1ffokj5o56bqtahj5qq3p8hde2"); //저번에는 꼭 사용하여야했음. 혹시 몰라 추가
+
+                JObject jobj = new JObject();
+                jobj.Add("x-id", "labgenomics");
+                jobj.Add("x-pw", "Foawlsh#226@");
+
                 IRestResponse response = client.Execute(requestKey);
-                
+
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    JObject objResponse = JObject.Parse(response.Content);
-
-                    if (objResponse["code"].ToString() == "201" || objResponse["code"].ToString() == "200")
-                    {
-
-                        tokenKey = objResponse["TokenKey"].ToString();
-                    }
-                    else
-                    {
-                        throw new HttpException($"{objResponse["message"].ToString()}");
-                    }
+                    var recvObj = JsonConvert.DeserializeObject<JObject>(response.Content);
+                    tokenKey = recvObj["authToken"].ToString();
                 }
-                
+                else
+                {
+                    var recvObj = JsonConvert.DeserializeObject<JObject>(response.Content);
+                    throw new HttpException($"{recvObj["message"].ToString()}");
+                }
             }
-            catch(HttpException ex)
+            catch (HttpException ex)
             {
                 JObject objResponse = new JObject();
                 objResponse.Add("Status", ex.GetHttpCode());
@@ -91,34 +94,24 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                 return Content((HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), ex.GetHttpCode().ToString()), objResponse);
             }
 
-
-
-
             try
             {
-                foreach (JObject objRequest in request)
+                string sql;
+
+                sql = $"UPDATE PGSPatientInfo\r\n" +
+                      $" SET  =  EmailAddress = '{request["EmailAddress"]}' \r\n" +
+                      $"WHERE CompOrderNo = '{request["CompOrderNo"].ToString()}' AND CompOrderDate = '{request["CompOrderDate"].ToString()}' AND CustomerCode = 'GenoCore'";
+
+                if (!UpdateGenoCore(tokenKey, request["CompOrderNo"].ToString(), request["EmailAddress"].ToString(), out string status))
                 {
-                    string sql;
-
-                    sql = $"UPDATE PGSPatientInfo\r\n" +
-                          $" SET  =  EmailAddress = '{objRequest["EmailAddress"]}' \r\n" +
-                          $"WHERE CompOrderNo = '{objRequest["CompOrderNo"].ToString()}' AND CustomerCode = 'GenoCore'";
-                    if (Convert.ToBoolean((objRequest["IsGenoCoreSend"].ToString())))
-                    {
-                        if (!UpdateGenoCore(tokenKey, objRequest["CompOrderNo"].ToString(), objRequest["EmailAddress"].ToString(), out string status))
-                        {
-                            throw new Exception($"[{status}] GenoCoreSendERROR");
-                        }
-                        else
-                        {
-
-                        }
-                    }
-                    LabgeDatabase.ExecuteSql(sql);
-
-
+                    throw new Exception($"[{status}] GenoCoreSendERROR");
+                }
+                else
+                {
 
                 }
+                LabgeDatabase.ExecuteSql(sql);
+
                 return Ok();
             }
 
@@ -148,7 +141,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             string authToken = string.Empty;
             var client = new RestClient(genoCoreUrl);
             client.Timeout = -1;
-            var request = new RestRequest(Method.POST);
+            var request = new RestRequest(Method.PUT);
             request.AddHeader("Authorization", $"Bearer {tokenKey}");
             request.AddHeader("Content-Type", "application/json");
 
