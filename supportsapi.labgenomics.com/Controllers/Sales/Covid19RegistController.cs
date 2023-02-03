@@ -145,6 +145,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                   $"    ON pcc.CompCode = pagac.CompCode\r\n" +
                   $"    WHERE pagac.AuthGroupCode = '{authGroup}'\r\n" +
                   $")\r\n" +
+                  $"AND CompInstitutionNo <> ''\r\n" +
                   $"ORDER BY CompInstitutionNo\r\n";
             var arrResponse = LabgeDatabase.SqlToJArray(sql);
 
