@@ -61,12 +61,19 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             string tokenKey = string.Empty;
             try
             {
-                const string apiUrl = "https://supportsapi.labgenomics.com/api/Common/GenoCoreAuthority";
+#if DEBUG
+                string apiUrl = "http://localhost:34306/api/Common/GenoCoreAuthority";
+                //string apiUrl = "https://supportsapi.labgenomics.com/api/Common/GenoCoreAuthority";
+#else
+                string apiUrl = "https://supportsapi.labgenomics.com/api/Common/GenoCoreAuthority";
+#endif
+
+
                 var client = new RestClient($"{apiUrl}");
                 client.Timeout = -1;
                 var requestKey = new RestRequest(Method.GET);
                 requestKey.AddHeader("Content-Type", "application/json");
-                requestKey.AddCookie("Cookie", "PHPSESSID=1ffokj5o56bqtahj5qq3p8hde2"); //저번에는 꼭 사용하여야했음. 혹시 몰라 추가
+                //requestKey.AddCookie("Cookie", "PHPSESSID=1ffokj5o56bqtahj5qq3p8hde2"); //저번에는 꼭 사용하여야했음. 혹시 몰라 추가
 
                 JObject jobj = new JObject();
                 jobj.Add("x-id", "labgenomics");
