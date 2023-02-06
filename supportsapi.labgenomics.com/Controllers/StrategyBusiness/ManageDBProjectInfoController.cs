@@ -99,7 +99,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                 string sql;
 
                 sql = $"UPDATE PGSPatientInfo\r\n" +
-                      $" SET  =  EmailAddress = '{request["EmailAddress"]}' \r\n" +
+                      $" SET EmailAddress = '{request["EmailAddress"]}' \r\n" +
                       $"WHERE CompOrderNo = '{request["CompOrderNo"].ToString()}' AND CompOrderDate = '{request["CompOrderDate"].ToString()}' AND CustomerCode = 'GenoCore'";
 
                 if (!UpdateGenoCore(tokenKey, request["CompOrderNo"].ToString(), request["EmailAddress"].ToString(), out string status))
