@@ -238,6 +238,51 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
             return Ok(arrResponse);
         }
 
+        [Route("api/Sales/Covid19Regist/PersonMatchUsingPhone")]
+        public IHttpActionResult GetPersonMatchUsingPhone(string testKind, string compCode, DateTime labRegDate, string phoneNumber, string patientName)
+        {
+            string sql = string.Empty;
+
+            JArray arrResponse = new JArray();
+            if (testKind == "개별검사")
+            {
+                sql = $"SELECT LabRegNo\r\n" +
+                      $"FROM LabRegInfo\r\n" +
+                      $"WHERE LabRegDate = '{labRegDate.ToString("yyyy-MM-dd")}'\r\n" +
+                      $"AND PatientName = '{patientName}'\r\n" +
+                      $"AND SystemUniqID = '{phoneNumber.Replace("-", "")}'\r\n" +
+                      $"AND CompCode = '{compCode}'";
+                arrResponse = LabgeDatabase.SqlToJArray(sql);
+            }
+            else if (testKind == "취합검사")
+            {
+                sql = $"SELECT lri.LabRegNo, lrc.CustomCode\r\n" +
+                      $"FROM LabRegInfo lri\r\n" +
+                      $"JOIN LabRegCustom lrc\r\n" +
+                      $"ON lrc.LabRegDate = lri.LabRegDate\r\n" +
+                      $"AND lrc.LabRegNo = lri.LabRegNo\r\n" +
+                      $"AND lrc.CustomValue01 = '{patientName}'\r\n" +
+                      $"AND lrc.CustomValue02 = '{phoneNumber.Replace("-", "")}'\r\n" +
+                      $"WHERE lri.LabRegDate = '{labRegDate.ToString("yyyy-MM-dd")}'\r\n" +
+                      $"AND CompCode = '{compCode}'";
+                arrResponse = LabgeDatabase.SqlToJArray(sql);
+
+                //취합 개별의 경우로 개별접수 건을 확인한다.
+                if (arrResponse.Count == 0)
+                {
+                    sql = $"SELECT LabRegNo, '' AS CustomCode\r\n" +
+                          $"FROM LabRegInfo\r\n" +
+                          $"WHERE LabRegDate = '{labRegDate.ToString("yyyy-MM-dd")}'\r\n" +
+                          $"AND PatientName = '{patientName}'\r\n" +
+                          $"AND SystemUniqID = '{phoneNumber.Replace("-", "")}'\r\n" +
+                          $"AND CompCode = '{compCode}'";
+                    arrResponse = LabgeDatabase.SqlToJArray(sql);
+                }
+            }
+
+            return Ok(arrResponse);
+        }
+
         [Route("api/Sales/Covid19Regist/Excel")]
         public async Task<HttpResponseMessage> PostUploadFile()
         {
