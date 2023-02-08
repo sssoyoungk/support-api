@@ -156,7 +156,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             jobj.Add("email", email);
 
 
-            request.AddParameter("application/json", jobj, ParameterType.RequestBody);
+            request.AddParameter("application/json", jobj.ToString(), ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
             try
             {
@@ -164,8 +164,16 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     status = "OK";
-                    return true;
-
+                    var recvObj = JsonConvert.DeserializeObject<JObject>(response.Content);
+                    uint code = uint.Parse(recvObj["code"].ToString());
+                    if (code == 200 || code == 201)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
                 }
                 else if (Convert.ToInt32(response.StatusCode) == 0)
                 {
