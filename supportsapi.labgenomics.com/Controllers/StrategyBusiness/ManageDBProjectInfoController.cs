@@ -32,7 +32,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                 $"SELECT\r\n" +
                 $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.EmailAddress, \r\n" +
                 $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive, \r\n" +
-                $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis,  CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo, lrr.ReportTransEndTime, \r\n" +
+                $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.IsAgreeConsultation,  CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo, lrr.ReportTransEndTime, \r\n" +
                 $"    ppi.CompCode, pcc.CompName \r\n" +
                 $"FROM {infoTable} ppi\r\n" +
                 $"LEFT OUTER JOIN LabTransCompOrderInfo ltcoi\r\n" +
