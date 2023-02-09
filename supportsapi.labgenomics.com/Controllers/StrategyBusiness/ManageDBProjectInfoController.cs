@@ -33,13 +33,13 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                 $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.EmailAddress, \r\n" +
                 $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive, \r\n" +
                 $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis,  CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo, lrr.ReportTransEndTime, \r\n" +
-                $"    pcc.ClientCustomerName, pcc.ClientCustomerIdx, ppi.CompCode \r\n" +
+                $"    ppi.CompCode, pcc.CompName \r\n" +
                 $"FROM {infoTable} ppi\r\n" +
                 $"LEFT OUTER JOIN LabTransCompOrderInfo ltcoi\r\n" +
                 $"ON ltcoi.CompOrderDate = ppi.CompOrderDate\r\n" +
                 $"AND ltcoi.CompOrderNo = ppi.CompOrderNo\r\n" +
                 $"AND ltcoi.CompCode = ppi.CompCode\r\n" +
-                $"JOIN GenocoreCompCode pcc \r\n" +
+                $"JOIN ProgCompCode pcc \r\n" +
                 $"ON ppi.CompCode  = pcc.CompCode \r\n" +
                 $"LEFT OUTER JOIN LabRegReport lrr\r\n" +
                 $"ON ltcoi.LabRegDate = lrr.LabRegDate\r\n" +
