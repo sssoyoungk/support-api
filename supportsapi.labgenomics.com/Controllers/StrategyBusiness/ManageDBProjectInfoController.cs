@@ -18,7 +18,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
     [Route("api/StrategyBusiness/ManageDBProject")]
     public class ManageDBProjectInfoController : ApiController
     {
-        public IHttpActionResult Get(DateTime beginDate, DateTime endDate)
+        public IHttpActionResult Get(DateTime beginDate, DateTime endDate, string groupCode)
         {
 #if DEBUG
             string infoTable = "PGSPatientInfo";
@@ -29,23 +29,28 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
 
             string sql;
             sql =
-                $"SELECT\r\n" +
-                $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.EmailAddress, \r\n" +
-                $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive, \r\n" +
-                $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis,  CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo, lrr.ReportTransEndTime, \r\n" +
-                $"    pcc.ClientCustomerName, pcc.ClientCustomerIdx, ppi.CompCode \r\n" +
-                $"FROM {infoTable} ppi\r\n" +
-                $"LEFT OUTER JOIN LabTransCompOrderInfo ltcoi\r\n" +
-                $"ON ltcoi.CompOrderDate = ppi.CompOrderDate\r\n" +
-                $"AND ltcoi.CompOrderNo = ppi.CompOrderNo\r\n" +
-                $"AND ltcoi.CompCode = ppi.CompCode\r\n" +
-                $"JOIN GenocoreCompCode pcc \r\n" +
-                $"ON ppi.CompCode  = pcc.CompCode \r\n" +
-                $"LEFT OUTER JOIN LabRegReport lrr\r\n" +
-                $"ON ltcoi.LabRegDate = lrr.LabRegDate\r\n" +
-                $"AND ltcoi.LabRegNo = lrr.LabRegNo\r\n" +
-                $"WHERE ppi.CustomerCode = 'GenoCore'\r\n" +
-                $"AND ppi.CompOrderDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n";
+                $"SELECT\n" +
+                $"ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.EmailAddress,\n" +
+                $"ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive,\n" +
+                $"ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.IsAgreeConsultation,  CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo, lrr.ReportTransEndTime,\n" +
+                $"ppi.CompCode, pcc.CompName, pcgc.CompGroupName\n" +
+                $"FROM PGSPatientInfo ppi\n" +
+                $"LEFT OUTER JOIN LabTransCompOrderInfo ltcoi\n" +
+                $"ON ltcoi.CompOrderDate = ppi.CompOrderDate\n" +
+                $"AND ltcoi.CompOrderNo = ppi.CompOrderNo\n" +
+                $"AND ltcoi.CompCode = ppi.CompCode\n" +
+                $"JOIN ProgCompCode pcc\n" +
+                $"ON ppi.CompCode  = pcc.CompCode\n" +
+                $"JOIN ProgCompGroupCode pcgc\n" +
+                $"On pcgc.CompGroupCode = pcc.CompGroupCode\n" +
+                $"JOIN ProgAuthGroupAccessComp pagac\n" +
+                $"on pagac.CompCode = pcc.CompCode\n" +
+                $"LEFT OUTER JOIN LabRegReport lrr\n" +
+                $"ON ltcoi.LabRegDate = lrr.LabRegDate\n" +
+                $"AND ltcoi.LabRegNo = lrr.LabRegNo\n" +
+                $"WHERE ppi.CustomerCode = 'GenoCore'\n" +
+                $"AND ppi.CompOrderDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\n" +
+                $"AND pagac.AuthGroupCode = '{groupCode}'\n";
 
             JArray arrResponse = LabgeDatabase.SqlToJArray(sql);
             return Ok(arrResponse);
@@ -156,7 +161,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             jobj.Add("email", email);
 
 
-            request.AddParameter("application/json", jobj, ParameterType.RequestBody);
+            request.AddParameter("application/json", jobj.ToString(), ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
             try
             {
@@ -164,8 +169,16 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     status = "OK";
-                    return true;
-
+                    var recvObj = JsonConvert.DeserializeObject<JObject>(response.Content);
+                    uint code = uint.Parse(recvObj["code"].ToString());
+                    if (code == 200 || code == 201)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
                 }
                 else if (Convert.ToInt32(response.StatusCode) == 0)
                 {

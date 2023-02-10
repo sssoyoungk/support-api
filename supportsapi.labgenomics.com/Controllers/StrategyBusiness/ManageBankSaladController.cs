@@ -17,11 +17,15 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             if (mode == "Ordered") 
             {
                 sql =
-                    $"SELECT\r\n" +
+                    $"SELECT pi2.CompTestCode, pi2.CompTestName, \r\n" +
                     $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.EmailAddress, \r\n" +
                     $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.PrevTrackingNumber, ppi.PrevBarcode, ppi.TrackingNumber, ppi.ReshippedCode , ppi.AgreeThirdPartySensitive, ppi.Barcode, \r\n" +
                     $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo\r\n" +
                     $"FROM PGSPatientInfo ppi\r\n" +
+                    $"join PGSTestInfo pi2\n" +
+                    $"on pi2.CompOrderDate  = ppi.CompOrderDate\n" +
+                    $"and pi2.CompOrderNo  = ppi.CompOrderNo\n" +
+                    $"and pi2.CustomerCode = ppi.CustomerCode\n" +
                     $"LEFT OUTER JOIN LabTransCompOrderInfo ltcoi\r\n" +
                     $"ON ltcoi.CompOrderDate = ppi.CompOrderDate\r\n" +
                     $"AND ltcoi.CompOrderNo = ppi.CompOrderNo\r\n" +
@@ -34,11 +38,15 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             else if (mode == "remainder")
             {
                 sql =
-                    $"SELECT\r\n" +
+                    $"SELECT pi2.CompTestCode, pi2.CompTestName, \r\n" +
                     $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2,  ppi.EmailAddress, \r\n" +
                     $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive, ppi.ReshippedCode, ppi.PrevTrackingNumber, ppi.PrevBarcode, ppi.TrackingNumber, ppi.Barcode, \r\n" +
-                    $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo, CONVERT(varchar(19), lrr.ReportTransEndTime, 21) AS ReportTransEndTime, ISNULL(lrr.IsReportTransEnd, 0) as IsReportTransEnd \r\n" +
+                    $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo, CONVERT(varchar(19), lrr.ReportTransEndTime, 21) AS ReportTransEndTime, CONVERT(varchar(19), lrr.ReportEndTime, 21) AS ReportEndTime, ISNULL(lrr.IsReportTransEnd, 0) as IsReportTransEnd \r\n" +
                     $"FROM PGSPatientInfo ppi\r\n" +
+                    $"join PGSTestInfo pi2\n" +
+                    $"on pi2.CompOrderDate  = ppi.CompOrderDate\n"+
+                    $"and pi2.CompOrderNo  = ppi.CompOrderNo\n"+
+                    $"and pi2.CustomerCode = ppi.CustomerCode\n"+
                     $"LEFT OUTER JOIN LabTransCompOrderInfo ltcoi\r\n" +
                     $"ON ltcoi.CompOrderDate = ppi.CompOrderDate\r\n" +
                     $"AND ltcoi.CompOrderNo = ppi.CompOrderNo\r\n" +
@@ -55,11 +63,15 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             else
             {
                 sql =
-                    $"SELECT\r\n" +
+                    $"SELECT pi2.CompTestCode, pi2.CompTestName, \r\n" +
                     $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.CheckSendCollectReSample, ppi.EmailAddress, \r\n" +
                     $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive, ppi.ReshippedCode, ppi.PrevBarcode, ppi.TrackingNumber, ppi.Barcode, \r\n" +
                     $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo\r\n" +
                     $"FROM PGSPatientInfo ppi\r\n" +
+                    $"join PGSTestInfo pi2\n" +
+                    $"on pi2.CompOrderDate  = ppi.CompOrderDate\n" +
+                    $"and pi2.CompOrderNo  = ppi.CompOrderNo\n" +
+                    $"and pi2.CustomerCode = ppi.CustomerCode\n" +
                     $"LEFT OUTER JOIN LabTransCompOrderInfo ltcoi\r\n" +
                     $"ON ltcoi.CompOrderDate = ppi.CompOrderDate\r\n" +
                     $"AND ltcoi.CompOrderNo = ppi.CompOrderNo\r\n" +
