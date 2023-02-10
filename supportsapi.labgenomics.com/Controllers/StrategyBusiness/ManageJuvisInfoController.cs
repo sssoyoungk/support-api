@@ -34,7 +34,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                   $"ON ltcoi.LabRegDate = lrr.LabRegDate\r\n" +
                   $"AND ltcoi.LabRegNo = lrr.LabRegNo\r\n" +
                   $"WHERE ppi.CompOrderDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
-                  $"AND ppi.CustomerCode = 'Juvis'";
+                  $"AND ppi.CustomerCode = 'juvis'";
 
             JArray arrResponse = LabgeDatabase.SqlToJArray(sql);
             return Ok(arrResponse);
