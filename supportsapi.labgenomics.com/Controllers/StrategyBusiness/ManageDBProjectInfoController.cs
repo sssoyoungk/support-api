@@ -32,8 +32,11 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                 $"SELECT\n" +
                 $"ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.EmailAddress,\n" +
                 $"ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive,\n" +
-                $"ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.IsAgreeConsultation,  CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo, lrr.ReportTransEndTime,\n" +
-                $"ppi.CompCode, pcc.CompName, pcgc.CompGroupName\n" +
+                $"ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.IsAgreeConsultation,  CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo, lrr.IsReportTransEnd, CONVERT(varchar(19), lrr.ReportTransEndTime, 21) AS ReportTransEndTime,\n" +
+                $"ppi.CompCode, pcc.CompName, pcgc.CompGroupName, " +
+                $"(CASE WHEN ltcoi.ResultSendState is null then CONVERT(BIT, 0) " +
+                $"WHEN ltcoi.ResultSendState != 'Y' then CONVERT(BIT, 0) " +
+                $"ELSE CONVERT(BIT, 1) END) AS ResultSendState  \n" +
                 $"FROM PGSPatientInfo ppi\n" +
                 $"LEFT OUTER JOIN LabTransCompOrderInfo ltcoi\n" +
                 $"ON ltcoi.CompOrderDate = ppi.CompOrderDate\n" +
