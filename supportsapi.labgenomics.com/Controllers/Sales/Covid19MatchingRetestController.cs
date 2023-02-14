@@ -1,11 +1,15 @@
 ﻿using Newtonsoft.Json.Linq;
+using supportsapi.labgenomics.com.Attributes;
 using supportsapi.labgenomics.com.Services;
 using System;
 using System.Net;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace supportsapi.labgenomics.com.Controllers.Sales
 {
+    [SupportsAuth]
+    [EnableCors(origins: "*", headers: "*", methods: "*", PreflightMaxAge = 28800)]
     [Route("api/Sales/Covid19MatchingRetest")]
     public class Covid19MatchingRetestController : ApiController
     {
@@ -82,9 +86,35 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
         }
 
         // PUT api/<controller>/5
-        public IHttpActionResult Put(JObject objRequest)            
+        public IHttpActionResult Put(JObject objRequest)
         {
-            return Ok();
+            try
+            {
+                string sql;
+
+                sql =
+                    $"UPDATE LabRegInfo\r\n" +
+                    $"SET PatientJuminNo01 = '{objRequest["PatientJuminNo01"].ToString()}',\r\n" +
+                    $"    SystemUniqID = '{objRequest["SampleNo"].ToString()}',\r\n" +
+                    $"    IsTrustOrder = 1,\r\n" +
+                    $"    CenterCode = 'Covid19Excel\r\n'" +
+                    $"WHERE LabRegDate = '{objRequest["LabRegDate"].ToString()}'\r\n" +
+                    $"AND LabRegNo = {objRequest["LabRegNo"].ToString()}\r\n" +
+                    $"\r\n" +
+                    $"UPDATE Covid19Order\r\n" +
+                    $"SET ExportDateTime = null\r\n" +
+                    $"WHERE SampleNo = '{objRequest["SampleNo"].ToString()}'";
+
+                LabgeDatabase.ExecuteSql(sql);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                JObject objResponse = new JObject();
+                objResponse.Add("Status", Convert.ToInt32(HttpStatusCode.BadRequest));
+                objResponse.Add("Message", ex.Message);
+                return Content(HttpStatusCode.BadRequest, objResponse);
+            }
         }
     }
 }
