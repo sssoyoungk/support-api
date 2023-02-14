@@ -67,6 +67,12 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                   $"WHERE lri.LabRegDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
                   $"AND ISNULL(lrr.TestResult01, '') <> ''\r\n" +
                   $"AND lri.CenterCode IN ('Covid19Excel', 'Covid19API')\r\n";
+
+            //울산 김태은 소장 요청으로 6597거래처는 전체조회 조건에서 제외한다.
+            if (beginDate.ToString("yyyy-MM-dd") == "2021-07-26")
+            {
+                sql += "AND lri.CompCode <> '6597'\r\n";
+            }
             
             if (Request.Headers.Contains("GroupCode"))
             {
