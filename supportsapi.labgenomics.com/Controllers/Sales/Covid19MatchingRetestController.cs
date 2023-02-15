@@ -14,7 +14,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
     public class Covid19MatchingRetestController : ApiController
     {
         [Route("api/Sales/Covid19MatchingRetest/UnmatchingList")]
-        public IHttpActionResult GetUnmatchingList(DateTime beginDate, DateTime endDate)
+        public IHttpActionResult GetUnmatchingList(DateTime beginDate, DateTime endDate, string groupCode)
         {
             try
             {
@@ -31,6 +31,12 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                     $"WHERE lri.LabRegDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
                     $"AND lrt.OrderCode = '22053'\r\n" +
                     $"AND LEN(lri.SystemUniqID) <> 25\r\n" +
+                    $"AND lri.CompCode IN\r\n" +
+                    $"(\r\n" +
+                    $"    SELECT CompCode\r\n" +
+                    $"    FROM ProgAuthGroupAccessComp\r\n" +
+                    $"    WHERE AuthGroupCode = '{groupCode}'\r\n" +
+                    $")\r\n" +
                     $"ORDER BY lri.LabRegDate, lri.LabRegNo";
                 JArray arrResponse = LabgeDatabase.SqlToJArray(sql);
 
@@ -52,7 +58,10 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
             {
                 string sql;
                 sql =
-                    $"SELECT lri.LabRegDate, lri.LabRegNo, lri.PatientName, lrc.CustomValue01, lrc.CustomValue02, lri.CompCode, pcc.CompInstitutionNo, lrr.TestResult01\r\n" +
+                    $"SELECT\r\n" +
+                    $"    lri.LabRegDate, lri.LabRegNo, lri.PatientName, lrc.CustomValue01, lrc.CustomValue02, lri.CompCode, pcc.CompInstitutionNo, lrr.TestResult01,\r\n" +
+                    $"    REPLACE(SUBSTRING(CustomValue02, 1, CHARINDEX(';', CustomValue02)), ';', '') AS BirthDay,\r\n" +
+                    $"    REPLACE(SUBSTRING(CustomValue02, CHARINDEX(';', CustomValue02), 25), ';', '') AS SampleNo\r\n" +
                     $"FROM LabRegInfo lri\r\n" +
                     $"JOIN LabRegCustom lrc\r\n" +
                     $"ON lri.LabRegDate = lrc.LabRegDate\r\n" +
@@ -71,7 +80,8 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                     $"WHERE lrr.TestResult01 <> 'Negative'\r\n" +
                     $"AND lri.CompCode = '{compCode}'\r\n" +
                     $"AND lri.LabRegDate BETWEEN DATEADD(day, -1, '{labRegDate.ToString("yyyy-MM-dd")}') AND '{labRegDate.ToString("yyyy-MM-dd")}'\r\n" +
-                    $"AND lrc.CustomValue01 = '{patientName}'";
+                    $"AND lrc.CustomValue01 = '{patientName}'" +
+                    $"AND LEN(lrc.CustomValue02) > 25";
                 var arrResponse = LabgeDatabase.SqlToJArray(sql);
 
                 return Ok(arrResponse);
