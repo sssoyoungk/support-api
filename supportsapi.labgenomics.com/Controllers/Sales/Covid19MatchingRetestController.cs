@@ -18,7 +18,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
         {
             try
             {
-                string sql;
+                string sql; 
                 sql =
                     $"SELECT CONVERT(varchar, lri.LabRegdate, 23) AS LabRegDate, lri.LabRegNo, lri.PatientName, lri.PatientJuminNo01, lri.PatientChartNo, lri.SystemUniqID, lri.CenterCode,\r\n" +
                     $"       lri.CompCode, pcc.CompName, pcc.CompInstitutionNo, '' AS SampleNo\r\n" +
