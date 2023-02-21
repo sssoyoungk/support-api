@@ -61,7 +61,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                     $"SELECT\r\n" +
                     $"    lri.LabRegDate, lri.LabRegNo, lri.PatientName, lrc.CustomValue01, lrc.CustomValue02, lri.CompCode, pcc.CompInstitutionNo, lrr.TestResult01,\r\n" +
                     $"    REPLACE(SUBSTRING(CustomValue02, 1, CHARINDEX(';', CustomValue02)), ';', '') AS BirthDay,\r\n" +
-                    $"    REPLACE(SUBSTRING(CustomValue02, CHARINDEX(';', CustomValue02), 25) + 1, ';', '') AS SampleNo\r\n" +
+                    $"    REPLACE(SUBSTRING(CustomValue02, CHARINDEX(';', CustomValue02) + 1, 25), ';', '') AS SampleNo\r\n" +
                     $"FROM LabRegInfo lri\r\n" +
                     $"JOIN LabRegCustom lrc\r\n" +
                     $"ON lri.LabRegDate = lrc.LabRegDate\r\n" +
