@@ -313,9 +313,18 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                       $"WHERE CompCode = '{request["CompCode"].ToString()}'\r\n" +
                       $"AND CompOrderDate = '{request["CompOrderDate"].ToString()}'\r\n" +
                       $"AND CompOrderNo = '{request["CompOrderNo"].ToString()}'\r\n" +
-                      $"AND CompTestCode = '{request["CompTestCode"].ToString()}'";
-                LabgeDatabase.ExecuteSql(sql);
+                      $"AND CompTestCode = '{request["CompTestCode"].ToString()}'";                
             }
+            else if (request["TransKind"].ToString() == "Bizment")
+            {
+                sql = $"UPDATE RsltTransBizmentOrder\r\n" +
+                      $"SET CompCode = '{request["ChangeCompCode"].ToString()}'\r\n" +
+                      $"WHERE CompCode = '{request["CompCode"].ToString()}'\r\n" +
+                      $"AND WNO = '{request["CompOrderDate"].ToString()}'\r\n" +
+                      $"AND ONO = '{request["CompOrderNo"].ToString()}'\r\n" +
+                      $"AND BZCODE = '{request["CompTestCode"].ToString()}'";
+            }
+            LabgeDatabase.ExecuteSql(sql);
             return Ok();
         }
 
