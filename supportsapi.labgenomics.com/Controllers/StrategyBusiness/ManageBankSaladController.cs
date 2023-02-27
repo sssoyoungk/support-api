@@ -11,9 +11,15 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
     public class ManageBankSaladController : ApiController
     {
         // GET api/<controller>
-        public IHttpActionResult Get(DateTime beginDate, DateTime endDate, string mode)
+        public IHttpActionResult Get(DateTime beginDate, DateTime endDate, string mode, string testCode = "")
         {
             string sql;
+            string subQuery = "";
+            if (testCode != null && testCode != string.Empty)
+            {
+                subQuery = $"AND pi2.CompTestCode = '{testCode}' \r\n";
+            }
+
             if (mode == "Ordered") 
             {
                 sql =
@@ -31,6 +37,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                     $"AND ltcoi.CompOrderNo = ppi.CompOrderNo\r\n" +
                     $"AND ltcoi.CompCode = ppi.CompCode\r\n" +
                     $"WHERE ppi.CustomerCode = 'banksalad'\r\n" +
+                    $"{subQuery}" +
                     $"AND ppi.CompOrderDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
                     $"AND (ppi.Server <> 'Develop' or ppi.Server is null)\r\n" +
                     $"AND ppi.OrderStatus = 'Ordered'";
@@ -55,6 +62,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                     $"ON lrr.LabRegDate = ltcoi.LabRegDate\n" +
                     $"AND lrr.LabRegNo  = ltcoi.LabRegNo\n" +
                     $"WHERE ppi.CustomerCode = 'banksalad'\r\n" +
+                    $"{subQuery}" +
                     $"AND ppi.CompOrderDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
                     $"AND (ppi.Server <> 'Develop' or ppi.Server is null)\r\n" +
                     $"AND ppi.OrderStatus != 'Ordered'\r\n" +
@@ -65,7 +73,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                 sql =
                     $"SELECT pi2.CompTestCode, pi2.CompTestName, \r\n" +
                     $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.CheckSendCollectReSample, ppi.EmailAddress, \r\n" +
-                    $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive, ppi.ReshippedCode, ppi.PrevBarcode, ppi.TrackingNumber, ppi.Barcode, \r\n" +
+                    $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive, ppi.ReshippedCode, ppi.PrevBarcode, ppi.PrevTrackingNumber, ppi.TrackingNumber, ppi.Barcode, \r\n" +
                     $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo\r\n" +
                     $"FROM PGSPatientInfo ppi\r\n" +
                     $"join PGSTestInfo pi2\n" +
@@ -77,6 +85,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                     $"AND ltcoi.CompOrderNo = ppi.CompOrderNo\r\n" +
                     $"AND ltcoi.CompCode = ppi.CompCode\r\n" +
                     $"WHERE ppi.CustomerCode = 'banksalad'\r\n" +
+                    $"{subQuery}" +
                     $"AND ppi.CompOrderDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
                     $"AND (ppi.Server <> 'Develop' or ppi.Server is null)\r\n" +
                     $"AND ppi.OrderStatus in('Returned', 'Reshipped') AND ppi.PrevBarcode != '' \r\n" +

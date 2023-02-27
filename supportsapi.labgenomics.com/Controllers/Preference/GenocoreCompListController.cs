@@ -95,7 +95,7 @@ namespace supportsapi.labgenomics.com.Controllers.Preference
                 string sql;
                 sql =
                     $"UPDATE GenocoreCompCode\r\n" +
-                    $"SET CompCode = '{request["CompCode"].ToString()}'\r\n" +
+                    $"SET CompCode = '{request["CompCode"].ToString()}', RegistMemberID = '{request["MemberID"].ToString()}', RegistDateTime = '{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}' \r\n" +
                     $"WHERE ClientCustomerIdx = '{request["ClientCustomerIdx"].ToString()}'";
 
                 LabgeDatabase.ExecuteSql(sql);
