@@ -66,6 +66,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                     $"JOIN LabRegCustom lrc\r\n" +
                     $"ON lri.LabRegDate = lrc.LabRegDate\r\n" +
                     $"AND lri.LabRegNo = lrc.LabRegNo\r\n" +
+                    $"AND lrc.CustomCode IN ('5401', '5402', '5403', '5404', '5405')\r\n" +
                     $"JOIN LabRegTest lrt\r\n" +
                     $"ON lrt.LabRegDate = lri.LabRegDate\r\n" +
                     $"AND lrt.LabRegNo = lri.LabRegNo\r\n" +
