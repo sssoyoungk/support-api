@@ -96,7 +96,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                     ExcelOrder excelOrder = new ExcelOrder();
                     arrayResponse = excelOrder.GetOrder(objRequest);
                 }
-                //PGS(보험사제노팩), 뱅크샐러드
+                //PGS(보험사제노팩)
                 else if (objRequest["TransKind"].ToString() == "PGS")
                 {
                     PGS pgs = new PGS();
@@ -116,6 +116,12 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 }
                 //뱅크샐러드
                 else if (objRequest["TransKind"].ToString() == "Banksalad")
+                {
+                    BankSalad bankSalad = new BankSalad();
+                    arrayResponse = bankSalad.GetOrder(objRequest);
+                }
+                //아모레 퍼시픽
+                else if (objRequest["TransKind"].ToString() == "AmorePacific")
                 {
                     BankSalad bankSalad = new BankSalad();
                     arrayResponse = bankSalad.GetOrder(objRequest);

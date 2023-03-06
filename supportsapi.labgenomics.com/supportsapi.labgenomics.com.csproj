@@ -290,6 +290,7 @@
     <Compile Include="Controllers\Sales\BizmentMappingController.cs" />
     <Compile Include="Controllers\Sales\BizmentResultController.cs" />
     <Compile Include="Controllers\Sales\CheckListController.cs" />
+    <Compile Include="Controllers\Sales\CompRegistOrder\AmorePacific.cs" />
     <Compile Include="Controllers\Sales\CompRegistOrder\BankSalad.cs" />
     <Compile Include="Controllers\Sales\CompRegistOrder\GenoCore.cs" />
     <Compile Include="Controllers\Sales\Covid19MatchingRetestController.cs" />
@@ -321,6 +322,7 @@
     <Compile Include="Controllers\Sales\SHHPathOrderController.cs" />
     <Compile Include="Controllers\Sales\SHHPathResultController.cs" />
     <Compile Include="Controllers\Sales\SungmoPathOrderController.cs" />
+    <Compile Include="Controllers\StrategyBusiness\ManageAmorePacificController.cs" />
     <Compile Include="Controllers\StrategyBusiness\ManageFietController.cs" />
     <Compile Include="Controllers\StrategyBusiness\ManageBankSaladController.cs" />
     <Compile Include="Controllers\StrategyBusiness\ManageJuvisInfoController.cs" />
