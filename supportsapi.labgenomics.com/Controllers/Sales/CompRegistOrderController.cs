@@ -123,8 +123,8 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 //아모레 퍼시픽
                 else if (objRequest["TransKind"].ToString() == "AmorePacific")
                 {
-                    BankSalad bankSalad = new BankSalad();
-                    arrayResponse = bankSalad.GetOrder(objRequest);
+                    AmorePacific amorePacific = new AmorePacific();
+                    arrayResponse = amorePacific.GetOrder(objRequest);
                 }
                 //제노코어
                 else if (objRequest["TransKind"].ToString() == "Genocore")
