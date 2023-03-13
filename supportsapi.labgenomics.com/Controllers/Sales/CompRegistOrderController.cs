@@ -380,7 +380,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
         [Route("api/Sales/CompRegistOrder/RegistOsbOrders")]
         public IHttpActionResult PutRegistOsbOrders([FromBody]JObject objRequest)
         {
-            string sql = string.Empty;
+            string sql;
             sql =
                 $"UPDATE OsbOrders\r\n" +
                 $"SET\r\n" +
