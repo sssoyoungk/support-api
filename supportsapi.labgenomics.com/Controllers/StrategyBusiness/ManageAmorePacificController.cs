@@ -1,15 +1,15 @@
 ﻿using Newtonsoft.Json.Linq;
+using supportsapi.labgenomics.com.Attributes;
 using supportsapi.labgenomics.com.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 
 namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
 {
+    [SupportsAuth]
+    [Route("api/StrategyBusiness/ManageAmorePacific")]
     public class ManageAmorePacificController : ApiController
     {
         /// <summary>
@@ -109,5 +109,29 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
 
         }
 
+        [Route("api/StrategyBusiness/ManageAmorePacific/CancelOrder")]
+        public IHttpActionResult PutCancelOrder(JObject objRequest)
+        {
+            try
+            {
+                string sql;
+                sql =
+                    $"UPDATE PGSPatientInfo\r\n" +
+                    $"SET OrderStatus = 'Canceled'\r\n" +
+                    $"WHERE CompOrderDate = '{Convert.ToDateTime(objRequest["CompOrderDate"]).ToString("yyyy-MM-dd")}'\r\n" +
+                    $"AND CompOrderNo = '{objRequest["CompOrderNo"]}'\r\n" +
+                    $"AND CustomerCode = 'amorepacific'";
+                LabgeDatabase.ExecuteSql(sql);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                JObject objResponse = new JObject();
+                objResponse.Add("Status", Convert.ToInt32(HttpStatusCode.BadRequest));
+                objResponse.Add("Message", ex.Message);
+                return Content(HttpStatusCode.BadRequest, objResponse);
+            }
+        }
     }
 }
