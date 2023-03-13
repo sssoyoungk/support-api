@@ -64,6 +64,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                   $"ON lri.LabRegDate = lrc.LabRegDate\r\n" +
                   $"AND lri.LabRegNo = lrc.LabRegNo\r\n" +
                   $"AND lrc.CustomValue02 LIKE '%' + covidOrder.SampleNo\r\n" +
+                  $"AND lrc.CustomCode IN ('5401', '5402', '5403', '5404', '5405')\r\n" +
                   $"WHERE lri.LabRegDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
                   $"AND ISNULL(lrr.TestResult01, '') <> ''\r\n" +
                   $"AND lri.CenterCode IN ('Covid19Excel', 'Covid19API')\r\n";
