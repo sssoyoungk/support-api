@@ -65,7 +65,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                   $"AND lri.LabRegNo = lrc.LabRegNo\r\n" +
                   $"AND lrc.CustomValue02 LIKE '%' + covidOrder.SampleNo\r\n" +
                   $"AND lrc.CustomCode IN ('5401', '5402', '5403', '5404', '5405')\r\n" +
-                  $"WHERE lri.LabRegDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
+                  $"WHERE lri.LabRegDate BETWEEN '{beginDate:yyyy-MM-dd} ' AND ' {endDate:yyyy-MM-dd}'\r\n" +
                   $"AND ISNULL(lrr.TestResult01, '') <> ''\r\n" +
                   $"AND lri.CenterCode IN ('Covid19Excel', 'Covid19API')\r\n";
 
@@ -122,7 +122,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 //개별검사면서 Positive나 Inconclusive이면 텍스트 결과 가져옴
                 if (new[] { "1", "3" }.Contains(dr["Result"].ToString()))
                 {
-                    sql = $"SELECT RdRp, Ngene FROM dbo.FN_GetCovidTextResult('{Convert.ToDateTime(dr["LabRegDate"]).ToString("yyyy-MM-dd")}', '{dr["LabRegNo"].ToString()}')";
+                    sql = $"SELECT RdRp, Ngene FROM dbo.FN_GetCovidTextResult('{Convert.ToDateTime(dr["LabRegDate"]):yyyy-MM-dd}', '{dr["LabRegNo"]}')";
                     JObject objTestResult = LabgeDatabase.SqlToJObject(sql);
                     if (objTestResult.HasValues)
                     {
@@ -134,7 +134,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 if (dr["TestKind"].ToString() == "2" && new[] { "1", "3" }.Contains(dr["Result"].ToString()))
                 {
                     sql = $"SELECT LabRegReportID, Result, RdRp, Ngene FROM dbo.FN_GetCovidReTestResult" +
-                          $"('{Convert.ToDateTime(dr["LabRegDate"]).ToString("yyyy-MM-dd")}', '{dr["LabRegNo"].ToString()}', '{dr["SampleNo"].ToString()}')";
+                          $"('{Convert.ToDateTime(dr["LabRegDate"]).ToString("yyyy-MM-dd")}', '{dr["LabRegNo"]}', '{dr["SampleNo"]}')";
                     JObject objReTestResult = LabgeDatabase.SqlToJObject(sql);
                     if (objReTestResult.HasValues)
                     {
@@ -206,12 +206,12 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
 
                 foreach (JObject objSampleNo in objRequest["Samples"])
                 {
-                    sql += $"INSERT INTO #Covid19SampleNo SELECT '{objSampleNo["SampleNo"].ToString()}'\r\n";
+                    sql += $"INSERT INTO #Covid19SampleNo SELECT '{objSampleNo["SampleNo"]}'\r\n";
                 }
 
                 sql += $"UPDATE Covid19Order\r\n" +
                        $"SET ExportDateTime = GETDATE()\r\n" +
-                       $"  , ExportMemberID = '{objRequest["MemberID"].ToString()}'\r\n" +
+                       $"  , ExportMemberID = '{objRequest["MemberID"]}'\r\n" +
                        $"WHERE SampleNo IN (SELECT SampleNo FROM #Covid19SampleNo)\r\n" +
                        $"\r\n" +
                        $"DROP TABLE #Covid19SampleNo";
@@ -247,7 +247,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                    $"AND co.LabRegNo = lrr.LabRegNo\r\n" +
                    $"AND co.TestKind = '취합검사'\r\n" +
                    $"AND co.ExportDateTime IS NULL\r\n" +
-                   $"WHERE lrr.LabRegDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
+                   $"WHERE lrr.LabRegDate BETWEEN '{beginDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'\r\n" +
                    $"AND lrr.TestCode IN ('22036', '22053', '22062', '22063', '22064', '22065')\r\n" +
                    $"AND lrr.TestResult01 <> 'Negative'\r\n" +
                    $"ORDER BY LabRegDate, LabRegNo\r\n";
@@ -263,7 +263,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
         [Route("api/Sales/Covid19ResultExport/API")]
         public IHttpActionResult PostAPIRegistResult(JObject objRequest)
         {
-            string sql = string.Empty;
+            string sql;
 
             string covidUrl = "https://covid19.kdca.go.kr/api/pi/setIrResultList";
 
@@ -288,10 +288,10 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                     foreach (JObject objFail in arrFails)
                     {
                         sql = $"UPDATE Covid19Order\r\n" +
-                              $"SET APIErrorCode = '{objFail["failrCd"].ToString()}'\r\n" +
+                              $"SET APIErrorCode = '{objFail["failrCd"]}'\r\n" +
                               $"  , ExportDateTime = GETDATE()\r\n" +
-                              $"  , ExportMemberID = '{objRequest["MemberID"].ToString()}'\r\n" +
-                              $"WHERE SampleNo = '{objFail["spmNo"].ToString()}'";
+                              $"  , ExportMemberID = '{objRequest["MemberID"]}'\r\n" +
+                              $"WHERE SampleNo = '{objFail["spmNo"]}'";
                         LabgeDatabase.ExecuteSql(sql);
                     }
 
@@ -324,7 +324,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 string sql;
                 sql = $"UPDATE Covid19Order\r\n" +
                       $"SET IsSendSMS = 1\r\n" +
-                      $"WHERE SampleNo = '{request["SampleNo"].ToString()}'";
+                      $"WHERE SampleNo = '{request["SampleNo"]}'";
                 LabgeDatabase.ExecuteSql(sql);
 
                 return Ok();
