@@ -4,7 +4,6 @@ using Newtonsoft.Json.Linq;
 using RestSharp;
 using supportsapi.labgenomics.com.Services;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.IO;
@@ -32,7 +31,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                       $"     , FLOOR(CAST(DATEDIFF(DAY, covidOrder.BirthDay, GETDATE()) AS Integer) / 365.2422) AS Age\r\n" +
                       $"     , covidOrder.PhoneNo, '' AS PatientChartNo, covidOrder.CheckDateTime\r\n" +
                       $"FROM Covid19Order AS covidOrder\r\n" +
-                      $"WHERE covidOrder.CompOrderDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
+                      $"WHERE covidOrder.CompOrderDate BETWEEN '{beginDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'\r\n" +
                       $"AND covidOrder.TestKind = '{testKind}'\r\n";
                 if (institutionNo != string.Empty)
                 {
@@ -59,7 +58,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                     sql += $"AND covidOrder.CompInstitutionNo = '{institutionNo}'\r\n";
                 }
                 sql += $"AND lri.CompCode = '{compCode}'\r\n" +
-                       $"WHERE covidOrder.CompOrderDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
+                       $"WHERE covidOrder.CompOrderDate BETWEEN '{beginDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'\r\n" +
                        $"AND covidOrder.LabRegDate IS NOT NULL\r\n" +
                        $"AND covidOrder.LabRegNo IS NOT NULL\r\n" +
                        $"AND covidOrder.TestKind = '{testKind}'\r\n";
@@ -69,13 +68,13 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
             return Ok(arrResponse);
         }
 
-        public IHttpActionResult Post([FromBody]JObject request)
+        public IHttpActionResult Post([FromBody] JObject request)
         {
             string sql;
             sql = $"UPDATE Covid19Order\r\n" +
-                  $"SET LabRegDate = '{Convert.ToDateTime(request["LabRegDate"]).ToString("yyyy-MM-dd")}'\r\n" +
-                  $"  , LabRegNo = '{request["LabRegNo"].ToString()}'\r\n" +
-                  $"WHERE SampleNo = '{request["SampleNo"].ToString()}'";
+                  $"SET LabRegDate = '{Convert.ToDateTime(request["LabRegDate"]):yyyy-MM-dd}'\r\n" +
+                  $"  , LabRegNo = '{request["LabRegNo"]}'\r\n" +
+                  $"WHERE SampleNo = '{request["SampleNo"]}'";
             LabgeDatabase.ExecuteSql(sql);
 
 
@@ -84,8 +83,8 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 sql = $"UPDATE LabRegInfo\r\n" +
                       $"SET CenterCode = 'Covid19Excel'\r\n" +
                       $"  , IsTrustOrder = 1\r\n" +
-                      $"  , SystemUniqID = '{request["SampleNo"].ToString()}'\r\n" +
-                      $"WHERE LabRegDate = '{Convert.ToDateTime(request["LabRegDate"]).ToString("yyyy-MM-dd")}'\r\n" +
+                      $"  , SystemUniqID = '{request["SampleNo"]}'\r\n" +
+                      $"WHERE LabRegDate = '{Convert.ToDateTime(request["LabRegDate"]):yyyy-MM-dd}'\r\n" +
                       $"AND LabRegNo = {request["LabRegNo"]}";
                 LabgeDatabase.ExecuteSql(sql);
             }
@@ -94,13 +93,13 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 sql = $"UPDATE LabRegInfo\r\n" +
                       $"SET CenterCode = 'Covid19Excel'\r\n" +
                       $"  , IsTrustOrder = 1\r\n" +
-                      $"WHERE LabRegDate = '{Convert.ToDateTime(request["LabRegDate"]).ToString("yyyy-MM-dd")}'\r\n" +
+                      $"WHERE LabRegDate = '{Convert.ToDateTime(request["LabRegDate"]):yyyy-MM-dd}'\r\n" +
                       $"AND LabRegNo = {request["LabRegNo"]}";
                 LabgeDatabase.ExecuteSql(sql);
 
                 sql = $"MERGE INTO LabRegCustom AS target\r\n" +
-                      $"USING (SELECT '{Convert.ToDateTime(request["LabRegDate"]).ToString("yyyy-MM-dd")}' AS LabRegDate,\r\n" +
-                      $"              {request["LabRegNo"].ToString()} AS LabRegNo, '{request["CustomCode"].ToString()}' AS CustomCode) AS source\r\n" +
+                      $"USING (SELECT '{Convert.ToDateTime(request["LabRegDate"]):yyyy-MM-dd}' AS LabRegDate,\r\n" +
+                      $"              {request["LabRegNo"]} AS LabRegNo, '{request["CustomCode"]}' AS CustomCode) AS source\r\n" +
                       $"ON target.LabRegDate = source.LabRegDate AND target.LabRegNo = source.LabRegNo AND target.CustomCode = source.CustomCode\r\n" +
                       $"WHEN NOT MATCHED THEN\r\n" +
                       $"    INSERT\r\n" +
@@ -110,15 +109,15 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                       $"    )\r\n" +
                       $"    VALUES\r\n" +
                       $"    (\r\n" +
-                      $"        '{Convert.ToDateTime(request["LabRegDate"]).ToString("yyyy-MM-dd")}', '{request["LabRegNo"].ToString()}',\r\n" +
-                      $"        '{request["CustomCode"].ToString()}', '{request["CustomValue01"].ToString()}',\r\n" +
-                      $"        '{request["CustomValue02"].ToString()}', (SELECT CustomBgColor FROM LabCustomCode WHERE CustomCode = '{request["CustomCode"].ToString()}'),\r\n" +
-                      $"         (SELECT CustomFontColor FROM LabCustomCode WHERE CustomCode = '{request["CustomCode"].ToString()}'), '{request["MemberID"].ToString()}'\r\n" +
+                      $"        '{Convert.ToDateTime(request["LabRegDate"]):yyyy-MM-dd}', '{request["LabRegNo"]}',\r\n" +
+                      $"        '{request["CustomCode"]}', '{request["CustomValue01"]}',\r\n" +
+                      $"        '{request["CustomValue02"]}', (SELECT CustomBgColor FROM LabCustomCode WHERE CustomCode = '{request["CustomCode"]}'),\r\n" +
+                      $"         (SELECT CustomFontColor FROM LabCustomCode WHERE CustomCode = '{request["CustomCode"]}'), '{request["MemberID"]}'\r\n" +
                       $"    )\r\n" +
                       $"WHEN MATCHED THEN\r\n" +
                       $"    UPDATE\r\n" +
-                      $"    SET CustomValue01 = '{request["CustomValue01"].ToString()}'\r\n" +
-                      $"      , CustomValue02 = '{request["CustomValue02"].ToString()}'\r\n" +
+                      $"    SET CustomValue01 = '{request["CustomValue01"]}'\r\n" +
+                      $"      , CustomValue02 = '{request["CustomValue02"]}'\r\n" +
                       $";\r\n";
 
                 LabgeDatabase.ExecuteSql(sql);
@@ -203,9 +202,9 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
             {
                 sql = $"SELECT LabRegNo\r\n" +
                       $"FROM LabRegInfo\r\n" +
-                      $"WHERE LabRegDate = '{labRegDate.ToString("yyyy-MM-dd")}'\r\n" +
+                      $"WHERE LabRegDate = '{labRegDate:yyyy-MM-dd}'\r\n" +
                       $"AND PatientName = '{patientName}'\r\n" +
-                      $"AND PatientJuminNo01 = '{birthDay.ToString("yyMMdd")}'\r\n" +
+                      $"AND PatientJuminNo01 = '{birthDay:yyMMdd}'\r\n" +
                       $"AND CompCode = '{compCode}'";
                 arrResponse = LabgeDatabase.SqlToJArray(sql);
             }
@@ -217,8 +216,8 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                       $"ON lrc.LabRegDate = lri.LabRegDate\r\n" +
                       $"AND lrc.LabRegNo = lri.LabRegNo\r\n" +
                       $"AND lrc.CustomValue01 = '{patientName}'\r\n" +
-                      $"AND SUBSTRING(lrc.CustomValue02, 1, 6) = '{birthDay.ToString("yyMMdd")}'\r\n" +
-                      $"WHERE lri.LabRegDate = '{labRegDate.ToString("yyyy-MM-dd")}'\r\n" +
+                      $"AND SUBSTRING(lrc.CustomValue02, 1, 6) = '{birthDay:yyMMdd}'\r\n" +
+                      $"WHERE lri.LabRegDate = '{labRegDate:yyyy-MM-dd}'\r\n" +
                       $"AND CompCode = '{compCode}'";
                 arrResponse = LabgeDatabase.SqlToJArray(sql);
 
@@ -227,9 +226,9 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 {
                     sql = $"SELECT LabRegNo, '' AS CustomCode\r\n" +
                           $"FROM LabRegInfo\r\n" +
-                          $"WHERE LabRegDate = '{labRegDate.ToString("yyyy-MM-dd")}'\r\n" +
+                          $"WHERE LabRegDate = '{labRegDate:yyyy-MM-dd}'\r\n" +
                           $"AND PatientName = '{patientName}'\r\n" +
-                          $"AND PatientJuminNo01 = '{birthDay.ToString("yyMMdd")}'\r\n" +
+                          $"AND PatientJuminNo01 = '{birthDay:yyMMdd}'\r\n" +
                           $"AND CompCode = '{compCode}'";
                     arrResponse = LabgeDatabase.SqlToJArray(sql);
                 }
@@ -248,7 +247,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
             {
                 sql = $"SELECT LabRegNo\r\n" +
                       $"FROM LabRegInfo\r\n" +
-                      $"WHERE LabRegDate = '{labRegDate.ToString("yyyy-MM-dd")}'\r\n" +
+                      $"WHERE LabRegDate = '{labRegDate:yyyy-MM-dd}'\r\n" +
                       $"AND PatientName = '{patientName}'\r\n" +
                       $"AND SystemUniqID = '{phoneNumber.Replace("-", "")}'\r\n" +
                       $"AND CompCode = '{compCode}'";
@@ -263,7 +262,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                       $"AND lrc.LabRegNo = lri.LabRegNo\r\n" +
                       $"AND lrc.CustomValue01 = '{patientName}'\r\n" +
                       $"AND lrc.CustomValue02 = '{phoneNumber.Replace("-", "")}'\r\n" +
-                      $"WHERE lri.LabRegDate = '{labRegDate.ToString("yyyy-MM-dd")}'\r\n" +
+                      $"WHERE lri.LabRegDate = '{labRegDate:yyyy-MM-dd}'\r\n" +
                       $"AND CompCode = '{compCode}'";
                 arrResponse = LabgeDatabase.SqlToJArray(sql);
 
@@ -272,13 +271,35 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 {
                     sql = $"SELECT LabRegNo, '' AS CustomCode\r\n" +
                           $"FROM LabRegInfo\r\n" +
-                          $"WHERE LabRegDate = '{labRegDate.ToString("yyyy-MM-dd")}'\r\n" +
+                          $"WHERE LabRegDate = '{labRegDate:yyyy-MM-dd}'\r\n" +
                           $"AND PatientName = '{patientName}'\r\n" +
                           $"AND SystemUniqID = '{phoneNumber.Replace("-", "")}'\r\n" +
                           $"AND CompCode = '{compCode}'";
                     arrResponse = LabgeDatabase.SqlToJArray(sql);
                 }
             }
+
+            return Ok(arrResponse);
+        }
+
+        /// <summary>
+        /// 기등록 저장할 때 CustomCode 비어있으면 찾기
+        /// </summary>
+        /// <param name="labregDate"></param>
+        /// <param name="labRegNo"></param>
+        /// <returns></returns>
+        [Route("api/Sales/Covid19Regist/MatchCustomCode")]
+        public IHttpActionResult GetMatchCustomCode(DateTime labregDate, int labRegNo, string patientName)
+        {
+            string sql;
+            sql =
+                $"SELECT CustomCode\r\n" +
+                $"FROM LabRegCustom\r\n" +
+                $"WHERE LabRegDate = '{labregDate:yyyy-MM-dd}'\r\n" +
+                $"AND LabRegNo = {labRegNo}\r\n" +
+                $"AND CustomValue01 = '{patientName}'\r\n" +
+                $"AND ISNULL(CustomCode, '') <> ''";
+            var arrResponse = LabgeDatabase.SqlToJArray(sql);
 
             return Ok(arrResponse);
         }
@@ -318,7 +339,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                     {
                         string sql;
                         sql = $"MERGE INTO Covid19Order AS target\r\n" +
-                              $"USING (SELECT '{objOrder["검체번호"].ToString()}' AS SampleNo) AS source\r\n" +
+                              $"USING (SELECT '{objOrder["검체번호"]}' AS SampleNo) AS source\r\n" +
                               $"ON target.SampleNo = source.SampleNo\r\n" +
                               $"WHEN NOT MATCHED THEN\r\n" +
                               $"    INSERT\r\n" +
@@ -329,52 +350,22 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                               $"    )\r\n" +
                               $"    VALUES\r\n" +
                               $"    (\r\n" +
-                              $"        '{Path.GetFileName(file.LocalFileName)}', '{Convert.ToDateTime(objOrder["의뢰일시"]).ToString("yyyy-MM-dd")}',\r\n" +
-                              $"        '{objOrder["접수번호"].ToString()}', '{objOrder["검체채취일"].ToString()}',\r\n" +
-                              $"        '{objOrder["의뢰기관 이름"].ToString()}', '{objOrder["의뢰기관 아이디"].ToString()}', '{objOrder["검체번호"].ToString()}',\r\n" +
-                              $"        '{objOrder["검사대상자 이름"].ToString()}', '{objOrder["생년월일"].ToString()}',\r\n" +
-                              $"        CASE WHEN '{objOrder["성별"].ToString()}' = '남' THEN 'M' WHEN '{objOrder["성별"].ToString()}' = '여' THEN 'F' ELSE '' END,\r\n" +
-                              $"        '{objOrder["등록구분"].ToString()}', '{objOrder["선제검사\n대상유형"].ToString()}', '{objOrder["검사구분"].ToString()}',\r\n" +
-                              $"        '{objOrder["검사의뢰서 출력일시"].ToString()}',\r\n" +
-                              $"        '{objOrder["환자 연락처"].ToString()}', '{objOrder["확인일시"].ToString()}', '{objOrder["비고"].ToString().Replace("'", "''")}', 'Covid19Excel'\r\n" +
+                              $"        '{Path.GetFileName(file.LocalFileName)}', '{Convert.ToDateTime(objOrder["의뢰일시"]):yyyy-MM-dd}',\r\n" +
+                              $"        '{objOrder["접수번호"]}', '{objOrder["검체채취일"]}',\r\n" +
+                              $"        '{objOrder["의뢰기관 이름"]}', '{objOrder["의뢰기관 아이디"]}', '{objOrder["검체번호"]}',\r\n" +
+                              $"        '{objOrder["검사대상자 이름"]}', '{objOrder["생년월일"]}',\r\n" +
+                              $"        CASE WHEN '{objOrder["성별"]}' = '남' THEN 'M' WHEN '{objOrder["성별"]}' = '여' THEN 'F' ELSE '' END,\r\n" +
+                              $"        '{objOrder["등록구분"]}', '{objOrder["선제검사\n대상유형"]}', '{objOrder["검사구분"]}',\r\n" +
+                              $"        '{objOrder["검사의뢰서 출력일시"]}',\r\n" +
+                              $"        '{objOrder["환자 연락처"]}', '{objOrder["확인일시"]}', '{objOrder["비고"].ToString().Replace("'", "''")}', 'Covid19Excel'\r\n" +
                               $"    )\r\n" +
                               $"WHEN MATCHED THEN\r\n" +
                               $"    UPDATE\r\n" +
-                              $"    SET TestKind = '{objOrder["검사구분"].ToString()}'\r\n" +
+                              $"    SET TestKind = '{objOrder["검사구분"]}'\r\n" +
                               $";";
 
                         LabgeDatabase.ExecuteSql(sql);
                     }
-
-                    //foreach (DataRow dr in dt.Rows)
-                    //{
-                    //    string sql;
-                    //    sql = $"MERGE INTO Covid19Order AS target\r\n" +
-                    //          $"USING (SELECT '{dr[8].ToString()}' AS SampleNo) AS source\r\n" +
-                    //          $"ON target.SampleNo = source.SampleNo\r\n" +
-                    //          $"WHEN NOT MATCHED THEN\r\n" +
-                    //          $"    INSERT\r\n" +
-                    //          $"    (\r\n" +
-                    //          $"        FileName, CompOrderDate, CompOrderNo, SampleDrawDate, CompName,\r\n" +
-                    //          $"        CompInstitutionNo, SampleNo, PatientName, BirthDay, Gender, RegistKind, TestTargetKind, TestKind, PrintDateTime,\r\n" +
-                    //          $"        PhoneNo, CheckDateTime, Description, InterfaceKind\r\n" +
-                    //          $"    )\r\n" +
-                    //          $"    VALUES\r\n" +
-                    //          $"    (\r\n" +
-                    //          $"        '{Path.GetFileName(file.LocalFileName)}', '{dr[1].ToString()}', '{dr[2].ToString()}', '{dr[3].ToString()}',\r\n" +
-                    //          $"        '{dr[4].ToString()}', '{dr[5].ToString()}', '{dr[8].ToString()}', '{dr[9].ToString()}',\r\n" +
-                    //          $"        '{dr[10].ToString()}',\r\n" +
-                    //          $"        CASE WHEN '{dr[11].ToString()}' = '남' THEN 'M' WHEN '{dr[11].ToString()}' = '여' THEN 'F' ELSE '' END,\r\n" +
-                    //          $"        '{dr[12].ToString()}', '{dr[13].ToString()}', '{dr[14].ToString()}', '{dr[15].ToString()}',\r\n" +
-                    //          $"        '{dr[16].ToString()}', '{dr[17].ToString()}', '{dr[18].ToString().Replace("'", "''")}', 'Covid19Excel'\r\n" +
-                    //          $"    )\r\n" +
-                    //          $"WHEN MATCHED THEN\r\n" +
-                    //          $"    UPDATE\r\n" +
-                    //          $"    SET TestKind = '{dr[14].ToString()}'\r\n" +
-                    //          $";";
-
-                    //    LabgeDatabase.ExecuteSql(sql);
-                    //}
                 }
 
                 return Request.CreateResponse(HttpStatusCode.OK);
@@ -395,7 +386,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
         /// <param name="endDate"></param>
         /// <returns></returns>
         [Route("api/Sales/Covid19Regist/API")]
-        public IHttpActionResult PostAPIOrder([FromBody]JObject request)
+        public IHttpActionResult PostAPIOrder([FromBody] JObject request)
         {
             Covid19 covid19 = new Covid19();
             covid19.RefreshAPIKey();
@@ -498,22 +489,22 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                     sql += $")\r\n";
                     sql += $"VALUES\r\n";
                     sql += $"(\r\n";
-                    sql += $"    '{Convert.ToDateTime(request["reqestDt"]).ToString("yyyy-MM-dd")}'\r\n";
-                    sql += $"  , '{request["spmNo"].ToString()}'\r\n";
-                    sql += $"  , '{DateTime.ParseExact(request["spmPickDe"].ToString(), "yyyyMMdd", null).ToString("yyyy-MM-dd")}'\r\n";
-                    sql += $"  , '{request["reqestInsttNm"].ToString()}'\r\n";
-                    sql += $"  , '{request["reqestInsttCd"].ToString()}'\r\n";
-                    sql += $"  , '{request["spmNo"].ToString()}'\r\n";
-                    sql += $"  , '{request["patntNm"].ToString()}'\r\n";
-                    sql += $"  , '{DateTime.ParseExact(request["brthdy"].ToString(), "yyyyMMdd", null).ToString("yyyy-MM-dd")}'\r\n";
+                    sql += $"    '{Convert.ToDateTime(request["reqestDt"]):yyyy-MM-dd}'\r\n";
+                    sql += $"  , '{request["spmNo"]}'\r\n";
+                    sql += $"  , '{DateTime.ParseExact(request["spmPickDe"].ToString(), "yyyyMMdd", null):yyyy-MM-dd}'\r\n";
+                    sql += $"  , '{request["reqestInsttNm"]}'\r\n";
+                    sql += $"  , '{request["reqestInsttCd"]}'\r\n";
+                    sql += $"  , '{request["spmNo"]}'\r\n";
+                    sql += $"  , '{request["patntNm"]}'\r\n";
+                    sql += $"  , '{DateTime.ParseExact(request["brthdy"].ToString(), "yyyyMMdd", null):yyyy-MM-dd}'\r\n";
                     sql += $"  , '{((request["sexdstn"].ToString() == "1") ? "M" : "F")}'\r\n";
                     sql += $"  , '{registSe}'\r\n";
                     sql += $"  , '{inspctSe}'\r\n";
                     sql += $"  , '{strFormDt}'\r\n";
                     sql += $"  , 'Covid19API'\r\n";
-                    sql += $"  , '{request["patntTelno"].ToString()}'\r\n";
-                    sql += $"  , '{request["medicalQuestions"].ToString()}'\r\n";
-                    sql += $"  , '{request["insttSubNm"].ToString()}'\r\n";
+                    sql += $"  , '{request["patntTelno"]}'\r\n";
+                    sql += $"  , '{request["medicalQuestions"]}'\r\n";
+                    sql += $"  , '{request["insttSubNm"]}'\r\n";
                     sql += $"  , '{strAcceptDt}'\r\n";
                     sql += $")";
 
@@ -534,8 +525,8 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 string sql;
                 sql =
                     $"UPDATE Covid19Order\r\n" +
-                    $"SET PhoneNo = '{objRequest["PhoneNo"].ToString()}'\r\n" +
-                    $"WHERE SampleNo = '{objRequest["SampleNo"].ToString()}'";
+                    $"SET PhoneNo = '{objRequest["PhoneNo"]}'\r\n" +
+                    $"WHERE SampleNo = '{objRequest["SampleNo"]}'";
                 LabgeDatabase.ExecuteSql(sql);
                 return Ok();
             }
