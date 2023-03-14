@@ -178,7 +178,6 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                       $"ORDER BY CompCode\r\n";
             }
 
-
             JArray arrResponse = LabgeDatabase.SqlToJArray(sql);
             return Ok(arrResponse);
         }
@@ -195,41 +194,44 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
         [Route("api/Sales/Covid19Regist/PersonMatch")]
         public IHttpActionResult GetPersonMatch(string testKind, string compCode, DateTime labRegDate, DateTime birthDay, string patientName)
         {
-            string sql = string.Empty;
+            string sql ;
 
             JArray arrResponse = new JArray();
             if (testKind == "개별검사")
             {
-                sql = $"SELECT LabRegNo\r\n" +
-                      $"FROM LabRegInfo\r\n" +
-                      $"WHERE LabRegDate = '{labRegDate:yyyy-MM-dd}'\r\n" +
-                      $"AND PatientName = '{patientName}'\r\n" +
-                      $"AND PatientJuminNo01 = '{birthDay:yyMMdd}'\r\n" +
-                      $"AND CompCode = '{compCode}'";
+                sql = 
+                    $"SELECT LabRegNo\r\n" +
+                    $"FROM LabRegInfo\r\n" +
+                    $"WHERE LabRegDate = '{labRegDate:yyyy-MM-dd}'\r\n" +
+                    $"AND PatientName = '{patientName}'\r\n" +
+                    $"AND PatientJuminNo01 = '{birthDay:yyMMdd}'\r\n" +
+                    $"AND CompCode = '{compCode}'";
                 arrResponse = LabgeDatabase.SqlToJArray(sql);
             }
             else if (testKind == "취합검사")
             {
-                sql = $"SELECT lri.LabRegNo, lrc.CustomCode\r\n" +
-                      $"FROM LabRegInfo lri\r\n" +
-                      $"JOIN LabRegCustom lrc\r\n" +
-                      $"ON lrc.LabRegDate = lri.LabRegDate\r\n" +
-                      $"AND lrc.LabRegNo = lri.LabRegNo\r\n" +
-                      $"AND lrc.CustomValue01 = '{patientName}'\r\n" +
-                      $"AND SUBSTRING(lrc.CustomValue02, 1, 6) = '{birthDay:yyMMdd}'\r\n" +
-                      $"WHERE lri.LabRegDate = '{labRegDate:yyyy-MM-dd}'\r\n" +
-                      $"AND CompCode = '{compCode}'";
+                sql =
+                    $"SELECT lri.LabRegNo, lrc.CustomCode\r\n" +
+                    $"FROM LabRegInfo lri\r\n" +
+                    $"JOIN LabRegCustom lrc\r\n" +
+                    $"ON lrc.LabRegDate = lri.LabRegDate\r\n" +
+                    $"AND lrc.LabRegNo = lri.LabRegNo\r\n" +
+                    $"AND lrc.CustomValue01 = '{patientName}'\r\n" +
+                    $"AND SUBSTRING(lrc.CustomValue02, 1, 6) = '{birthDay:yyMMdd}'\r\n" +
+                    $"WHERE lri.LabRegDate = '{labRegDate:yyyy-MM-dd}'\r\n" +
+                    $"AND CompCode = '{compCode}'";
                 arrResponse = LabgeDatabase.SqlToJArray(sql);
 
                 //취합 개별의 경우로 개별접수 건을 확인한다.
                 if (arrResponse.Count == 0)
                 {
-                    sql = $"SELECT LabRegNo, '' AS CustomCode\r\n" +
-                          $"FROM LabRegInfo\r\n" +
-                          $"WHERE LabRegDate = '{labRegDate:yyyy-MM-dd}'\r\n" +
-                          $"AND PatientName = '{patientName}'\r\n" +
-                          $"AND PatientJuminNo01 = '{birthDay:yyMMdd}'\r\n" +
-                          $"AND CompCode = '{compCode}'";
+                    sql = 
+                        $"SELECT LabRegNo, '' AS CustomCode\r\n" +
+                        $"FROM LabRegInfo\r\n" +
+                        $"WHERE LabRegDate = '{labRegDate:yyyy-MM-dd}'\r\n" +
+                        $"AND PatientName = '{patientName}'\r\n" +
+                        $"AND PatientJuminNo01 = '{birthDay:yyMMdd}'\r\n" +
+                        $"AND CompCode = '{compCode}'";
                     arrResponse = LabgeDatabase.SqlToJArray(sql);
                 }
             }
