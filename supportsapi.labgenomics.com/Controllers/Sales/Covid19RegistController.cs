@@ -242,7 +242,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
         [Route("api/Sales/Covid19Regist/PersonMatchUsingPhone")]
         public IHttpActionResult GetPersonMatchUsingPhone(string testKind, string compCode, DateTime labRegDate, string phoneNumber, string patientName)
         {
-            string sql = string.Empty;
+            string sql;
 
             JArray arrResponse = new JArray();
             if (testKind == "개별검사")
@@ -263,7 +263,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                       $"ON lrc.LabRegDate = lri.LabRegDate\r\n" +
                       $"AND lrc.LabRegNo = lri.LabRegNo\r\n" +
                       $"AND lrc.CustomValue01 = '{patientName}'\r\n" +
-                      $"AND lrc.CustomValue02 = '{phoneNumber.Replace("-", "")}'\r\n" +
+                      $"AND lrc.CustomValue02 LIKE '%{phoneNumber.Replace("-", "")}%'\r\n" +
                       $"WHERE lri.LabRegDate = '{labRegDate:yyyy-MM-dd}'\r\n" +
                       $"AND CompCode = '{compCode}'";
                 arrResponse = LabgeDatabase.SqlToJArray(sql);
