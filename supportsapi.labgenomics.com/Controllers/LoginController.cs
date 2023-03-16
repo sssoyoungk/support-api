@@ -91,7 +91,7 @@ namespace supportsapi.labgenomics.com.Controllers
                       $"  FROM ProgMember AS A \r\n" +
                       $" INNER JOIN ProgAuthGroupCode AS B \r\n" +
                       $"    ON A.AuthGroupCode = b.AuthGroupCode \r\n" +
-                      $" WHERE A.MemberID = '{request["LoginID"].ToString()}'";
+                      $" WHERE A.MemberID = '{request["LoginID"]}'";
 
                 JObject objAccount = LabgeDatabase.SqlToJObject(sql);
 
