@@ -1,8 +1,14 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using ExcelDataReader;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using supportsapi.labgenomics.com.Attributes;
 using supportsapi.labgenomics.com.Services;
 using System;
+using System.Data;
+using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 
@@ -12,6 +18,53 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
     [Route("api/StrategyBusiness/ManageAmorePacific")]
     public class ManageAmorePacificController : ApiController
     {
+        /// <summary>
+        /// 접수 파일 업로드
+        /// </summary>
+        /// <returns></returns>
+        [Route("api/StrategyBusiness/ManageAmorePacific/UploadFile")]
+        public async Task<HttpResponseMessage> PostUploadFile()
+        {
+            try
+            {
+                if (!Request.Content.IsMimeMultipartContent())
+                {
+                    throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+                }
+
+                string root = HttpContext.Current.Server.MapPath("/" + @"LabImportFile/AmorePacificFiles");
+                Directory.CreateDirectory(root);
+                var provider = new MultipartFormDataStreamProvider(root);
+
+                await Request.Content.ReadAsMultipartAsync(provider);
+
+                foreach (MultipartFileData file in provider.FileData)
+                {
+                    var dataBytes = File.ReadAllBytes(file.LocalFileName);
+                    var dataStream = new MemoryStream(dataBytes);
+                    IExcelDataReader reader = ExcelReaderFactory.CreateReader(dataStream);
+                    var conf = new ExcelDataSetConfiguration
+                    {
+                        ConfigureDataTable = _ => new ExcelDataTableConfiguration
+                        {
+                            UseHeaderRow = true
+                        }
+                    };
+                    var dataSet = reader.AsDataSet(conf);
+                    DataTable dt = dataSet.Tables[0];
+                    JArray arrOrders = JArray.Parse(JsonConvert.SerializeObject(dt));
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                JObject objResponse = new JObject();
+                objResponse.Add("Status", Convert.ToInt32(HttpStatusCode.BadRequest));
+                objResponse.Add("Message", ex.Message);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, objResponse.ToString());
+            }
+        }
         /// <summary>
         /// 조회
         /// </summary>
@@ -33,7 +86,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                     $"AND ltcoi.CompOrderNo = ppi.CompOrderNo\r\n" +
                     $"AND ltcoi.CompCode = ppi.CompCode\r\n" +
                     $"WHERE ppi.CustomerCode = 'amorepacific'\r\n" +
-                    $"AND ppi.CompOrderDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
+                    $"AND ppi.CompOrderDate BETWEEN '{beginDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'\r\n" +
                     $"AND (ppi.Server <> 'Develop' or ppi.Server is null)\r\n" +
                     $"AND (ppi.OrderStatus is null or ppi.OrderStatus = 'Ordered') ";
             }
@@ -55,7 +108,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                     $"ON lrr.LabRegDate = ltcoi.LabRegDate\n" +
                     $"AND lrr.LabRegNo  = ltcoi.LabRegNo\n" +
                     $"WHERE ppi.CustomerCode = 'amorepacific'\r\n" +
-                    $"AND ppi.CompOrderDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
+                    $"AND ppi.CompOrderDate BETWEEN '{beginDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'\r\n" +
                     $"AND (ppi.Server <> 'Develop' or ppi.Server is null)\r\n" +
                     $"AND ppi.OrderStatus != 'Ordered'";
             }
@@ -64,7 +117,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             return Ok(arrResponse);
         }
 
-        public IHttpActionResult Put([FromBody]JArray arrRequest)
+        public IHttpActionResult Put([FromBody] JArray arrRequest)
         {
             try
             {
@@ -84,8 +137,8 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                           $"  , AgreeLabgePrivacyPolicy = '{objRequest["agreeLabgePrivacyPolicy"]}'\r\n" +
                           $"  , AgreeThirdPartyOffer = '{objRequest["agreeThirdPartyOffer"]}'\r\n" +
                           $"  , AgreeSendResultEmail = '{objRequest["agreeSendResultEmail"]}'\r\n" +
-                          $"WHERE CompOrderDate = '{Convert.ToDateTime(objRequest["CompOrderDate"]).ToString("yyyy-MM-dd")}'\r\n" +
-                          $"AND CompOrderNo = '{objRequest["CompOrderNo"].ToString()}'\r\n" +
+                          $"WHERE CompOrderDate = '{Convert.ToDateTime(objRequest["CompOrderDate"]):yyyy-MM-dd}'\r\n" +
+                          $"AND CompOrderNo = '{objRequest["CompOrderNo"]}'\r\n" +
                           $"AND CustomerCode = 'amorepacific' ";
                     LabgeDatabase.ExecuteSql(sql);
                 }
@@ -118,7 +171,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                 sql =
                     $"UPDATE PGSPatientInfo\r\n" +
                     $"SET OrderStatus = 'Canceled'\r\n" +
-                    $"WHERE CompOrderDate = '{Convert.ToDateTime(objRequest["CompOrderDate"]).ToString("yyyy-MM-dd")}'\r\n" +
+                    $"WHERE CompOrderDate = '{Convert.ToDateTime(objRequest["CompOrderDate"]):yyyy-MM-dd}'\r\n" +
                     $"AND CompOrderNo = '{objRequest["CompOrderNo"]}'\r\n" +
                     $"AND CustomerCode = 'amorepacific'";
                 LabgeDatabase.ExecuteSql(sql);
