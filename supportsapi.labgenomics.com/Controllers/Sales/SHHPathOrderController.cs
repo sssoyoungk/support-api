@@ -35,7 +35,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                   $"ON C.OutsideCompCode = '4130'\r\n" +
                   $"AND C.OutsideTestCode = B.TestCode\r\n" +
                   $"AND C.OutsideSampleCode = B.SampleCode\r\n" +
-                  $"WHERE A.LabRegDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
+                  $"WHERE A.LabRegDate BETWEEN '{beginDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'\r\n" +
                   $"AND B.IsTestOutSide = {isTestOutside}\r\n";
 
             if (isTestOutside == "1")
@@ -64,17 +64,17 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                     sql = $"INSERT INTO SHHPath_Interface\r\n" +
                           $"(LabRegDate, LabRegNo, CompCode, CompName, ChartNo, PatientName, Age, Gender, TestCode, PartCode, TestDisplayName, StateCode)\r\n" +
                           $"VALUES\r\n" +
-                          $"( '{objOrder["LabRegDate"].ToString()}'\r\n" +
-                          $", {objOrder["LabRegNo"].ToString()}\r\n" +
-                          $", '{objOrder["CompCode"].ToString()}'\r\n" +
-                          $", '{objOrder["CompName"].ToString()}'\r\n" +
-                          $", '{objOrder["PatientChartNo"].ToString()}'\r\n" +
-                          $", '{objOrder["PatientName"].ToString()}'\r\n" +
-                          $", '{objOrder["PatientAge"].ToString()}'\r\n" +
-                          $", '{objOrder["PatientSex"].ToString()}'\r\n" +
-                          $", '{objOrder["TestCode"].ToString()}'\r\n" +
+                          $"( '{objOrder["LabRegDate"]}'\r\n" +
+                          $", {objOrder["LabRegNo"]}\r\n" +
+                          $", '{objOrder["CompCode"]}'\r\n" +
+                          $", '{objOrder["CompName"]}'\r\n" +
+                          $", '{objOrder["PatientChartNo"]}'\r\n" +
+                          $", '{objOrder["PatientName"]}'\r\n" +
+                          $", '{objOrder["PatientAge"]}'\r\n" +
+                          $", '{objOrder["PatientSex"]}'\r\n" +
+                          $", '{objOrder["TestCode"]}'\r\n" +
                           $", '{GetPartCode(objOrder["TestCode"].ToString())}'" +
-                          $", '{objOrder["TestDisplayName"].ToString()}'\r\n" +
+                          $", '{objOrder["TestDisplayName"]}'\r\n" +
                           $", 'O')";
 
                     SqlCommand cmd = new SqlCommand(sql, conn);
@@ -87,23 +87,23 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                           $"  , TestOutSideBeginTime = GETDATE()\r\n" +
                           $"  , TestStartTime = GETDATE()\r\n" +
                           $"  , IsWorkCheck = '1'\r\n" +
-                          $"  , WorkCheckMemberID = '{objOrder["RegistMemberID"].ToString()}'\r\n" +
+                          $"  , WorkCheckMemberID = '{objOrder["RegistMemberID"]}'\r\n" +
                           $"  , WorkCheckTime  = GETDATE()\r\n" +
                           $"  , TestOutsideCompCode = '4130'\r\n" +
-                          $"  , TestOutsideMemberID = '{objOrder["RegistMemberID"].ToString()}'\r\n" +
-                          $"WHERE LabRegDate = '{Convert.ToDateTime(objOrder["LabRegDate"]).ToString("yyyy-MM-dd")}'\r\n" +
-                          $"AND LabRegNo = {objOrder["LabRegNo"].ToString()}\r\n" +
-                          $"AND TestCode = '{objOrder["TestCode"].ToString()}'\r\n" +
+                          $"  , TestOutsideMemberID = '{objOrder["RegistMemberID"]}'\r\n" +
+                          $"WHERE LabRegDate = '{Convert.ToDateTime(objOrder["LabRegDate"]):yyyy-MM-dd}'\r\n" +
+                          $"AND LabRegNo = {objOrder["LabRegNo"]}\r\n" +
+                          $"AND TestCode = '{objOrder["TestCode"]}'\r\n" +
                           $"\r\n" +
                           $"DECLARE @ReportCode varchar(30)\r\n" +
                           $"SELECT @ReportCode = ReportCode\r\n" +
                           $"FROM LabTestCode\r\n" +
-                          $"WHERE TestCode = '{objOrder["TestCode"].ToString()}'\r\n" +
+                          $"WHERE TestCode = '{objOrder["TestCode"]}'\r\n" +
                           $"\r\n" +
                           $"UPDATE LabRegReport\r\n" +
                           $"SET ReportStartTime = GETDATE()\r\n" +
-                          $"WHERE LabRegDate = '{Convert.ToDateTime(objOrder["LabRegDate"]).ToString("yyyy-MM-dd")}'\r\n" +
-                          $"AND LabRegNo = '{objOrder["LabRegNo"].ToString()}'\r\n" +
+                          $"WHERE LabRegDate = '{Convert.ToDateTime(objOrder["LabRegDate"]):yyyy-MM-dd}'\r\n" +
+                          $"AND LabRegNo = '{objOrder["LabRegNo"]}'\r\n" +
                           $"AND ReportCode = @ReportCode";
                     LabgeDatabase.ExecuteSql(sql);
                 }
