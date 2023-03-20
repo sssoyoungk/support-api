@@ -159,7 +159,6 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                 objResponse.Add("Message", ex.Message);
                 return Content(HttpStatusCode.BadRequest, objResponse);
             }
-
         }
 
         [Route("api/StrategyBusiness/ManageAmorePacific/CancelOrder")]
