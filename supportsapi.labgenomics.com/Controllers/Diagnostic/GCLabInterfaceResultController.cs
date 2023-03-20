@@ -26,7 +26,7 @@ namespace supportsapi.labgenomics.com.Controllers.Diagnostic
             return Ok(arrResponse);
         }
 
-        public IHttpActionResult PutGclabResult(JObject request)
+        public IHttpActionResult PutGclabResult(JObject objRequest)
         {
             SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["LabgeConnection"].ConnectionString);
             conn.Open();
@@ -35,95 +35,80 @@ namespace supportsapi.labgenomics.com.Controllers.Diagnostic
                 string orderCode = string.Empty;
 
                 //OrderCode가 없으면 TestCode에 OrderCode를 넣어준다.
-                JToken jtokenOrderCode = request["OrderCode"];
+                JToken jtokenOrderCode = objRequest["OrderCode"];
                 if (jtokenOrderCode == null || jtokenOrderCode.ToString() == string.Empty)
                 {
-                    orderCode = request["TestCode"].ToString();
+                    orderCode = objRequest["TestCode"].ToString();
                 }
                 else
                 {
-                    orderCode = request["OrderCode"].ToString();
+                    orderCode = objRequest["OrderCode"].ToString();
                 }
 
                 string sql;
 
                 //데이터 비교(수진자명, 차트번호, 주민번호)g
-                sql = $"SELECT @PatientName = A.PatientName\r\n" +
-                      $"     , @PatientChartNo = A.PatientChartNo\r\n" +
-                      $"     , @TestStateCode = B.TestStateCode\r\n" +
-                      $"     , @IsTestHeader = D.IsTestHeader\r\n" +
-                      $"FROM LabRegInfo A\r\n" +
-                      $"JOIN LabRegTest B\r\n" +
-                      $"ON A.LabRegDate = B.LabRegDate\r\n" +
-                      $"AND A.LabRegNo = B.LabRegNo\r\n" +
-                      $"AND B.TestCode = '{orderCode}'\r\n" +
-                      $"JOIN LabRegResult C\r\n" +
-                      $"ON A.LabRegDate = C.LabRegDate\r\n" +
-                      $"AND A.LabRegNo = C.LabRegNo\r\n" +
-                      $"AND C.TestSubCode = '{request["TestCode"].ToString()}'\r\n" +
-                      $"JOIN LabTestCode D\r\n" +
-                      $"ON D.TestCode = C.TestSubCode\r\n" +
-                      $"WHERE A.LabRegDate = '{Convert.ToDateTime(request["LabRegDate"]).ToString("yyyy-MM-dd")}'\r\n" +
-                      $"AND A.LabRegNo = {request["LabRegNo"].ToString()}";
+                sql = 
+                    $"SELECT lri.PatientName, lri.PatientChartNo, lrt.TestStateCode, ltc.IsTestHeader\r\n" +
+                    $"FROM LabRegInfo lri\r\n" +
+                    $"JOIN LabRegTest lrt\r\n" +
+                    $"ON lri.LabRegDate = lrt.LabRegDate\r\n" +
+                    $"AND lri.LabRegNo = lrt.LabRegNo\r\n" +
+                    $"AND lrt.TestCode = '{orderCode}'\r\n" +
+                    $"JOIN LabRegResult lrr\r\n" +
+                    $"ON lri.LabRegDate = lrr.LabRegDate\r\n" +
+                    $"AND lri.LabRegNo = lrr.LabRegNo\r\n" +
+                    $"AND lrr.TestSubCode = '{objRequest["TestCode"]}'\r\n" +
+                    $"JOIN LabTestCode ltc\r\n" +
+                    $"ON ltc.TestCode = lrr.TestSubCode\r\n" +
+                    $"WHERE lri.LabRegDate = '{Convert.ToDateTime(objRequest["LabRegDate"]):yyyy-MM-dd}'\r\n" +
+                    $"AND lri.LabRegNo = {objRequest["LabRegNo"]}";
 
-                SqlCommand cmd = new SqlCommand(sql, conn);
+                JObject objPatientInfo = LabgeDatabase.SqlToJObject(sql);
 
-                cmd.Parameters.Add("@PatientName", SqlDbType.VarChar, 50);
-                cmd.Parameters["@PatientName"].Direction = ParameterDirection.Output;
-
-                cmd.Parameters.Add("@PatientChartNo", SqlDbType.VarChar, 50);
-                cmd.Parameters["@PatientChartNo"].Direction = ParameterDirection.Output;
-
-                cmd.Parameters.Add("@TestStateCode", SqlDbType.VarChar, 1);
-                cmd.Parameters["@TestStateCode"].Direction = ParameterDirection.Output;
-
-                cmd.Parameters.Add("@IsTestHeader", SqlDbType.Bit);
-                cmd.Parameters["@IsTestHeader"].Direction = ParameterDirection.Output;
-
-                cmd.ExecuteNonQuery();
                 //접수 데이터가 없는 경우
-                if ((Object)cmd.Parameters["@PatientName"].Value == DBNull.Value)
+                if (objPatientInfo.Count == 0)
                 {
                     throw new Exception("접수 데이터 없음");
                 }
                 //검사결과가 최종인 경우
-                else if (cmd.Parameters["@TestStateCode"].Value.ToString() == "F")
+                else if (objPatientInfo["TestStateCode"].ToString() == "F")
                 {
                     throw new Exception("검사결과 상태 최종");
                 }
                 //수진자 정보가 일치하지 않는 경우
-                else if (cmd.Parameters["@PatientName"].Value.ToString() != request["PatientName"].ToString())
+                else if (objPatientInfo["PatientName"].ToString() != objRequest["PatientName"].ToString())
                 {
                     throw new Exception("수진자명 불일치");
                 }
                 else
                 {
-                    string testCode = request["TestCode"].ToString();
+                    string testCode = objRequest["TestCode"].ToString();
 
-                    if (Convert.ToBoolean(cmd.Parameters["@IsTestHeader"].Value) == true)
+                    if (Convert.ToBoolean(objPatientInfo["IsTestHeader"]) == true)
                         testCode += "01";
 
                     string resultField = string.Empty;
-                    if (Encoding.Default.GetBytes(request["TestResult"].ToString()).Length <= 50)
+                    if (Encoding.Default.GetBytes(objRequest["TestResult"].ToString()).Length <= 50)
                         resultField = "TestResult01";
                     else
                         resultField = "TestResultText";
 
                     sql = $"UPDATE LabRegResult\r\n" +
-                          $"   SET {resultField} = '{request["TestResult"].ToString()}'\r\n" +
-                          $"     , TestResultAbn = '{request["TestResultAbn"].ToString()}'\r\n" +
+                          $"   SET {resultField} = '{objRequest["TestResult"]}'\r\n" +
+                          $"     , TestResultAbn = '{objRequest["TestResultAbn"]}'\r\n" +
                           $"     , EditTime = GETDATE()\r\n" +
-                          $"     , EditorMemberID = '{request["MemberID"].ToString()}'\r\n" +
-                          $"WHERE LabRegDate = '{Convert.ToDateTime(request["LabRegDate"]).ToString("yyyy-MM-dd")}'\r\n" +
-                          $"AND LabRegNo = {request["LabRegNo"].ToString()}\r\n" +
+                          $"     , EditorMemberID = '{objRequest["MemberID"]}'\r\n" +
+                          $"WHERE LabRegDate = '{Convert.ToDateTime(objRequest["LabRegDate"]):yyyy-MM-dd}'\r\n" +
+                          $"AND LabRegNo = {objRequest["LabRegNo"]}\r\n" +
                           $"AND TestSubCode = '{testCode}'\r\n\r\n" +
 
                           $"UPDATE LabRegTest\r\n" +
-                          $"   SET TestOutsideEndTime = '{Convert.ToDateTime(request["TestOutsideEndTime"]).ToString("yyyy-MM-dd")}'\r\n" +
+                          $"   SET TestOutsideEndTime = '{Convert.ToDateTime(objRequest["TestOutsideEndTime"]):yyyy-MM-dd}'\r\n" +
                           $"     , EditTime = GETDATE()\r\n" +
-                          $"     , EditorMemberID = '{request["MemberID"].ToString()}'\r\n" +
-                          $"WHERE LabRegDate = '{Convert.ToDateTime(request["LabRegDate"]).ToString("yyyy-MM-dd")}'\r\n" +
-                          $"AND LabRegNo = {request["LabRegNo"].ToString()}\r\n" +
+                          $"     , EditorMemberID = '{objRequest["MemberID"]}'\r\n" +
+                          $"WHERE LabRegDate = '{Convert.ToDateTime(objRequest["LabRegDate"]):yyyy-MM-dd}'\r\n" +
+                          $"AND LabRegNo = {objRequest["LabRegNo"]}\r\n" +
                           $"AND TestCode = '{orderCode}'";
 
                     LabgeDatabase.ExecuteSql(sql);
