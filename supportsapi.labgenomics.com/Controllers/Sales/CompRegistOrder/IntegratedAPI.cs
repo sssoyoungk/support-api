@@ -32,7 +32,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                           $"     , (SELECT TestDisplayName FROM LabTestCode WHERE TestCode = match.CenterMatchCode) AS CenterTestName\r\n" +
                           $"     , (SELECT TestDisplayName FROM LabTestCode WHERE TestCode = match.CenterMatchOrderCode) AS CenterOrderName\r\n" +
                           $"     , ZipCode, Address, PhoneNo\r\n" +
-                          $"     , PatientImportCustomData01, PatientImportCustomData02, PatientImportCustomData03\r\n" +
+                          $"     , PatientImportCustomData01, PatientImportCustomData02, PatientImportCustomData03, Description\r\n" +
                           $"FROM RsltTransIntegratedAPIOrder APIOrder\r\n" +
                           $"LEFT OUTER JOIN LabTransMatchCode AS match\r\n" +
                           $"ON match.CompCode = APIOrder.CompCode\r\n" +
