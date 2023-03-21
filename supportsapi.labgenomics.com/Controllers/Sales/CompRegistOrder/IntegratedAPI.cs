@@ -39,8 +39,8 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                           $"AND match.CompMatchCode = APIOrder.CompTestCode\r\n" +
                           $"LEFT OUTER JOIN LabTestCode AS testCode\r\n" +
                           $"ON match.CenterMatchCode = testCode.TestCode\r\n" +
-                          $"WHERE APIOrder.CompCode = '{request["CompCode"].ToString()}'\r\n" +
-                          $"AND APIOrder.CompOrderDate BETWEEN '{Convert.ToDateTime(request["BeginDate"]).ToString("yyyyMMdd")}' AND '{Convert.ToDateTime(request["EndDate"]).ToString("yyyyMMdd")}'\r\n" +
+                          $"WHERE APIOrder.CompCode = '{request["CompCode"]}'\r\n" +
+                          $"AND APIOrder.CompOrderDate BETWEEN '{Convert.ToDateTime(request["BeginDate"]):yyyyMMdd}' AND '{Convert.ToDateTime(request["EndDate"]):yyyyMMdd}'\r\n" +
                           $"AND NOT EXISTS\r\n" +
                           $"    (\r\n" +
                           $"    SELECT NULL\r\n" +
@@ -68,8 +68,8 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                           $"LEFT OUTER JOIN LabRegInfo regInfo \r\n" +
                           $"ON regInfo.LabRegDate = transInfo.LabRegDate \r\n" +
                           $"AND regInfo.LabRegNo = transInfo.LabRegNo \r\n" +
-                          $"WHERE transInfo.CompCode = '{request["CompCode"].ToString()}' \r\n" +
-                          $"AND transInfo.LabRegDate BETWEEN '{Convert.ToDateTime(request["BeginDate"]).ToString("yyyyMMdd")}' AND '{Convert.ToDateTime(request["EndDate"]).ToString("yyyyMMdd")}' \r\n" +
+                          $"WHERE transInfo.CompCode = '{request["CompCode"]}' \r\n" +
+                          $"AND transInfo.LabRegDate BETWEEN '{Convert.ToDateTime(request["BeginDate"]):yyyyMMdd}' AND '{Convert.ToDateTime(request["EndDate"]):yyyyMMdd}' \r\n" +
                           $"ORDER BY transInfo.LabRegDate, transInfo.LabRegNo";
                 }
 
