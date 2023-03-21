@@ -42,7 +42,7 @@ namespace supportsapi.labgenomics.com.Controllers.Diagnostic
                       $"AND A.LabRegNo = D.LabRegNo\r\n" +
                       $"AND B.TestCode = D.TestCode\r\n" +
                       $"AND C.OutsideTestCode = D.TestSubCode\r\n" +
-                      $"WHERE A.LabRegDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
+                      $"WHERE A.LabRegDate BETWEEN '{beginDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'\r\n" +
                       $"AND B.IsTestOutSide = {sendKind}\r\n" +
                       $"ORDER BY A.LabRegDate, A.LabRegNo, B.TestCode";
 
@@ -65,26 +65,26 @@ namespace supportsapi.labgenomics.com.Controllers.Diagnostic
                 string sql;
                 sql = $"UPDATE LabRegTest\r\n" +
                       $"   SET IsTestOutSide = 1\r\n" +
-                      $"     , TestOutsideCompCode = '{request["CompCode"].ToString()}'\r\n" +
+                      $"     , TestOutsideCompCode = '{request["CompCode"]}'\r\n" +
                       $"     , TestStartTime = GETDATE()\r\n" +
                       $"     , TestOutsideBeginTime = GETDATE()\r\n" +
-                      $"     , TestOutsideMemberID = '{request["MemberID"].ToString()}'\r\n" +
+                      $"     , TestOutsideMemberID = '{request["MemberID"]}'\r\n" +
                       $"     , IsWorkCheck = 1\r\n" +
                       $"     , WorkCheckTime = GETDATE()\r\n" +
-                      $"     , WorkCheckMemberID = '{request["MemberID"].ToString()}'\r\n" +
+                      $"     , WorkCheckMemberID = '{request["MemberID"]}'\r\n" +
                       $"     , TestStateCode = 'O'\r\n" +
                       $"     , EditTime = GETDATE()\r\n" +
-                      $"     , EditorMemberID = '{request["MemberID"].ToString()}'\r\n" +
-                      $"WHERE LabRegDate = '{Convert.ToDateTime(request["LabRegDate"]).ToString("yyyy-MM-dd")}'\r\n" +
-                      $"AND LabRegNo = {request["LabRegNo"].ToString()}\r\n" +
-                      $"AND TestCode = '{request["TestCode"].ToString()}'\r\n" +
+                      $"     , EditorMemberID = '{request["MemberID"]}'\r\n" +
+                      $"WHERE LabRegDate = '{Convert.ToDateTime(request["LabRegDate"]):yyyy-MM-dd}'\r\n" +
+                      $"AND LabRegNo = {request["LabRegNo"]}\r\n" +
+                      $"AND TestCode = '{request["TestCode"]}'\r\n" +
 
                       $"UPDATE LabRegReport\r\n" +
                       $"   SET ReportStateCode = CASE WHEN ReportStateCode = 'W' THEN 'O' ELSE ReportStateCode END\r\n" +
                       $"     , ReportStartTime = CASE WHEN ReportStartTime IS NULL THEN GETDATE() END\r\n" +
-                      $"WHERE LabRegDate = '{Convert.ToDateTime(request["LabRegDate"]).ToString("yyyy-MM-dd")}'\r\n" +
-                      $"AND LabRegNo = {request["LabRegNo"].ToString()}\r\n" +
-                      $"AND ReportCode = (SELECT ReportCode FROM LabTestCode where TestCode = '{request["TestCode"].ToString()}')";
+                      $"WHERE LabRegDate = '{Convert.ToDateTime(request["LabRegDate"]):yyyy-MM-dd}'\r\n" +
+                      $"AND LabRegNo = {request["LabRegNo"]}\r\n" +
+                      $"AND ReportCode = (SELECT ReportCode FROM LabTestCode where TestCode = '{request["TestCode"]}')";
 
                 LabgeDatabase.ExecuteSql(sql);
                 return Ok();
