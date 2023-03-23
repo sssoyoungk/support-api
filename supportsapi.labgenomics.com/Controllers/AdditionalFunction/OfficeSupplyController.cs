@@ -18,6 +18,30 @@ namespace supportsapi.labgenomics.com.Controllers
     {
 
         #region SupplyList
+
+        [Route("api/OfficeSupply/PartCode")]
+        public IHttpActionResult GetOfficeSupplyPartCode()
+        {
+            try
+            {
+                string sql = " SELECT PartCode, PartName\n" +
+                         "   FROM OfficeSupplyPartCode \n"+
+                         "order by PartCode ";
+
+                Debug.WriteLine(sql);
+                JArray arrResponse = LabgeDatabase.SqlToJArray(sql);
+                return Ok(arrResponse);
+            }
+            catch (Exception ex)
+            {
+                JObject objResponse = new JObject();
+                objResponse.Add("Status", Convert.ToInt32(HttpStatusCode.BadRequest));
+                objResponse.Add("Message", ex.Message);
+                return Content(HttpStatusCode.BadRequest, objResponse);
+            }
+        }
+
+
         /// <summary>
         /// 고정자산 가져오기
         /// </summary>
