@@ -516,7 +516,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                         $"SELECT\r\n" +
                         $"    CONVERT(bit,1) AS ColumnCheck, GETDATE() AS LabRegDate, null AS LabRegNo, ppi.PatientName, ppi.Barcode AS PatientChartNo, \r\n" + //PSG 사업부 요청으로 바코드 번호가 차트 번호로 설정
                         $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.CompOrderNo , CONVERT(varchar, ppi.SampleDrawDate, 120) SampleDrawDate,\r\n" +
-                        $"    Gender AS PatientSex,\r\n" +
+                        $"    Gender AS PatientSex, ppi.OrderStatus,\r\n" +
                         $"    CONVERT(CHAR(6), BirthDay, 12) AS IdentificationNo1, \r\n" +
                         $"    FLOOR(CAST(DATEDIFF(DAY, ppi.BirthDay, ppi.CompOrderDate) AS INTEGER) / 365.2422) AS PatientAge, \r\n " +
                         $"    ppi.Age AS PatientAge, ppi.Barcode,\r\n" +
@@ -549,6 +549,12 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
 
 
                 JArray arrResponse = LabgeDatabase.SqlToJArray(sql);
+
+
+                if (arrResponse[0]["OrderStatus"].ToString() == "Canceled" || arrResponse[0]["OrderStatus"].ToString() == "CanceledBeforeShipment")
+                {
+                    throw new Exception("해당 수진자는 취소 상태입니다.");
+                }
 
                 if (arrResponse.Count <= 0)
                 {
