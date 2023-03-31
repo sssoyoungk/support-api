@@ -7,10 +7,10 @@ using System.Web.Http;
 namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
 {
     [SupportsAuth]
-    [Route("api/StrategyBusiness/ManageBankSalad")]
     public class ManageBankSaladController : ApiController
     {
         // GET api/<controller>
+        [Route("api/StrategyBusiness/ManageBankSalad")]
         public IHttpActionResult Get(DateTime beginDate, DateTime endDate, string mode, string testCode = "")
         {
             string sql;
@@ -95,6 +95,57 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             var arrResponse = LabgeDatabase.SqlToJArray(sql);
             return Ok(arrResponse);
         }
+
+        [Route("api/StrategyBusiness/ManageBankSalad/FindPatient")]
+        public IHttpActionResult GetFindPatient(string patientName, string phoneNumber, string birthDay, string testCode = "")
+        {
+            string sql;
+            string subQuery = "";
+
+            if (patientName != null && patientName != string.Empty)
+            {
+                subQuery = subQuery + $"AND ppi.PatientName = '{patientName}' \r\n";
+            }
+
+            if (phoneNumber != null && phoneNumber != string.Empty)
+            {
+                subQuery = subQuery + $"AND ppi.PhoneNumber = '{phoneNumber}' \r\n";
+            }
+
+            if (birthDay != null && birthDay != string.Empty)
+            {
+                subQuery = subQuery + $"AND ppi.BirthDay = '{birthDay}' \r\n";
+            }
+
+            if (testCode != null && testCode != string.Empty)
+            {
+                subQuery = subQuery + $"AND pti.CompTestCode = '{testCode}' \r\n";
+            }
+
+
+                sql =
+                    $"SELECT pti.CompTestCode, pti.CompTestName, \r\n" +
+                    $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.BirthDay, ppi.PatientName,  ppi.CheckSendCollectReSample, ppi.EmailAddress, \r\n" +
+                    $"    ppi.PhoneNumber,  ppi.PrevBarcode, ppi.PrevTrackingNumber, ppi.TrackingNumber, ppi.Barcode, \r\n" +
+                    $"    ppi.OrderStatus, CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo\r\n" +
+                    $"FROM PGSPatientInfo ppi\r\n" +
+                    $"join PGSTestInfo pti\n" +
+                    $"on pti.CompOrderDate  = ppi.CompOrderDate\n" +
+                    $"and pti.CompOrderNo  = ppi.CompOrderNo\n" +
+                    $"and pti.CustomerCode = ppi.CustomerCode\n" +
+                    $"LEFT OUTER JOIN LabTransCompOrderInfo ltcoi\r\n" +
+                    $"ON ltcoi.CompOrderDate = ppi.CompOrderDate\r\n" +
+                    $"AND ltcoi.CompOrderNo = ppi.CompOrderNo\r\n" +
+                    $"AND ltcoi.CompCode = ppi.CompCode\r\n" +
+                    $"WHERE ppi.CustomerCode = 'banksalad'\r\n" +
+                    $"{subQuery}" +
+                    $"order by ppi.CompOrderDate ";
+
+            var arrResponse = LabgeDatabase.SqlToJArray(sql);
+            return Ok(arrResponse);
+        }
+
+
 
         // POST api/<controller>
         public IHttpActionResult Post(JObject arrRequest)
