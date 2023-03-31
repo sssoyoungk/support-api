@@ -27,6 +27,7 @@ namespace supportsapi.labgenomics.com.Services
                 //SqlCommand cmd0 = new SqlCommand("SET ARITHABORT ON", conn);
                 //cmd0.ExecuteNonQuery();
                 SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.CommandTimeout = 60000;
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 adapter.Fill(dt);
 
