@@ -24,6 +24,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
         {
             string sql;
             sql =
+                "SET ARITHABORT ON\r\n" +
                 "SELECT 검사ID, 접수ID, 접수일자, 시간, 환자이름, 차트번호, 성별, 나이, 생년월일, 유형, 진료실, 담당의, 병실명, 코드 \r\n " +
                 "     , 명칭, 의뢰일자, 검사결과 \r\n " +
                 "     , CASE WHEN ISNULL(검사결과, '') IN ('', '별지보고') THEN 서술결과 \r\n " +
@@ -73,11 +74,11 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
 
             if (dateKind == "1")
             {
-                sql += $"         WHERE A.LabRegDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n";
+                sql += $"         WHERE A.LabRegDate BETWEEN '{beginDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'\r\n";
             }
             else if (dateKind == "2")
             {
-                sql += $"         WHERE E.TestEndTime >= '{beginDate.ToString("yyyy-MM-dd")}' AND E.TestEndTime < DATEADD(DAY, 1, '{endDate.ToString("yyyy-MM-dd")}')\r\n";
+                sql += $"         WHERE E.TestEndTime >= '{beginDate:yyyy-MM-dd}' AND E.TestEndTime < DATEADD(DAY, 1, '{endDate:yyyy-MM-dd}')\r\n";
             }
 
             sql +=
@@ -118,11 +119,11 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
 
             if (dateKind == "1")
             {
-                sql += $"         WHERE A.LabRegDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n ";
+                sql += $"         WHERE A.LabRegDate BETWEEN '{beginDate:yyyy-MM-dd} ' AND ' {endDate:yyyy-MM-dd}'\r\n ";
             }
             else if (dateKind == "2")
             {
-                sql += $"         WHERE E.TestEndTime >= '{beginDate.ToString("yyyy-MM-dd")}' AND E.TestEndTime < DATEADD(DAY, 1, '{endDate.ToString("yyyy-MM-dd")}') \r\n ";
+                sql += $"         WHERE E.TestEndTime >= '{beginDate:yyyy-MM-dd} ' AND E.TestEndTime < DATEADD(DAY, 1, ' {endDate:yyyy-MM-dd}') \r\n ";
             }
 
             sql +=
@@ -189,11 +190,11 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
 
             if (dateKind == "1")
             {
-                sql += $"AND A.LabRegDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n";
+                sql += $"AND A.LabRegDate BETWEEN '{beginDate:yyyy-MM-dd} ' AND '{endDate:yyyy-MM-dd}'\r\n";
             }
             else if (dateKind == "2")
             {
-                sql += $"AND D.TestEndTime >= '{beginDate.ToString("yyyy-MM-dd")}' AND D.TestEndTime < DATEADD(DAY, 1, '{endDate.ToString("yyyy-MM-dd")}')\r\n";
+                sql += $"AND D.TestEndTime >= '{beginDate:yyyy-MM-dd} ' AND D.TestEndTime < DATEADD(DAY, 1, '{endDate:yyyy-MM-dd}')\r\n";
             }
 
             sql += $"AND C.CompCode = '{compCode}'\r\n";
@@ -345,11 +346,11 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
             string sql;
             sql =
                 $"UPDATE LabRegReport\r\n" +
-                $"   SET IsReportTransEnd = '{request["TransKind"].ToString()}'\r\n" +
+                $"   SET IsReportTransEnd = '{request["TransKind"]}'\r\n" +
                 $"     , ReportTransEndTime = GETDATE()\r\n" +
-                $" WHERE LabRegDate = '{Convert.ToDateTime(request["LabRegDate"]).ToString("yyyy-MM-dd")}'\r\n" +
-                $"   AND LabRegNo = {request["LabRegNo"].ToString()}\r\n" +
-                $"   AND ReportCode = '{request["ReportCode"].ToString()}'";
+                $" WHERE LabRegDate = '{Convert.ToDateTime(request["LabRegDate"]):yyyy-MM-dd}'\r\n" +
+                $"   AND LabRegNo = {request["LabRegNo"]}\r\n" +
+                $"   AND ReportCode = '{request["ReportCode"]}'";
             LabgeDatabase.ExecuteSql(sql);
 
             if ((request["ftpCode"] ?? "").ToString() != string.Empty)
@@ -357,7 +358,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 sql =
                     $"UPDATE LabTransReportFtp\r\n" +
                     $"   SET LastSendTime = GETDATE()\r\n" +
-                    $" WHERE FtpCode = '{request["FtpCode"].ToString()}'";
+                    $" WHERE FtpCode = '{request["FtpCode"]}'";
                 LabgeDatabase.ExecuteSql(sql);
             }
 
