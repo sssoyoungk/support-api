@@ -73,45 +73,46 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 if (compCode == "2928" || compCode == "M2928" || compCode == "9538" || compCode == "M9538")
                 {
                     sql =
-                        $"SET ARITHABORT ON\r\n" +
-                        $"SELECT B.LabRegDate, B.LabRegNo, B.PatientChartNo, B.PatientName, A.CompSpcNo, A.CompTestCode \r\n" +
-                        $"     , A.TestCode, E.ReportCode, E.LabRegReportID, E.IsReportTransEnd, B.PatientSampleGetTime, B.PatientImportCustomData01, G.ReportName \r\n" +
-                        $"     , F.ReportMatchCode, B.CompDeptCode \r\n" +
-                        $"FROM LabTransCompOrderInfo A \r\n" +
-                        $"JOIN LabRegInfo B \r\n" +
-                        $"ON A.LabRegDate = B.LabRegDate \r\n" +
-                        $"AND A.LabRegNo = B.LabRegNo \r\n" +
-                        $"JOIN LabRegResult C \r\n" +
-                        $"ON A.LabRegDate = C.LabRegDate \r\n" +
-                        $"AND A.LabRegNo = C.LabRegNo \r\n" +
-                        $"AND C.TestSubCode = A.TestCode \r\n" +
-                        $"JOIN LabTestCode D \r\n" +
-                        $"ON A.TestCode = D.TestCode \r\n" +
-                        $"JOIN LabRegReport E \r\n" +
-                        $"ON A.LabRegDate = E.LabRegDate \r\n" +
-                        $"AND A.LabRegNo = E.LabRegNo \r\n" +
-                        $"AND D.ReportCode = E.ReportCode \r\n" +
-                        $"JOIN ProgCompLabReport F \r\n" +
-                        $"ON F.CompCode = B.CompCode \r\n" +
-                        $"AND F.ReportCode = E.ReportCode \r\n" +
-                        $"AND F.IsReportTransFtp = 1 \r\n" +
-                        $"JOIN LabReportCode G\r\n" +
-                        $"ON G.ReportCode = E.ReportCode\r\n" +
-                        $"WHERE E.ReportEndTime <> '' \r\n" +
-                        $"AND E.ReportStateCode = 'F' \r\n" +
-                        $"AND B.CompCode = '{compCode}' \r\n" +
-                        $"AND E.IsReportTransEnd = {transKind} \r\n";
+                        $"SELECT\r\n" +
+                        $"    lri.LabRegDate, lri.LabRegNo, lri.PatientChartNo, lri.PatientName, ltcoi.CompSpcNo, ltcoi.CompTestCode,\r\n" +
+                        $"    lrr.TestSubCode, lrp.ReportCode, lrp.LabRegReportID, lrp.IsReportTransEnd, lri.PatientSampleGetTime, lri.PatientImportCustomData01,\r\n" +
+                        $"    lrc.ReportName, pclr.ReportMatchCode, lri.CompDeptCode\r\n" +
+                        $"FROM LabRegInfo AS lri\r\n" +
+                        $"JOIN LabRegResult AS lrr \r\n" +
+                        $"ON lri.LabRegDate = lrr.LabRegDate \r\n" +
+                        $"AND lri.LabRegNo = lrr.LabRegNo\r\n" +
+                        $"JOIN LabTestCode AS ltc \r\n" +
+                        $"ON lrr.TestCode = ltc.TestCode\r\n" +
+                        $"JOIN LabRegReport AS lrp \r\n" +
+                        $"ON lri.LabRegDate = lrp.LabRegDate \r\n" +
+                        $"AND lri.LabRegNo = lrp.LabRegNo \r\n" +
+                        $"AND ltc.ReportCode = lrp.ReportCode\r\n" +
+                        $"JOIN ProgCompLabReport AS pclr \r\n" +
+                        $"ON lri.CompCode = pclr.CompCode \r\n" +
+                        $"AND lrp.ReportCode = pclr.ReportCode \r\n" +
+                        $"AND pclr.IsReportTransFtp = 1\r\n" +
+                        $"JOIN LabReportCode AS lrc \r\n" +
+                        $"ON lrp.ReportCode = lrc.ReportCode\r\n" +
+                        $"JOIN LabTransCompOrderInfo AS ltcoi \r\n" +
+                        $"ON lri.LabRegDate = ltcoi.LabRegDate \r\n" +
+                        $"AND lri.LabRegNo = ltcoi.LabRegNo \r\n" +
+                        $"AND lrr.TestSubCode = ltcoi.TestCode\r\n" +
+                        $"WHERE lri.CompCode = '{compCode}'\r\n" +
+                        $"AND lrp.ReportStateCode = 'F'\r\n" +
+                        $"AND lrp.IsReportTransEnd = {transKind}\r\n" +
+                        $"AND lrp.ReportEndTime != ''\r\n";
+                        
 
                     if (dateKind == "E") //보고일
                     {
-                        sql += $"AND E.ReportEndTime >= '{beginDate.ToString("yyyy-MM-dd")}' AND E.ReportEndTime < DATEADD(DAY, 1, '{endDate.ToString("yyyy-MM-dd")}')\r\n";
+                        sql += $"AND lrp.ReportEndTime >= '{beginDate:yyyy-MM-dd}' AND lrp.ReportEndTime < DATEADD(DAY, 1, '{endDate:yyyy-MM-dd}')\r\n";
                     }
                     else //접수일
                     {
-                        sql += $"AND E.LabRegDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}' ";
+                        sql += $"AND lrp.LabRegDate BETWEEN '{beginDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}' ";
                     }
 
-                    sql += "ORDER BY E.LabRegDate, B.PatientChartNo, B.PatientName";
+                    sql += "ORDER BY lri.LabRegDate, lri.PatientChartNo, lri.PatientName\r\n";
                 }
                 //아이앤젤산부인과 네오차트(메디차트) 엑셀 연동
                 else if (compCode == "22005")
