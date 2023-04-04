@@ -45,6 +45,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             else if (mode == "remainder")
             {
                 sql =
+                    "SET ARITHABORT ON\r\n" +
                     $"SELECT pi2.CompTestCode, pi2.CompTestName, \r\n" +
                     $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2,  ppi.EmailAddress, \r\n" +
                     $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive, ppi.ReshippedCode, ppi.PrevTrackingNumber, ppi.PrevBarcode, ppi.TrackingNumber, ppi.Barcode, \r\n" +
