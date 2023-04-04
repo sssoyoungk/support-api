@@ -139,11 +139,11 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
 
                     if (dateKind == "E") //보고일
                     {
-                        sql += $"AND lrr.ReportEndTime >= '{beginDate.ToString("yyyy-MM-dd")}' AND lrr.ReportEndTime < DATEADD(DAY, 1, '{endDate.ToString("yyyy-MM-dd")}')";
+                        sql += $"AND lrr.ReportEndTime >= '{beginDate:yyyy-MM-dd} ' AND lrr.ReportEndTime < DATEADD(DAY, 1, ' {endDate:yyyy-MM-dd}')";
                     }
                     else //접수일
                     {
-                        sql += $"AND lrr.LabRegDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}' ";
+                        sql += $"AND lrr.LabRegDate BETWEEN '{beginDate:yyyy-MM-dd} ' AND ' {endDate:yyyy-MM-dd}' ";
                     }
 
                     sql += "ORDER BY lrr.LabRegDate, lrr.LabRegNo, lri.PatientChartNo, lri.PatientName";
@@ -170,11 +170,11 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
 
                     if (dateKind == "E") //보고일
                     {
-                        sql += $"AND report.ReportEndTime >= '{beginDate.ToString("yyyy-MM-dd")}' AND report.ReportEndTime < DATEADD(DAY, 1, '{endDate.ToString("yyyy-MM-dd")}')\r\n";
+                        sql += $"AND report.ReportEndTime >= '{beginDate:yyyy-MM-dd} ' AND report.ReportEndTime < DATEADD(DAY, 1, ' {endDate:yyyy-MM-dd}')\r\n";
                     }
                     else //접수일
                     {
-                        sql += $"AND report.LabRegDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n";
+                        sql += $"AND report.LabRegDate BETWEEN '{beginDate:yyyy-MM-dd} ' AND ' {endDate:yyyy-MM-dd}'\r\n";
                     }
 
                     sql += "ORDER BY report.LabRegDate, info.PatientChartNo, info.PatientName";
@@ -199,18 +199,18 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
             {
                 string sql;
                 sql = $"UPDATE LabRegReport\r\n" +
-                      $"   SET IsReportTransEnd = '{value["IsReportTransEnd"].ToString()}'\r\n" +
+                      $"   SET IsReportTransEnd = '{value["IsReportTransEnd"]}'\r\n" +
                       $"     , ReportTransEndTime = GETDATE()\r\n" +
-                      $" WHERE LabRegDate = '{Convert.ToDateTime(value["LabRegDate"]).ToString("yyyy-MM-dd")}'\r\n" +
+                      $" WHERE LabRegDate = '{Convert.ToDateTime(value["LabRegDate"]):yyyy-MM-dd}'\r\n" +
                       $"   AND LabRegNo = {value["LabRegNo"]}\r\n" +
-                      $"   AND ReportCode = '{value["ReportCode"].ToString()}'";
+                      $"   AND ReportCode = '{value["ReportCode"]}'";
                 Services.LabgeDatabase.ExecuteSql(sql);
 
                 if (value["FtpCode"].ToString() != string.Empty)
                 {
                     sql = $"UPDATE LabTransReportFtp\r\n" +
                           $"   SET LastSendTime = GETDATE()\r\n" +
-                          $" WHERE FtpCode = '{value["FtpCode"].ToString()}'";
+                          $" WHERE FtpCode = '{value["FtpCode"]}'";
 
                     Services.LabgeDatabase.ExecuteSql(sql);
                 }
