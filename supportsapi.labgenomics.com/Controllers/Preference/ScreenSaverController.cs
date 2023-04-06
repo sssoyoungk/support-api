@@ -20,7 +20,7 @@ namespace supportsapi.labgenomics.com.Controllers.Preference
             sql =
                 $"SELECT *\r\n" +
                 $"FROM LabgeIPAddress\r\n" +
-                $"WHERE IPAddresss = '{address}'";
+                $"WHERE IPAddress = '{address}'";
             JArray arrResponse = LabgeDatabase.SqlToJArray(sql);
             return Ok(arrResponse);
         }
