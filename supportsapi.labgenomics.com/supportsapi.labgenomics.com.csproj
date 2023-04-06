@@ -286,6 +286,7 @@
     <Compile Include="Controllers\Molecular\WasteListController.cs" />
     <Compile Include="Controllers\Preference\FormListController.cs" />
     <Compile Include="Controllers\Preference\GenocoreCompListController.cs" />
+    <Compile Include="Controllers\Preference\ScreenSaverController.cs" />
     <Compile Include="Controllers\Sales\BankSaladOrderController.cs" />
     <Compile Include="Controllers\Sales\BizmentMappingController.cs" />
     <Compile Include="Controllers\Sales\BizmentResultController.cs" />
