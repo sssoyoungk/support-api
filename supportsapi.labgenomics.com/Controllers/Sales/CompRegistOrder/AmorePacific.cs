@@ -45,9 +45,9 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                         $"AND ltmc.CompMatchCode = pti.CompTestCode\r\n" +
                         $"LEFT OUTER JOIN LabTestCode ltc\r\n" +
                         $"ON ltmc.CenterMatchCode = ltc.TestCode\r\n" +
-                        $"WHERE ppi.CompOrderDate >= '{request["BeginDate"].ToString()}'\r\n" +
-                        $"AND ppi.CompOrderDate < DATEADD(DAY, 1, '{request["EndDate"].ToString()}')\r\n" +
-                        $"AND ppi.CompCode = '{request["CompCode"].ToString()}'\r\n" +
+                        $"WHERE ppi.CompOrderDate >= '{request["BeginDate"]}'\r\n" +
+                        $"AND ppi.CompOrderDate < DATEADD(DAY, 1, '{request["EndDate"]}')\r\n" +
+                        $"AND ppi.CompCode = '{request["CompCode"]}'\r\n" +
                         $"AND NOT EXISTS\r\n" +
                         $"(\r\n" +
                         $"    SELECT NULL FROM LabTransCompOrderInfo orderInfo\r\n" +
@@ -67,8 +67,8 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                           $"LEFT OUTER JOIN LabRegInfo regInfo \r\n" +
                           $"ON regInfo.LabRegDate = transInfo.LabRegDate \r\n" +
                           $"AND regInfo.LabRegNo = transInfo.LabRegNo \r\n" +
-                          $"WHERE transInfo.CompCode = '{request["CompCode"].ToString()}' \r\n" +
-                          $"AND transInfo.LabRegDate BETWEEN '{request["BeginDate"].ToString()}' AND '{request["EndDate"].ToString()}'\r\n" +
+                          $"WHERE transInfo.CompCode = '{request["CompCode"]}' \r\n" +
+                          $"AND transInfo.LabRegDate BETWEEN '{request["BeginDate"]}' AND '{request["EndDate"]}'\r\n" +
                           $"ORDER BY regInfo.LabRegDate, regInfo.LabRegNo";
                 }
                 SqlCommand cmd = new SqlCommand(sql, conn);
