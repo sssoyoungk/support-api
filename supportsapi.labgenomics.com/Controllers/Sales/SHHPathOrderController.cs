@@ -22,7 +22,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                   $"     , (SELECT CompName FROM ProgCompCode WHERE A.CompCode = CompCode) AS CompName\r\n" +
                   $"     , A.PatientName, A.PatientAge, A.PatientSex, A.PatientJuminNo01, A.PatientChartNo\r\n" +
                   $"     , B.OrderCode, B.TestCode\r\n" +
-                  $"     , (SELECT TestDisplayName FROM LabTestCode WHERE B.TestCode = TestCode) AS TestDisplayName\r\n" +
+                  $"     , (SELECT TestDisplayName FROM LabTestCode WHERE B.TestCode = TestCode) AS TestDisplayName, D.ReportCode\r\n" +
                   $"     , B.SampleCode\r\n" +
                   $"     , (SELECT SampleName FROM LabSampleCode WHERE B.SampleCode = SampleCode) AS SampleName\r\n" +
                   $"     , B.IsTestOutside, B.TestOutsideBeginTime, B.TestOutsideEndTime, B.TestOutsideCompCode, B.TestOutsideMemberID\r\n" +
@@ -35,8 +35,18 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                   $"ON C.OutsideCompCode = '4130'\r\n" +
                   $"AND C.OutsideTestCode = B.TestCode\r\n" +
                   $"AND C.OutsideSampleCode = B.SampleCode\r\n" +
-                  $"WHERE A.LabRegDate BETWEEN '{beginDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'\r\n" +
-                  $"AND B.IsTestOutSide = {isTestOutside}\r\n";
+                  $"JOIN LabTestCode D\r\n" +
+                  $"ON B.TestCode = D.TestCode\r\n" +
+                   $"JOIN ProgCompCode E\r\n" +
+                   $"ON E.CompCode = A.CompCode\r\n";
+
+            if ((compMngCode ?? string.Empty) != string.Empty)
+            {
+                sql += $"AND E.CompMngCode = '{compMngCode}'\r\n";
+            }
+            sql += $"WHERE A.LabRegDate BETWEEN '{beginDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'\r\n" +
+                   $"AND B.IsTestOutSide = {isTestOutside}\r\n"+
+                   $"AND A.LabRegNo BETWEEN {beginNo} AND {endNo}\r\n";
 
             if (isTestOutside == "1")
             {
