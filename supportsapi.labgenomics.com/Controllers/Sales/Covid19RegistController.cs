@@ -339,7 +339,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                     JArray arrOrders = JArray.Parse(JsonConvert.SerializeObject(dt));
                     foreach (JObject objOrder in arrOrders)
                     {
-                        string sql;
+                        string sql;                        
                         sql = $"MERGE INTO Covid19Order AS target\r\n" +
                               $"USING (SELECT '{objOrder["검체번호"]}' AS SampleNo) AS source\r\n" +
                               $"ON target.SampleNo = source.SampleNo\r\n" +
@@ -359,7 +359,8 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                               $"        CASE WHEN '{objOrder["성별"]}' = '남' THEN 'M' WHEN '{objOrder["성별"]}' = '여' THEN 'F' ELSE '' END,\r\n" +
                               $"        '{objOrder["등록구분"]}', '{objOrder["선제검사\n대상유형"]}', '{objOrder["검사구분"]}',\r\n" +
                               $"        '{objOrder["검사의뢰서 출력일시"]}',\r\n" +
-                              $"        '{objOrder["환자 연락처"]}', '{objOrder["확인일시"]}', '{objOrder["비고"].ToString().Replace("'", "''")}', 'Covid19Excel'\r\n" +
+                              $"        '{objOrder["환자 연락처"]}', '{objOrder["확인일시"]}', '{(objOrder["비고"] ?? string.Empty).ToString().Replace("'", "''")}',\r\n" +
+                              $"        'Covid19Excel'\r\n" +
                               $"    )\r\n" +
                               $"WHEN MATCHED THEN\r\n" +
                               $"    UPDATE\r\n" +
