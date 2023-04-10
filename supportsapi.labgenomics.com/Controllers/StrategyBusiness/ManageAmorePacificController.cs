@@ -23,46 +23,63 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
         /// </summary>
         /// <returns></returns>
         [Route("api/StrategyBusiness/ManageAmorePacific/UploadFile")]
-        public async Task<HttpResponseMessage> PostUploadFile()
+        public IHttpActionResult PostUploadFile(JObject objRequest)
         {
             try
             {
-                if (!Request.Content.IsMimeMultipartContent())
+                //base64 string을 엑셀파일로 디코딩.
+                byte[] dataBytes = Convert.FromBase64String(objRequest["ReceiptFile"].ToString());
+
+                //디코딩된 엑셀파일을 메모리스트림에 올린다.
+                MemoryStream stream = new MemoryStream(dataBytes);
+
+                //엑셀파일을 읽어서 table에 저장
+                IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream);
+                var conf = new ExcelDataSetConfiguration
                 {
-                    throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
-                }
-
-                string root = HttpContext.Current.Server.MapPath("/" + @"LabImportFile/AmorePacificFiles");
-                Directory.CreateDirectory(root);
-                var provider = new MultipartFormDataStreamProvider(root);
-
-                await Request.Content.ReadAsMultipartAsync(provider);
-
-                foreach (MultipartFileData file in provider.FileData)
-                {
-                    var dataBytes = File.ReadAllBytes(file.LocalFileName);
-                    var dataStream = new MemoryStream(dataBytes);
-                    IExcelDataReader reader = ExcelReaderFactory.CreateReader(dataStream);
-                    var conf = new ExcelDataSetConfiguration
+                    ConfigureDataTable = _ => new ExcelDataTableConfiguration
                     {
-                        ConfigureDataTable = _ => new ExcelDataTableConfiguration
-                        {
-                            UseHeaderRow = true
-                        }
-                    };
-                    var dataSet = reader.AsDataSet(conf);
-                    DataTable dt = dataSet.Tables[0];
-                    JArray arrOrders = JArray.Parse(JsonConvert.SerializeObject(dt));
+                        UseHeaderRow = true
+                    }
+                };
+
+                DataSet dataSet = reader.AsDataSet(conf);
+                string sql;
+                foreach (DataRow dr in dataSet.Tables[0].Rows)
+                {
+                    try
+                    {
+                        sql =
+                            $"INSERT INTO AmorePacificPatientInfo\r\n" +
+                            $"(\r\n" +
+                            $"    CompOrderDate, CompOrderNo, PatientName, Address, ZipCode, PhoneNumber, TestCode, TestName, RegistMemberID" +
+                            $")\r\n" +
+                            $"VALUES\r\n" +
+                            $"(\r\n" +
+                            $"    '{Convert.ToDateTime(dr["결제일시"]):yyyy-MM-dd}', '{dr["주문번호"]}', '{dr["수취인명"]}', '{dr["주소"]}', '{dr["우편번호"]}', '{dr["수취인휴대전화번호"]}',\r\n" +
+                            $"    '60001', '위드진69', '{objRequest["MemberID"]}'\r\n" +
+                            $")\r\n";
+                        LabgeDatabase.ExecuteSql(sql);
+                    }
+                    catch
+                    {
+
+                    }
                 }
 
-                return Request.CreateResponse(HttpStatusCode.OK);
+                //메모리스트림 메모리 반환
+                stream.Dispose();
+
+                return Ok();
             }
             catch (Exception ex)
             {
-                JObject objResponse = new JObject();
-                objResponse.Add("Status", Convert.ToInt32(HttpStatusCode.BadRequest));
-                objResponse.Add("Message", ex.Message);
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, objResponse.ToString());
+                JObject objResponse = new JObject
+                {
+                    { "Status", Convert.ToInt32(HttpStatusCode.BadRequest) },
+                    { "Message", ex.Message }
+                };
+                return Content(HttpStatusCode.BadRequest, objResponse);
             }
         }
         /// <summary>
