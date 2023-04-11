@@ -23,7 +23,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                   $"     , ppi.CheckSendResultEmail, CONVERT(varchar(19), ppi.EmailSendDateTime, 21) AS EmailSendDateTime\r\n" +
                   $"     , CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo\r\n" +
                   $"     , CONVERT(varchar(19), lrr.ReportEndTime, 21) AS ReportEndTime\r\n" +
-                  $"     , ppi.CompCode, pcc.CompName\r\n" +
+                  $"     , ppi.CompCode, pcc.CompName, ppi.OrderStatus\r\n" +
                   $"FROM PGSPatientInfo ppi\r\n" +
                   $"LEFT OUTER JOIN LabTransCompOrderInfo ltcoi\r\n" +
                   $"ON ppi.CompOrderDate = ltcoi.CompOrderDate\r\n" +
@@ -33,7 +33,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                   $"LEFT OUTER JOIN LabRegReport lrr\r\n" +
                   $"ON ltcoi.LabRegDate = lrr.LabRegDate\r\n" +
                   $"AND ltcoi.LabRegNo = lrr.LabRegNo\r\n" +
-                  $"WHERE ppi.CompOrderDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
+                  $"WHERE ppi.CompOrderDate BETWEEN '{beginDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'\r\n" +
                   $"AND ppi.CustomerCode = 'juvis'";
 
             JArray arrResponse = LabgeDatabase.SqlToJArray(sql);
@@ -49,14 +49,14 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                 {
                     string sql;
                     sql = $"UPDATE PGSPatientInfo\r\n" +
-                          $"SET LabgeEmailAddress = '{objRequest["LabgeEmailAddress"].ToString()}'\r\n" +
+                          $"SET LabgeEmailAddress = '{objRequest["LabgeEmailAddress"]}'\r\n" +
                           $"  , AgreeRequestTest = '{objRequest["AgreeRequestTest"]}'\r\n" +
                           $"  , AgreeGeneTest = '{objRequest["AgreeGeneTest"]}'\r\n" +
                           $"  , AgreeLabgePrivacyPolicy = '{objRequest["AgreeLabgePrivacyPolicy"]}'\r\n" +
                           $"  , AgreeThirdPartyOffer = '{objRequest["AgreeThirdPartyOffer"]}'\r\n" +
                           $"  , AgreeSendResultEmail = '{objRequest["AgreeSendResultEmail"]}'\r\n" +
-                          $"WHERE CompOrderDate = '{Convert.ToDateTime(objRequest["CompOrderDate"]).ToString("yyyy-MM-dd")}'\r\n" +
-                          $"AND CompOrderNo = '{objRequest["CompOrderNo"].ToString()}'";
+                          $"WHERE CompOrderDate = '{Convert.ToDateTime(objRequest["CompOrderDate"]):yyyy-MM-dd}'\r\n" +
+                          $"AND CompOrderNo = '{objRequest["CompOrderNo"]}'";
                     LabgeDatabase.ExecuteSql(sql);
                 }
                 return Ok();
@@ -64,17 +64,21 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
 
             catch (HttpException ex)
             {
-                JObject objResponse = new JObject();
-                objResponse.Add("Status", ex.GetHttpCode());
-                objResponse.Add("Message", ex.Message);
+                JObject objResponse = new JObject
+                {
+                    { "Status", ex.GetHttpCode() },
+                    { "Message", ex.Message }
+                };
                 HttpStatusCode code = (HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), ex.GetHttpCode().ToString());
                 return Content((HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), ex.GetHttpCode().ToString()), objResponse);
             }
             catch (Exception ex)
             {
-                JObject objResponse = new JObject();
-                objResponse.Add("Status", Convert.ToInt32(HttpStatusCode.BadRequest));
-                objResponse.Add("Message", ex.Message);
+                JObject objResponse = new JObject
+                {
+                    { "Status", Convert.ToInt32(HttpStatusCode.BadRequest) },
+                    { "Message", ex.Message }
+                };
                 return Content(HttpStatusCode.BadRequest, objResponse);
             }
         }
@@ -85,7 +89,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             {
                 string sql;
                 sql = $"DELETE FROM PGSPatientInfo\r\n" +
-                      $"WHERE CompOrderDate = '{compOrderDate.ToString("yyyy-MM-dd")}'\r\n" +
+                      $"WHERE CompOrderDate = '{compOrderDate:yyyy-MM-dd}'\r\n" +
                       $"AND CompOrderNo = '{compOrderNo}'\r\n" +
                       $"AND NOT EXISTS \r\n" + 
                       $"(\r\n" +
@@ -95,7 +99,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                       $"    AND ltcoi.CompOrderNo = PGSPatientInfo.CompOrderNo\r\n" +
                       $")\r\n" +
                       $"DELETE FROM PGSTestInfo\r\n" +
-                      $"WHERE CompOrderDate = '{compOrderDate.ToString("yyyy-MM-dd")}'\r\n" +
+                      $"WHERE CompOrderDate = '{compOrderDate:yyyy-MM-dd}'\r\n" +
                       $"AND CompOrderNo = '{compOrderNo}'\r\n" +
                       $"AND NOT EXISTS \r\n" + 
                       $"(\r\n" +
@@ -115,17 +119,21 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             }
             catch (HttpException ex)
             {
-                JObject objResponse = new JObject();
-                objResponse.Add("Status", ex.GetHttpCode());
-                objResponse.Add("Message", ex.Message);
+                JObject objResponse = new JObject
+                {
+                    { "Status", ex.GetHttpCode() },
+                    { "Message", ex.Message }
+                };
                 HttpStatusCode code = (HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), ex.GetHttpCode().ToString());
                 return Content((HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), ex.GetHttpCode().ToString()), objResponse);
             }
             catch (Exception ex)
             {
-                JObject objResponse = new JObject();
-                objResponse.Add("Status", Convert.ToInt32(HttpStatusCode.BadRequest));
-                objResponse.Add("Message", ex.Message);
+                JObject objResponse = new JObject
+                {
+                    { "Status", Convert.ToInt32(HttpStatusCode.BadRequest) },
+                    { "Message", ex.Message }
+                };
                 return Content(HttpStatusCode.BadRequest, objResponse);
             }
         }
