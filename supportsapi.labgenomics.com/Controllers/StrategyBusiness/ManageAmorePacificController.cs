@@ -6,6 +6,7 @@ using supportsapi.labgenomics.com.Services;
 using System;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -138,7 +139,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
         {
             try
             {
-                foreach (JObject objRequest in arrRequest)
+                foreach (JObject objRequest in arrRequest.Cast<JObject>())
                 {
                     string sql;
                     sql = $"UPDATE PGSPatientInfo\r\n" +
@@ -163,17 +164,21 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             }
             catch (HttpException ex)
             {
-                JObject objResponse = new JObject();
-                objResponse.Add("Status", ex.GetHttpCode());
-                objResponse.Add("Message", ex.Message);
+                JObject objResponse = new JObject
+                {
+                    { "Status", ex.GetHttpCode() },
+                    { "Message", ex.Message }
+                };
                 HttpStatusCode code = (HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), ex.GetHttpCode().ToString());
                 return Content((HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), ex.GetHttpCode().ToString()), objResponse);
             }
             catch (Exception ex)
             {
-                JObject objResponse = new JObject();
-                objResponse.Add("Status", Convert.ToInt32(HttpStatusCode.BadRequest));
-                objResponse.Add("Message", ex.Message);
+                JObject objResponse = new JObject
+                {
+                    { "Status", Convert.ToInt32(HttpStatusCode.BadRequest) },
+                    { "Message", ex.Message }
+                };
                 return Content(HttpStatusCode.BadRequest, objResponse);
             }
         }
@@ -196,9 +201,11 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             }
             catch (Exception ex)
             {
-                JObject objResponse = new JObject();
-                objResponse.Add("Status", Convert.ToInt32(HttpStatusCode.BadRequest));
-                objResponse.Add("Message", ex.Message);
+                JObject objResponse = new JObject
+                {
+                    { "Status", Convert.ToInt32(HttpStatusCode.BadRequest) },
+                    { "Message", ex.Message }
+                };
                 return Content(HttpStatusCode.BadRequest, objResponse);
             }
         }

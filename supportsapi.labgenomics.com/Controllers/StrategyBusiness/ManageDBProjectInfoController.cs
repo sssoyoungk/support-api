@@ -21,13 +21,6 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
     {
         public IHttpActionResult Get(DateTime beginDate, DateTime endDate, string groupCode)
         {
-#if DEBUG
-            string infoTable = "PGSPatientInfo";
-
-#else
-            string infoTable = "PGSPatientInfo";
-#endif
-
             string sql;
             sql =
                 $"SELECT\n" +

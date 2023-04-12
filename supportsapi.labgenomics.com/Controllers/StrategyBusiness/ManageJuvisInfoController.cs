@@ -2,6 +2,7 @@
 using supportsapi.labgenomics.com.Attributes;
 using supportsapi.labgenomics.com.Services;
 using System;
+using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Http;
@@ -49,7 +50,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
         {
             try
             {
-                foreach (JObject objRequest in request)
+                foreach (JObject objRequest in request.Cast<JObject>())
                 {
                     string sql;
                     sql = $"UPDATE PGSPatientInfo\r\n" +
