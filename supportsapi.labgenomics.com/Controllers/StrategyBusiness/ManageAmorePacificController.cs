@@ -196,11 +196,9 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             }
             catch (Exception ex)
             {
-                JObject objResponse = new JObject
-                {
-                    { "Status", Convert.ToInt32(HttpStatusCode.BadRequest) },
-                    { "Message", ex.Message }
-                };
+                JObject objResponse = new JObject();
+                objResponse.Add("Status", Convert.ToInt32(HttpStatusCode.BadRequest));
+                objResponse.Add("Message", ex.Message);
                 return Content(HttpStatusCode.BadRequest, objResponse);
             }
         }
