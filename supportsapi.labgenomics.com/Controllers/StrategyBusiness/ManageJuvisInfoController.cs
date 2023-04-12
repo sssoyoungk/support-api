@@ -40,7 +40,11 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             return Ok(arrResponse);
         }
 
-        // PUT api/<controller>/5
+        /// <summary>
+        /// PUT
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public IHttpActionResult Put([FromBody]JArray request)
         {
             try
@@ -55,6 +59,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                           $"  , AgreeLabgePrivacyPolicy = '{objRequest["AgreeLabgePrivacyPolicy"]}'\r\n" +
                           $"  , AgreeThirdPartyOffer = '{objRequest["AgreeThirdPartyOffer"]}'\r\n" +
                           $"  , AgreeSendResultEmail = '{objRequest["AgreeSendResultEmail"]}'\r\n" +
+                          $"  , OrderStatus = '{objRequest["OrderStatus"] ?? string.Empty}'\r\n" +
                           $"WHERE CompOrderDate = '{Convert.ToDateTime(objRequest["CompOrderDate"]):yyyy-MM-dd}'\r\n" +
                           $"AND CompOrderNo = '{objRequest["CompOrderNo"]}'";
                     LabgeDatabase.ExecuteSql(sql);
