@@ -80,17 +80,17 @@ namespace supportsapi.labgenomics.com.Controllers.Molecular
             {
                 string sql;
                 sql = $"MERGE INTO GenoPacOrderMessage AS target\r\n" +
-                      $"USING (SELECT '{Convert.ToDateTime(value["LabRegDate"]).ToString("yyyy-MM-dd")}' AS LabRegDate, '{value["LabRegNo"].ToString()}' AS LabRegNo\r\n" +
-                      $"            , '{value["OrderCode"].ToString()}' AS OrderCode) AS source\r\n" +
+                      $"USING (SELECT '{Convert.ToDateTime(value["LabRegDate"]):yyyy-MM-dd}' AS LabRegDate, '{value["LabRegNo"]}' AS LabRegNo\r\n" +
+                      $"            , '{value["OrderCode"]}' AS OrderCode) AS source\r\n" +
                       $"ON (target.LabRegDate = source.LabRegDate AND target.LabRegNo = source.LabRegNo AND target.OrderCode = source.OrderCode)\r\n" +
                       $"WHEN NOT MATCHED THEN\r\n" +
                       $"INSERT (RegistDate, LabRegDate, LabRegNo, OrderCode, LabMessage, LabRegistTime, LabRegistID)\r\n" +
-                      $"VALUES ( '{Convert.ToDateTime(value["RegistDate"]).ToString("yyyy-MM-dd")}', source.LabRegDate, source.LabRegNo, source.OrderCode\r\n" +
-                      $"       , '{value["LabMessage"].ToString()}', GETDATE(), '{value["LabRegistID"].ToString()}' )\r\n" +
+                      $"VALUES ( '{Convert.ToDateTime(value["RegistDate"]):yyyy-MM-dd}', source.LabRegDate, source.LabRegNo, source.OrderCode\r\n" +
+                      $"       , '{value["LabMessage"]}', GETDATE(), '{value["LabRegistID"]}' )\r\n" +
                       $"WHEN MATCHED THEN\r\n" +
-                      $"UPDATE SET LabMessage = '{value["LabMessage"].ToString()}'\r\n" +
-                      $"         , SalesMessage = '{value["SalesMessage"].ToString()}'\r\n" +
-                      $"         , SalesRegistID = '{value["SalesRegistID"].ToString()}';";
+                      $"UPDATE SET LabMessage = '{value["LabMessage"]}'\r\n" +
+                      $"         , SalesMessage = '{value["SalesMessage"]}'\r\n" +
+                      $"         , SalesRegistID = '{value["SalesRegistID"]}';";
 
                 Services.LabgeDatabase.ExecuteSql(sql);
 
