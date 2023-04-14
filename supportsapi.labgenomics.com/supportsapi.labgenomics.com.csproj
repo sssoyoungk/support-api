@@ -274,6 +274,7 @@
     <Compile Include="Controllers\Common\SendBizTalkDeferredPaymentController.cs" />
     <Compile Include="Controllers\Common\GenoCoreAuthController.cs" />
     <Compile Include="Controllers\Common\TestCodeInfoController.cs" />
+    <Compile Include="Controllers\Diagnostic\DiseaseReportController.cs" />
     <Compile Include="Controllers\Diagnostic\GCLabInterfaceOrderController.cs" />
     <Compile Include="Controllers\Diagnostic\GCLabInterfaceResultController.cs" />
     <Compile Include="Controllers\Diagnostic\SendSMSTestResultController.cs" />
