@@ -274,6 +274,10 @@
     <Compile Include="Controllers\Common\SendBizTalkDeferredPaymentController.cs" />
     <Compile Include="Controllers\Common\GenoCoreAuthController.cs" />
     <Compile Include="Controllers\Common\TestCodeInfoController.cs" />
+    <Compile Include="Controllers\Diagnostic\TGResultOverLDLController.cs" />
+    <Compile Include="Controllers\Diagnostic\TestMidTimeEditController.cs" />
+    <Compile Include="Controllers\Diagnostic\TestCalcMissingController.cs" />
+    <Compile Include="Controllers\Diagnostic\SensiStatController.cs" />
     <Compile Include="Controllers\Diagnostic\ResultPivotController.cs" />
     <Compile Include="Controllers\Diagnostic\ResultCopyController.cs" />
     <Compile Include="Controllers\Diagnostic\RemarkPartReviewController.cs" />
