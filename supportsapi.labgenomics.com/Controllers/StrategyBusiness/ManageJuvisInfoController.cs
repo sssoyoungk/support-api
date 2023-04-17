@@ -46,7 +46,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public IHttpActionResult Put([FromBody]JArray request)
+        public IHttpActionResult Put([FromBody] JArray request)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                 sql = $"DELETE FROM PGSPatientInfo\r\n" +
                       $"WHERE CompOrderDate = '{compOrderDate:yyyy-MM-dd}'\r\n" +
                       $"AND CompOrderNo = '{compOrderNo}'\r\n" +
-                      $"AND NOT EXISTS \r\n" + 
+                      $"AND NOT EXISTS \r\n" +
                       $"(\r\n" +
                       $"    SELECT NULL\r\n" +
                       $"    FROM LabTransCompOrderInfo ltcoi\r\n" +
@@ -107,7 +107,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                       $"DELETE FROM PGSTestInfo\r\n" +
                       $"WHERE CompOrderDate = '{compOrderDate:yyyy-MM-dd}'\r\n" +
                       $"AND CompOrderNo = '{compOrderNo}'\r\n" +
-                      $"AND NOT EXISTS \r\n" + 
+                      $"AND NOT EXISTS \r\n" +
                       $"(\r\n" +
                       $"    SELECT NULL\r\n" +
                       $"    FROM LabTransCompOrderInfo ltcoi\r\n" +
@@ -115,7 +115,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                       $"    AND ltcoi.CompOrderNo = PGSTestInfo.CompOrderNo\r\n" +
                       $")\r\n";
 
-                int execCount =LabgeDatabase.ExecuteSql(sql);
+                int execCount = LabgeDatabase.ExecuteSql(sql);
 
                 if (execCount == 0)
                 {
