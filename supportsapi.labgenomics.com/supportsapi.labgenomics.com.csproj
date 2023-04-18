@@ -288,6 +288,7 @@
     <Compile Include="Controllers\Diagnostic\GCLabInterfaceOrderController.cs" />
     <Compile Include="Controllers\Diagnostic\GCLabInterfaceResultController.cs" />
     <Compile Include="Controllers\Diagnostic\SendSMSTestResultController.cs" />
+    <Compile Include="Controllers\Diagnostic\WorkListController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\Molecular\Banking\BankingController.cs" />
