@@ -217,7 +217,7 @@ namespace supportsapi.labgenomics.com.Controllers.Diagnostic
                 option3 = "";
             }
 
-            if (reportCode == "LWL03")
+            if (reportCode.Contains("LWL03"))
             {
                 sql = "select '0' as 선택, convert(varchar(10), a.LabRegDate, 23) as 접수일, a.LabRegNo as 접수번호, a.CompCode as 거래처코드, d.CompName as 거래처명, a.PatientName as '수진자명(접수)', a.PatientChartNo as 차트번호, b.TestCode as 검사코드\n"
                          + ", e.TestDisplayName as 검사명, f.TestStateShortName as 상태, h.CustomShortName as 구분\n"
