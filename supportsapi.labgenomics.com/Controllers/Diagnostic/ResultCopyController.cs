@@ -2,6 +2,7 @@
 using supportsapi.labgenomics.com.Attributes;
 using supportsapi.labgenomics.com.Services;
 using System;
+using System.Data;
 using System.Net;
 using System.Web.Http;
 
@@ -71,5 +72,193 @@ namespace supportsapi.labgenomics.com.Controllers.Diagnostic
             var arrResponse = LabgeDatabase.SqlToJArray(sql);
             return Ok(arrResponse);
         }
+
+
+
+        [Route("api/Diagnostic/ResultCopy")]
+        public IHttpActionResult PutResultCopy([FromBody]JObject request)
+        {
+            try
+            {
+                string sql = string.Empty;
+                string merge = string.Empty;
+
+                //param
+                //TargetLabRegNo
+                //TargetLabRegDate
+                //SourceLabRegNo
+                //SourceLabRegDate
+                //MemberName
+
+                JObject param = Newtonsoft.Json.JsonConvert.DeserializeObject<JObject>(request["param"].ToString());
+
+                DataTable dtSource = Newtonsoft.Json.JsonConvert.DeserializeObject<DataTable>(request["source"].ToString());
+
+                DataTable dtTarget = Newtonsoft.Json.JsonConvert.DeserializeObject<DataTable>(request["target"].ToString());
+
+                if (dtSource.Rows.Count <= 0 && dtTarget.Rows.Count <= 0)
+                {
+                    throw new Exception("복사할 데이터 없음.");
+                }
+
+
+                if (param["ReportCode"].ToString() != "03")
+                {
+                    for (int i = 0; i < dtSource.Rows.Count; i++)
+                    {
+                        if (dtSource.Rows[i]["헤더"].ToString() != "True" && dtSource.Rows[i]["결과1"].ToString() != "")
+                        {
+                            //MessageBox.Show("Interface_SetPatientResult_Test '" + dateT.Value.ToString("yyyy-MM-dd") + "', '" + txtTNo.Text + "', '" + dtSource.Rows[i]["의뢰코드"].ToString() + "', '" + dtSource.Rows[i]["테스트코드"].ToString() + "', '" + dtSource.Rows[i]["검사코드"].ToString() + "', '" + dtSource.Rows[i]["결과1"].ToString() + "', '" + dtSource.Rows[i]["결과2"].ToString() + "', Null, Null, Null, Null, 'CM099', null");
+                            string strSourceOrderCode = dtSource.Rows[i]["검사코드"].ToString(), strTargetOrderCode = "";
+                            string strTargetTestCode = dtSource.Rows[i]["테스트코드"].ToString();
+                            string strTargetTestSubCode = dtSource.Rows[i]["T코드"].ToString();
+                
+                
+                
+                            if (strSourceOrderCode == "22050")
+                            {
+                                strTargetTestCode = dtTarget.Rows[0]["테스트코드"].ToString();
+                                if (strTargetTestCode == "22051")
+                                {
+                                    strTargetOrderCode = "22051";
+                                    strTargetTestCode = "22051";
+                                    strTargetTestSubCode = "22051";
+                
+                                    string strInterface_Result, strInterface_Text;
+                                    strInterface_Result = "Interface_SetPatientResult_Test '" + param["TargetLabRegDate"].ToString() + "', '" + param["TargetLabRegNo"] + "', '" + strTargetOrderCode + "', '" + strTargetTestSubCode + "', '" + strTargetTestSubCode + "', '" + dtSource.Rows[i]["결과1"].ToString() + "', '" + dtSource.Rows[i]["결과2"].ToString() + "', Null, Null, Null, Null, 'CM099', null";
+                                    strInterface_Text = "Interface_SetPatientResultText '" + param["TargetLabRegDate"].ToString() + "', '" + param["TargetLabRegNo"] + "', '" + strTargetOrderCode + "', '" + strTargetTestCode + "', '" + strTargetTestSubCode + "', '" + dtSource.Rows[i]["서술"].ToString().Replace("본 검사는 취합검사(Pooling test)이며, ", "") + "', 'CM099', null";
+                
+                                    LabgeDatabase.ExecuteSql(strInterface_Text);
+                                    LabgeDatabase.ExecuteSql(strInterface_Result);
+                                }
+                                else
+                                {
+                                    LabgeDatabase.ExecuteSql("Interface_SetPatientResult_Test '" + param["TargetLabRegDate"].ToString() + "', '" + param["TargetLabRegNo"] + "'" +
+                                        ", '" + strTargetOrderCode + "', '" + strTargetTestSubCode + "', '" + strTargetTestSubCode + "', '" + dtSource.Rows[i]["결과1"].ToString() + "'" +
+                                        ", '" + dtSource.Rows[i]["결과2"].ToString() + "', Null, Null, Null, Null, 'CM099', null");
+
+                                    LabgeDatabase.ExecuteSql("Interface_SetPatientResultText '" + param["TargetLabRegDate"].ToString() + "', '" + param["TargetLabRegNo"] + "'" +
+                                        ", '" + strTargetOrderCode + "', '" + strTargetTestCode + "', '" + strTargetTestSubCode + "'" +
+                                        ", '" + dtSource.Rows[i]["서술"].ToString() + "', 'CM099', null");
+                                }
+                            }
+                            else if (strSourceOrderCode == "22057" || strSourceOrderCode == "22036")
+                            {
+                                strTargetTestCode = dtTarget.Rows[0]["테스트코드"].ToString();
+                                if (strTargetTestCode == "22057" || strTargetTestCode == "22036")
+                                {
+                                    strTargetOrderCode = strTargetTestCode;
+                                    strTargetTestSubCode = strTargetTestCode;
+                
+                                    string strInterface_Result, strInterface_Text;
+                                    strInterface_Result = "Interface_SetPatientResult_Test '" + param["TargetLabRegDate"].ToString() + "', '" + param["TargetLabRegNo"] + "'" +
+                                        ", '" + strTargetOrderCode + "', '" + strTargetTestSubCode + "', '" + strTargetTestSubCode + "', '" + dtSource.Rows[i]["결과1"].ToString() + "'" +
+                                        ", '" + dtSource.Rows[i]["결과2"].ToString() + "', Null, Null, Null, Null, 'CM099', null";
+
+                                    strInterface_Text = "Interface_SetPatientResultText '" + param["TargetLabRegDate"].ToString() + "', '" + param["TargetLabRegNo"] + "'" +
+                                        ", '" + strTargetOrderCode + "', '" + strTargetTestCode + "', '" + strTargetTestSubCode + "'" +
+                                        ", '" + dtSource.Rows[i]["서술"].ToString().Replace("본 검사는 취합검사(Pooling test)이며, ", "") + "', 'CM099', null";
+
+
+                                    LabgeDatabase.ExecuteSql(strInterface_Text);
+
+                                    LabgeDatabase.ExecuteSql(strInterface_Result);
+                                }
+                            }
+                            else
+                            {
+                                LabgeDatabase.ExecuteSql("Interface_SetPatientResult_Test '" + param["TargetLabRegDate"].ToString() + "', '" + param["TargetLabRegNo"].ToString() + "', '" + dtSource.Rows[i]["의뢰코드"].ToString() + "'" +
+                                    ", '" + dtSource.Rows[i]["테스트코드"].ToString() + "', '" + dtSource.Rows[i]["T코드"].ToString() + "', '" + dtSource.Rows[i]["결과1"].ToString() + "', '" + dtSource.Rows[i]["결과2"].ToString() + "', Null, Null, Null, Null, 'CM099', null");
+
+                                if (dtSource.Rows[i]["서술"].ToString() != "")
+                                {
+                                    LabgeDatabase.ExecuteSql("Interface_SetPatientResultText '" + param["TargetLabRegDate"].ToString() + "', '" + param["TargetLabRegNo"].ToString() + "', '" + dtSource.Rows[i]["의뢰코드"].ToString() + "'" +
+                                        ", '" + dtSource.Rows[i]["테스트코드"].ToString() + "', '" + dtSource.Rows[i]["T코드"].ToString() + "', '" + dtSource.Rows[i]["서술"].ToString() + "', 'CM099', null");
+                                }
+                            }
+                        }
+                    }
+
+
+                    merge = "merge LabRegRemarkPart as a "
+                          + "using (select LabRegDate, LabRegNo, PartCode,RemarkCode, RemarkText, EditTime, EditMemberID  "
+                          + "from LabRegRemarkPart where LabRegDate = '" + param["SourceLabRegDate"] + "' and LabRegNo = '" + param["SourceLabRegNo"] + "') as b "
+                          + "on a.LabRegdate = '" + param["TargetLabRegDate"] + "' and a.LabRegNo = '" + param["TargetLabRegNo"] + "' and a.PartCode = b.PartCode "
+                          + "when Not Matched then "
+                          + "insert values(NewID(), '" + param["TargetLabRegDate"] + "', '" + param["TargetLabRegNo"] + "', b.PartCode, b.RemarkCode, b.RemarkText, b.EditTime, b.EditMemberID) "
+                          + "when Matched then "
+                          + "update set a.RemarkText = b.RemarkText, a.EditTime = b.EditTime, a.EditMemberID = b.EditMemberID; ";
+                    LabgeDatabase.ExecuteSql(merge);
+
+                }
+
+
+                if (param["ReportCode"].ToString() == "03")
+                {
+                    for (int i = 0; i < dtSource.Rows.Count; i++)
+                    {
+                        if (dtSource.Rows[i]["헤더"].ToString() != "True")
+                        {
+                            if (dtSource.Rows[i]["서술"].ToString() != "")
+                            {
+                                LabgeDatabase.ExecuteSql("Interface_SetPatientResultText '" + param["TargetLabRegDate"] + "', '" + param["TargetLabRegNo"] + "'" +
+                                    ", '" + dtSource.Rows[i]["의뢰코드"].ToString() + "', '" + dtSource.Rows[i]["테스트코드"].ToString() + "', '" + dtSource.Rows[i]["T코드"].ToString() + "'" +
+                                    ", '" + dtSource.Rows[i]["서술"].ToString().Replace("'", "''") + "', 'CM099', null");
+                            }
+                        }
+                    }
+                
+                    string sqlupdate = "update LabRegReport "
+                           + "set ReportBunjuNo = '" + dtSource.Rows[0]["병리번호"].ToString() + "' "
+                           + "where LabRegDate = '" + param["TargetLabRegDate"] + "' and LabRegNo = '" + param["TargetLabRegNo"] + "' and ReportCode = '" + param["ReportCode"] + "' ";
+
+                    LabgeDatabase.ExecuteSql(sqlupdate);
+
+                    sqlupdate = "update LabRegTest "
+                           + "set DoctorCode = '" + dtSource.Rows[0]["판독의코드"].ToString() + "' "
+                           + "where LabRegDate = '" + param["TargetLabRegDate"] + "' and LabRegNo = '" + param["TargetLabRegNo"] + "' "
+                           + "and TestCode = '" + dtTarget.Rows[0]["테스트코드"] + "' ";
+
+                    LabgeDatabase.ExecuteSql(sqlupdate);
+                }
+
+                merge = "merge LabRegRemark as a "
+                          + "using (select LabRegDate, LabRegNo, ReportCode, RemarkFormat, RemarkText, RemarkNotice, EditTime, EditorMemberID  "
+                          + "from LabRegRemark where LabRegDate = '" + param["SourceLabRegDate"] + "' and LabRegNo = '" + param["SourceLabRegNo"] + "' and ReportCode = '" + param["ReportCode"] + "') as b "
+                          + "on a.LabRegDate = '" + param["TargetLabRegDate"] + "' and a.LabRegNo = '" + param["TargetLabRegNo"] + "' and a.ReportCode = '" + param["ReportCode"] + "' "
+                          + "when Not Matched then "
+                          + "Insert values(Newid(), '" + param["TargetLabRegDate"] + "', '" + param["TargetLabRegNo"] + "', '" + param["ReportCode"] + "', b.RemarkFormat, b.RemarkText, b.RemarkNotice, b.EditTime, b.EditorMemberID) "
+                          + "when Matched then "
+                          + "Update set a.RemarkFormat = b.RemarkFormat, a.RemarkText = b.RemarkText, a.RemarkNotice = b.RemarkNotice, a.EditTime = b.EditTime, a.EditorMemberID = b.EditorMemberid; ";
+                
+                LabgeDatabase.ExecuteSql(merge);
+
+                string update = "update LabRegReport\n"
+                           + "set ReportMemo =\n"
+                           + "case when isnull(a.ReportMemo, '') != '' then a.ReportMemo + CHAR(13) + CHAR(10) else '' end\n"
+                           + "+ case when ISNULL(b.ReportMemo, '') != '' then b.ReportMemo + CHAR(13) + CHAR(10) else '' end\n"
+                           + "+ '결과이동 : " + dtSource.Rows[0]["접수일"].ToString().Substring(0, 10) + " / " + dtSource.Rows[0]["접수번호"].ToString() + " " + dtSource.Rows[0]["거래처명"].ToString() + " " + dtSource.Rows[0]["수진자명"].ToString() + "' + char(13) + char(10)\n"
+                           + "+ '이동일 : " + DateTime.Now.ToString("yyyy-MM-dd") + " " + param["MemberName"] + "'\n"
+                           + "from LabRegReport as a inner join\n"
+                           + "(select ReportCode, isnull(ReportMemo, '') as ReportMemo from LabRegReport where LabRegDate = '" + param["SourceLabRegDate"] + "' and LabRegNo = '" + param["SourceLabRegNo"] + "' and ReportCode = '" + param["ReportCode"] + "') as b on a.ReportCode = '" + param["ReportCode"] + "'\n"
+                           + "where a.LabRegDate = '" + param["TargetLabRegDate"] + "' and a.LabRegNo = '" + param["TargetLabRegNo"]  + "' and a.ReportCode = '" + param["ReportCode"] + "'\n";
+                //MessageBox.Show(sql_Update);
+
+
+
+                LabgeDatabase.ExecuteSql(update);
+
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                JObject objResponse = new JObject();
+                objResponse.Add("Status", Convert.ToInt32(HttpStatusCode.BadRequest));
+                objResponse.Add("Message", ex.Message);
+                return Content(HttpStatusCode.BadRequest, objResponse);
+            }
+        }
+        
     }
 }
