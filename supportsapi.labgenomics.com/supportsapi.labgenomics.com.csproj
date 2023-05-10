@@ -291,6 +291,7 @@
     <Compile Include="Controllers\Diagnostic\WorkListController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\Manage\AdjustFeeController.cs" />
     <Compile Include="Controllers\Molecular\Banking\BankingController.cs" />
     <Compile Include="Controllers\Molecular\Banking\BankingExportController.cs" />
     <Compile Include="Controllers\Molecular\Banking\BankingStockController.cs" />
