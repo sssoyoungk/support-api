@@ -66,12 +66,14 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                         sql =             
                             $"INSERT INTO PGSPatientInfo\r\n" +
                             $"(\r\n" +
-                            $"    CustomerCode, CompCode, CompOrderDate, CompOrderNo, PatientName, Address, ZipCode, PhoneNumber\r\n" +
+                            $"    CustomerCode, CompCode, CompOrderDate, CompOrderNo, PatientName, Address, ZipCode, PhoneNumber,\r\n" +
+                            $"    OrderStatus\r\n" +
                             $")\r\n" +
                             $"VALUES\r\n" +
                             $"(\r\n" +
                             $"    'amorepacific', 'AP01',\r\n" +
-                            $"    '{Convert.ToDateTime(dr["결제일시"]):yyyy-MM-dd}', '{dr["주문번호"]}', '{dr["수취인명"]}', '{dr["주소"]}', '{dr["우편번호"]}', '{dr["수취인휴대전화번호"]}'\r\n" +
+                            $"    '{Convert.ToDateTime(dr["결제일시"]):yyyy-MM-dd}', '{dr["주문번호"]}', '{dr["수취인명"]}', '{dr["주소"]}', '{dr["우편번호"]}', '{dr["수취인휴대전화번호"]}',\r\n" +
+                            $"    'Ordered'\r\n" +
                             $")\r\n" +
                             $"\r\n" +
                             $"INSERT INTO PGSTestInfo\r\n" +
