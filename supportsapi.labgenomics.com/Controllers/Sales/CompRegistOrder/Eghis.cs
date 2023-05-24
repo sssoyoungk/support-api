@@ -24,9 +24,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                 string sql;
 
                 if (request["RegKind"].ToString() == "W") //등록대기
-                {                    
-                    //if (request["RegistOrder"] != null && Convert.ToBoolean(request["RegistOrder"]))
-                    //{
+                {
                     //자료를 불러와서 테이블에 넣어준다.
                     sql =
                         $"SELECT hosp_no, hosp_nm, clinic_ymd, ord_ymd, recept_no, ord_cd, ord_no, ord_seq_no\r\n" +
@@ -37,7 +35,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
 
                     if (request["InstitutionNo"].ToString() != string.Empty)
                     {
-                        sql += $"WHERE hosp_no = '{request["InstitutionNo"].ToString()}'\r\n";
+                        sql += $"WHERE hosp_no = '{request["InstitutionNo"]}'\r\n";
                     }
                     else
                     {
@@ -45,7 +43,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                     }
 
                     sql +=
-                        $"AND ord_ymd BETWEEN '{Convert.ToDateTime(request["BeginDate"]).ToString("yyyyMMdd")}' AND '{Convert.ToDateTime(request["EndDate"]).ToString("yyyyMMdd")}'\r\n" +
+                        $"AND ord_ymd BETWEEN '{Convert.ToDateTime(request["BeginDate"]):yyyyMMdd}' AND '{Convert.ToDateTime(request["EndDate"]):yyyyMMdd}'\r\n" +
                         $"AND sutak_sts is null";
 
                     DataTable dtOrder = new DataTable();
@@ -61,33 +59,9 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                     sql = string.Empty;
                     foreach (DataRow row in dtOrder.Rows)
                     {
-                        //sql += $"MERGE INTO RsltTransEghisOrder AS target\r\n" +
-                        //       $"USING (SELECT '{row["hosp_no"]}' AS hosp_no,\r\n" +
-                        //       $"              (SELECT pcc.CompCode FROM ProgCompCode pcc\r\n" +
-                        //       $"               JOIN RsltTransCompSet rtcs ON rtcs.CompCode = pcc.CompCode AND rtcs.TransKind = 'Eghis'\r\n" +
-                        //       $"               WHERE CompInstitutionNo = '{row["hosp_no"]}') AS CompCode,\r\n" +
-                        //       $"              '{row["clinic_ymd"]}' AS clinic_ymd, '{row["ord_ymd"]}' AS ord_ymd,\r\n" +
-                        //       $"              '{row["recept_no"]}' AS recept_no, '{row["ord_cd"]}' AS ord_cd, '{row["ord_no"]}' AS ord_no, '{row["ord_seq_no"]}' AS ord_seq_no,\r\n" +
-                        //       $"              '{row["ptnt_no"]}' AS ptnt_no, '{row["ptnt_nm"]}' AS ptnt_nm) AS source\r\n" +
-                        //       $"ON (source.hosp_no = target.hosp_no AND source.CompCode = target.CompCode AND source.clinic_ymd = target.clinic_ymd AND source.ord_ymd = target.ord_ymd AND\r\n" +
-                        //       $"    source.recept_no = target.recept_no AND source.ord_cd = target.ord_cd AND source.ord_no = target.ord_no AND\r\n" +
-                        //       $"    source.ord_seq_no = target.ord_seq_no AND source.ptnt_no = target.ptnt_no AND source.ptnt_nm = target.ptnt_nm)\r\n" +
-                        //       $"WHEN NOT MATCHED THEN\r\n" +
-                        //       $"INSERT ( hosp_no, hosp_nm, CompCode, clinic_ymd, ord_ymd, recept_no, ord_cd\r\n" +
-                        //       $"       , ord_no, ord_seq_no, ptnt_no, ptnt_nm, sex, age, ord_nm, spc_cd\r\n" +
-                        //       $"       , spc_nm, ord_type, ord_type_nm, trans_ymd, trans_time, sutak_cd, sts_cd\r\n" +
-                        //       $"       , sts_nm, sutak_ord, sutak_spc, sutak_seq, ptnt_prsn_no\r\n" +
-                        //       $"       , acc_ymd, acc_time, sutak_sts, edi_cd, dept_cd, dept_nm, doct_nm, health_gb)\r\n" +
-                        //       $"VALUES ( '{row["hosp_no"]}', '{row["hosp_nm"]}',\r\n" +
-                        //       $"         (SELECT pcc.CompCode FROM ProgCompCode pcc\r\n" +
-                        //       $"          JOIN RsltTransCompSet rtcs ON rtcs.CompCode = pcc.CompCode AND rtcs.TransKind = 'Eghis'\r\n" +
-                        //       $"          WHERE CompInstitutionNo = '{row["hosp_no"]}'),\r\n" +
-                        //       $"         '{row["clinic_ymd"]}', '{row["ord_ymd"]}', '{row["recept_no"]}', '{row["ord_cd"]}',\r\n" +
-                        //       $"         '{row["ord_no"]}', '{row["ord_seq_no"]}', '{row["ptnt_no"]}', '{row["ptnt_nm"]}', '{row["sex"]}', '{row["age"]}', '{row["ord_nm"]}', '{row["spc_cd"]}',\r\n" +
-                        //       $"         '{row["spc_nm"]}', '{row["ord_type"]}', '{row["ord_type_nm"]}', '{row["trans_ymd"]}', '{row["trans_time"]}', '{row["sutak_cd"]}', '{row["sts_cd"]}',\r\n" +
-                        //       $"         '{row["sts_nm"]}', '{row["sutak_ord"]}', '{row["sutak_spc"]}', '{row["sutak_seq"]}', master.dbo.AES_EncryptFunc('{row["ptnt_prsn_no"]}', N'labge$%#!dleorms'),\r\n" +
-                        //       $"         '{row["acc_ymd"]}', '{row["acc_time"]}', '{row["sutak_sts"]}', '{row["edi_cd"]}', '{row["dept_cd"]}', '{row["dept_nm"]}', '{row["doct_nm"]}', '{row["health_gb"]}');\r\n";
-                        sql =
+                        try
+                        {
+                            sql =
                             $"INSERT INTO RsltTransEghisOrder\r\n" +
                             $"(\r\n" +
                             $"    hosp_no, hosp_nm, CompCode, clinic_ymd, ord_ymd, recept_no, ord_cd,\r\n" +
@@ -108,11 +82,11 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                             $"    '{row["sts_nm"]}', '{row["sutak_ord"]}', '{row["sutak_spc"]}', '{row["sutak_seq"]}', master.dbo.AES_EncryptFunc('{row["ptnt_prsn_no"]}', N'labge$%#!dleorms'),\r\n" +
                             $"    '{row["acc_ymd"]}', '{row["acc_time"]}', '{row["sutak_sts"]}', '{row["edi_cd"]}', '{row["dept_cd"]}', '{row["dept_nm"]}', '{row["doct_nm"]}', '{row["health_gb"]}'\r\n" +
                             $")";
-                        try
-                        {
+
                             SqlCommand cmd = new SqlCommand(sql, conn);
                             cmd.ExecuteNonQuery();
 
+                            //오더 정상 insert후 이지스 테이블에 데이터수신 업데이트 처리
                             sql =
                                 $"UPDATE interface_ord\r\n" +
                                 $"SET sutak_sts = 'D'\r\n" +
@@ -176,8 +150,8 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                         $"    AND match.CompMatchCode = eghisOrder.ord_cd\r\n" +
                         $"    LEFT OUTER JOIN LabTestCode AS testCode\r\n" +
                         $"    ON match.CenterMatchCode = testCode.TestCode\r\n" +
-                        $"    WHERE eghisOrder.CompCode = '{request["CompCode"].ToString()}'\r\n" +
-                        $"    AND eghisOrder.ord_ymd BETWEEN '{Convert.ToDateTime(request["BeginDate"]).ToString("yyyyMMdd")}' AND '{Convert.ToDateTime(request["EndDate"]).ToString("yyyyMMdd")}'\r\n" +
+                        $"    WHERE eghisOrder.CompCode = '{request["CompCode"]}'\r\n" +
+                        $"    AND eghisOrder.ord_ymd BETWEEN '{Convert.ToDateTime(request["BeginDate"]):yyyyMMdd}' AND '{Convert.ToDateTime(request["EndDate"]):yyyyMMdd}'\r\n" +
                         $"    AND NOT EXISTS\r\n" +
                         $"    (\r\n" +
                         $"        SELECT NULL FROM LabTransCompOrderInfo orderInfo\r\n" +
@@ -213,8 +187,8 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                           $"LEFT OUTER JOIN LabRegInfo lri\r\n" +
                           $"ON lri.LabRegDate = ltcoi.LabRegDate\r\n" +
                           $"AND lri.LabRegNo = ltcoi.LabRegNo\r\n" +
-                          $"WHERE ltcoi.LabRegDate BETWEEN '{Convert.ToDateTime(request["BeginDate"]).ToString("yyyy-MM-dd")}' AND '{Convert.ToDateTime(request["EndDate"]).ToString("yyyy-MM-dd")}'\r\n" +
-                    $"AND ltcoi.CompCode = '{request["CompCode"].ToString()}'\r\n" +
+                          $"WHERE ltcoi.LabRegDate BETWEEN '{Convert.ToDateTime(request["BeginDate"]):yyyy-MM-dd}' AND '{Convert.ToDateTime(request["EndDate"]):yyyy-MM-dd}'\r\n" +
+                    $"AND ltcoi.CompCode = '{request["CompCode"]}'\r\n" +
                     $"ORDER BY lri.LabRegDate, lri.LabRegNo";
 
                     JArray array = LabgeDatabase.SqlToJArray(sql);
