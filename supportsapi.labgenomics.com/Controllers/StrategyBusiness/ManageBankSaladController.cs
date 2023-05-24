@@ -46,22 +46,22 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             {
                 sql =
                     "SET ARITHABORT ON\r\n" +
-                    $"SELECT pi2.CompTestCode, pi2.CompTestName, \r\n" +
+                    $"SELECT pi2.CompTestCode, pi2.CompTestName,\r\n" +
                     $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2,  ppi.EmailAddress, \r\n" +
-                    $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive, ppi.ReshippedCode, ppi.PrevTrackingNumber, ppi.PrevBarcode, ppi.TrackingNumber, ppi.Barcode, \r\n" +
-                    $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo, CONVERT(varchar(19), lrr.ReportTransEndTime, 21) AS ReportTransEndTime, CONVERT(varchar(19), lrr.ReportEndTime, 21) AS ReportEndTime, ISNULL(lrr.IsReportTransEnd, 0) as IsReportTransEnd \r\n" +
+                    $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive, ppi.ReshippedCode, ppi.PrevTrackingNumber, ppi.PrevBarcode, ppi.TrackingNumber, ppi.Barcode,\r\n" +
+                    $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo, CONVERT(varchar(19), lrr.ReportTransEndTime, 21) AS ReportTransEndTime, CONVERT(varchar(19), lrr.ReportEndTime, 21) AS ReportEndTime, ISNULL(lrr.IsReportTransEnd, 0) as IsReportTransEnd\r\n" +
                     $"FROM PGSPatientInfo ppi\r\n" +
-                    $"join PGSTestInfo pi2\n" +
-                    $"on pi2.CompOrderDate  = ppi.CompOrderDate\n" +
-                    $"and pi2.CompOrderNo  = ppi.CompOrderNo\n" +
-                    $"and pi2.CustomerCode = ppi.CustomerCode\n" +
+                    $"join PGSTestInfo pi2\r\n" +
+                    $"on pi2.CompOrderDate  = ppi.CompOrderDate\r\n" +
+                    $"and pi2.CompOrderNo  = ppi.CompOrderNo\r\n" +
+                    $"and pi2.CustomerCode = ppi.CustomerCode\r\n" +
                     $"LEFT OUTER JOIN LabTransCompOrderInfo ltcoi\r\n" +
                     $"ON ltcoi.CompOrderDate = ppi.CompOrderDate\r\n" +
                     $"AND ltcoi.CompOrderNo = ppi.CompOrderNo\r\n" +
                     $"AND ltcoi.CompCode = ppi.CompCode\r\n" +
-                    $"LEFT outer join LabRegReport lrr\n" +
-                    $"ON lrr.LabRegDate = ltcoi.LabRegDate\n" +
-                    $"AND lrr.LabRegNo  = ltcoi.LabRegNo\n" +
+                    $"LEFT outer join LabRegReport lrr\r\n" +
+                    $"ON lrr.LabRegDate = ltcoi.LabRegDate\r\n" +
+                    $"AND lrr.LabRegNo  = ltcoi.LabRegNo\r\n" +
                     $"WHERE ppi.CustomerCode = 'banksalad'\r\n" +
                     $"{subQuery}" +
                     $"AND ppi.CompOrderDate BETWEEN '{beginDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'\r\n" +
@@ -72,12 +72,12 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             else
             {
                 sql =
-                    $"SELECT pi2.CompTestCode, pi2.CompTestName, \r\n" +
-                    $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.CheckSendCollectReSample, ppi.EmailAddress, \r\n" +
-                    $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive, ppi.ReshippedCode, ppi.PrevBarcode, ppi.PrevTrackingNumber, ppi.TrackingNumber, ppi.Barcode, \r\n" +
+                    $"SELECT pi2.CompTestCode, pi2.CompTestName,\r\n" +
+                    $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, ppi.Race, ppi.BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.CheckSendCollectReSample, ppi.EmailAddress,\r\n" +
+                    $"    ppi.PhoneNumber, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer, ppi.AgreeThirdPartySensitive, ppi.ReshippedCode, ppi.PrevBarcode, ppi.PrevTrackingNumber, ppi.TrackingNumber, ppi.Barcode,\r\n" +
                     $"    ppi.AgreeGeneThirdPartySensitive, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo\r\n" +
                     $"FROM PGSPatientInfo ppi\r\n" +
-                    $"join PGSTestInfo pi2\n" +
+                    $"join PGSTestInfo pi2\r\n" +
                     $"on pi2.CompOrderDate  = ppi.CompOrderDate\n" +
                     $"and pi2.CompOrderNo  = ppi.CompOrderNo\n" +
                     $"and pi2.CustomerCode = ppi.CustomerCode\n" +
@@ -105,22 +105,22 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
 
             if (patientName != null && patientName != string.Empty)
             {
-                subQuery = subQuery + $"AND ppi.PatientName = '{patientName}' \r\n";
+                subQuery += $"AND ppi.PatientName = '{patientName}' \r\n";
             }
 
             if (phoneNumber != null && phoneNumber != string.Empty)
             {
-                subQuery = subQuery + $"AND ppi.PhoneNumber = '{phoneNumber}' \r\n";
+                subQuery += $"AND ppi.PhoneNumber = '{phoneNumber}' \r\n";
             }
 
             if (birthDay != null && birthDay != string.Empty)
             {
-                subQuery = subQuery + $"AND ppi.BirthDay = '{birthDay}' \r\n";
+                subQuery += $"AND ppi.BirthDay = '{birthDay}' \r\n";
             }
 
             if (testCode != null && testCode != string.Empty)
             {
-                subQuery = subQuery + $"AND pti.CompTestCode = '{testCode}' \r\n";
+                subQuery += $"AND pti.CompTestCode = '{testCode}' \r\n";
             }
 
 
@@ -144,25 +144,6 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
 
             var arrResponse = LabgeDatabase.SqlToJArray(sql);
             return Ok(arrResponse);
-        }
-
-
-
-        // POST api/<controller>
-        public IHttpActionResult Post(JObject arrRequest)
-        {
-
-            return Ok();
-        }
-
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
         }
     }
 }
