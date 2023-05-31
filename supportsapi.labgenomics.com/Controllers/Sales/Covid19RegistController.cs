@@ -1,12 +1,15 @@
 ﻿using ExcelDataReader;
+using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
+using supportsapi.labgenomics.com.Attributes;
 using supportsapi.labgenomics.com.Services;
 using System;
 using System.Data;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -306,6 +309,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
             return Ok(arrResponse);
         }
 
+        [SupportsAuth]
         [Route("api/Sales/Covid19Regist/Excel")]
         public async Task<HttpResponseMessage> PostUploadFile()
         {
@@ -337,8 +341,13 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                     var dataSet = reader.AsDataSet(conf);
                     DataTable dt = dataSet.Tables[0];
                     JArray arrOrders = JArray.Parse(JsonConvert.SerializeObject(dt));
-                    foreach (JObject objOrder in arrOrders)
+                    foreach (JObject objOrder in arrOrders.Cast<JObject>())
                     {
+                        if ((objOrder["의뢰기관 아이디"] ?? string.Empty).ToString().IsNullOrWhiteSpace())
+                        {
+                            throw new Exception("올바른 접수파일이 아닙니다.");
+                        }
+
                         string sql;                        
                         sql = $"MERGE INTO Covid19Order AS target\r\n" +
                               $"USING (SELECT '{objOrder["검체번호"]}' AS SampleNo) AS source\r\n" +
@@ -375,9 +384,11 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
             }
             catch (Exception ex)
             {
-                JObject objResponse = new JObject();
-                objResponse.Add("Status", Convert.ToInt32(HttpStatusCode.BadRequest));
-                objResponse.Add("Message", ex.Message);
+                JObject objResponse = new JObject
+                {
+                    { "Status", Convert.ToInt32(HttpStatusCode.BadRequest) },
+                    { "Message", ex.Message }
+                };
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, objResponse.ToString());
             }
         }
@@ -535,11 +546,11 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
             }
             catch (Exception ex)
             {
-
-
-                JObject objResponse = new JObject();
-                objResponse.Add("Status", Convert.ToInt32(HttpStatusCode.BadRequest));
-                objResponse.Add("Message", ex.Message);
+                JObject objResponse = new JObject
+                {
+                    { "Status", Convert.ToInt32(HttpStatusCode.BadRequest) },
+                    { "Message", ex.Message }
+                };
                 return Content(HttpStatusCode.BadRequest, objResponse);
             }
         }
