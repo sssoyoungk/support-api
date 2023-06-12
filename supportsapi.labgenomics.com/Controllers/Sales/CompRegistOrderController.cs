@@ -38,6 +38,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 $")\r\n" +
                 $"AND pcc.IsCompUseCode = 1\r\n" +
                 $"UNION\r\n" +
+                //제노코어 거래처 목록
                 $"SELECT pcc.CompCode, pcc.CompName, pcc.CompInstitutionNo, 'Genocore'\r\n" +
                 $"FROM GenocoreCompCode gcc\r\n" +
                 $"JOIN ProgCompCode pcc\r\n" +
