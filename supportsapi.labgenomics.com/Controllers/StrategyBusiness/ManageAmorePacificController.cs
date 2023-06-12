@@ -50,19 +50,6 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                 {
                     try
                     {
-                        //sql =
-                        //    $"INSERT INTO AmorePacificPatientInfo\r\n" +
-                        //    $"(\r\n" +
-                        //    $"    CompOrderDate, CompOrderNo, PatientName, Address, ZipCode, PhoneNumber, TestCode, TestName, RegistMemberID" +
-                        //    $")\r\n" +
-                        //    $"VALUES\r\n" +
-                        //    $"(\r\n" +
-                        //    $"    '{Convert.ToDateTime(dr["결제일시"]):yyyy-MM-dd}', '{dr["주문번호"]}', '{dr["수취인명"]}', '{dr["주소"]}', '{dr["우편번호"]}', '{dr["수취인휴대전화번호"]}',\r\n" +
-                        //    $"    '60001', '위드진69', '{objRequest["MemberID"]}'\r\n" +
-                        //    $")\r\n";
-                        //LabgeDatabase.ExecuteSql(sql);
-
-
                         sql =             
                             $"INSERT INTO PGSPatientInfo\r\n" +
                             $"(\r\n" +
