@@ -194,6 +194,11 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             }
         }
 
+        public IHttpActionResult Del(string compOrderNo)
+        {
+            return Ok();
+        }
+
         [Route("api/StrategyBusiness/ManageAmorePacific/CancelOrder")]
         public IHttpActionResult PutCancelOrder(JObject objRequest)
         {
