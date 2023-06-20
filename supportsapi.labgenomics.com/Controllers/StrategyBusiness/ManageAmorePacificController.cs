@@ -50,7 +50,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                 {
                     try
                     {
-                        sql =             
+                        sql =
                             $"INSERT INTO PGSPatientInfo\r\n" +
                             $"(\r\n" +
                             $"    CustomerCode, CompCode, CompOrderDate, CompOrderNo, PatientName, Address, ZipCode, PhoneNumber,\r\n" +
@@ -194,9 +194,52 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             }
         }
 
-        public IHttpActionResult Del(string compOrderNo)
+        public IHttpActionResult Delete(DateTime compOrderDate, string compOrderNo)
         {
-            return Ok();
+            try
+            {
+                string sql;
+
+                //접수정보가 있는지 확인
+                sql =
+                    $"SELECT COUNT(*)\r\n" +
+                    $"FROM LabTransCompOrderInfo ltcoi\r\n" +
+                    $"JOIN PGSPatientInfo ppi\r\n" +
+                    $"ON ppi.CompOrderDate = ltcoi.CompOrderDate\r\n" +
+                    $"AND ppi.CompOrderNo = ltcoi.CompOrderNo\r\n" +
+                    $"AND ppi.CustomerCode = 'amorepacific'\r\n" +
+                    $"WHERE ltcoi.CompOrderDate = '{compOrderDate:yyyy-MM-dd}'\r\n" +
+                    $"AND ltcoi.CompOrderNo = '{compOrderNo}'";
+
+                int count = Convert.ToInt32(LabgeDatabase.ExecuteSqlScalar(sql));
+
+                //접수정보가 있으면 오류
+                if (count > 0)
+                {
+                    throw new Exception("이미 랩센터에 접수된 고객입니다.");
+                }
+                //접수정보가 없으면 삭제 진행
+                else
+                {
+                    sql =
+                        $"DELETE FROM PGSPatientInfo\r\n" +
+                        $"WHERE CustomerCode = 'amorepacific'\r\n" +
+                        $"AND CompOrderDate = '{compOrderDate:yyyy-MM-dd}'\r\n" +
+                        $"AND CompOrderNo = '{compOrderNo}'";
+                    LabgeDatabase.ExecuteSql(sql);
+                }
+                
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                JObject objResponse = new JObject
+                {
+                    { "Status", Convert.ToInt32(HttpStatusCode.BadRequest) },
+                    { "Message", ex.Message }
+                };
+                return Content(HttpStatusCode.BadRequest, objResponse);
+            }
         }
 
         [Route("api/StrategyBusiness/ManageAmorePacific/CancelOrder")]
