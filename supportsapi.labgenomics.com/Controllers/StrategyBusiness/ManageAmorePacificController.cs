@@ -152,13 +152,19 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             {
                 foreach (JObject objRequest in arrRequest.Cast<JObject>())
                 {
+                    string birthday = string.Empty;
+                    if (DateTime.TryParse(objRequest["BirthDay"].ToString(), out DateTime parseBirthday)) 
+                    {
+                        birthday = parseBirthday.ToString("yyyy-MM-dd");
+                    }
+
                     string sql;
                     sql = $"UPDATE PGSPatientInfo\r\n" +
                           $"SET ZipCode = '{objRequest["ZipCode"]}'\r\n" +
                           $"  , Address = '{objRequest["Address"]}'\r\n" +
                           $"  , Address2 = '{objRequest["Address2"]}'\r\n" +
                           $"  , PatientRegNo = '{objRequest["PatientRegNo"]}'\r\n" +
-                          $"  , BirthDay = '{objRequest["BirthDay"]}'\r\n" +
+                          $"  , BirthDay = CASE WHEN ISNULL('{birthday}', '') = '' THEN NULL ELSE '{birthday}' END\r\n" +
                           $"  , EmailAddress = '{objRequest["EmailAddress"]}'\r\n" +
                           $"  , PhoneNumber = '{objRequest["PhoneNumber"]}'\r\n" +
                           $"  , AgreeGeneTest = '{objRequest["agreeGeneTest"]}'\r\n" +
