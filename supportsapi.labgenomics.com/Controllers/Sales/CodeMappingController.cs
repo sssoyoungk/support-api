@@ -57,29 +57,44 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
 
                 string sql = string.Empty;
 
-                sql = $"MERGE INTO LabTransMatchCode AS target\r\n" +
-                      $"USING (SELECT '{request["CompCode"].ToString()}' AS CompCode, '{request["CompMatchCode"].ToString()}' AS CompMatchCode\r\n" +
-                      $"            , '{request["CompMatchSubCode"].ToString()}' AS CompMatchSubCode\r\n" +
-                      $"            , '{request["Gongdan"].ToString()}' AS Gongdan) AS source\r\n" +
-                      $"ON (target.CompCode = source.CompCode AND target.CompMatchCode = source.CompMatchCode AND target.CompMatchSubCode = source.CompMatchSubCode)\r\n" +
-                      $"WHEN MATCHED THEN\r\n" +
-                      $"    UPDATE SET CenterGongDanCode = (CASE WHEN source.Gongdan = 'Y' THEN '{request["CenterMatchCode"].ToString()}' ELSE target.CenterGongDanCode END)\r\n" +
-                      $"             , CenterMatchCode = (CASE WHEN source.Gongdan <> 'Y' THEN '{request["CenterMatchCode"].ToString()}' ELSE target.CenterMatchCode END)\r\n" +
-                      $"             , CenterMatchOrderCode = '{request["CenterMatchOrderCode"].ToString()}'\r\n" +
-                      $"             , CenterMatchSampleCode = '{request["CenterMatchSampleCode"].ToString()}'\r\n" +
-                      $"             , EditTime = GETDATE()\r\n" +
-                      $"             , EditormemberID = '{request["RegistMemberID"].ToString()}'\r\n" +
-                      $"WHEN NOT MATCHED THEN\r\n" +
-                      $"    INSERT ( CompCode, CompMatchCode\r\n" +
-                      $"           , CompMatchSubCode, CompMatchName\r\n" +
-                      $"           , CenterMatchCode, CenterMatchOrderCode\r\n" +
-                      $"           , CenterMatchSampleCode\r\n" +
-                      $"           , RegistTime, RegistMemberID)\r\n" +
-                      $"    VALUES ( source.CompCode, source.CompMatchCode\r\n" +
-                      $"           , source.CompMatchSubCode, '{request["CompMatchName"].ToString().Replace("'", "''")}'\r\n" +
-                      $"           , '{request["CenterMatchCode"].ToString()}', '{request["CenterMatchOrderCode"].ToString()}'\r\n" +
-                      $"           , '{request["CenterMatchSampleCode"].ToString()}'\r\n" +
-                      $"           , GETDATE(), '{request["RegistMemberID"].ToString()}');";
+                //중지코드 확인
+                sql =
+                    $"SELECT IsTestUse\r\n" +
+                    $"FROM LabTestCode\r\n" +
+                    $"WHERE TestCode = '{request["CenterMatchCode"]}'\r\n";
+                JObject objTestCode = LabgeDatabase.SqlToJObject(sql);
+
+                //중지코드면 에러 리턴
+                if (!Convert.ToBoolean(objTestCode["IsTestUse"]))
+                {
+                    throw new Exception($"{request["CenterMatchCode"]}는 중지된 검사코드 입니다.");
+                }
+
+
+                sql = 
+                    $"MERGE INTO LabTransMatchCode AS target\r\n" +
+                    $"USING (SELECT '{request["CompCode"]}' AS CompCode, '{request["CompMatchCode"]}' AS CompMatchCode\r\n" +
+                    $"            , '{request["CompMatchSubCode"]}' AS CompMatchSubCode\r\n" +
+                    $"            , '{request["Gongdan"]}' AS Gongdan) AS source\r\n" +
+                    $"ON (target.CompCode = source.CompCode AND target.CompMatchCode = source.CompMatchCode AND target.CompMatchSubCode = source.CompMatchSubCode)\r\n" +
+                    $"WHEN MATCHED THEN\r\n" +
+                    $"    UPDATE SET CenterGongDanCode = (CASE WHEN source.Gongdan = 'Y' THEN '{request["CenterMatchCode"]}' ELSE target.CenterGongDanCode END)\r\n" +
+                    $"             , CenterMatchCode = (CASE WHEN source.Gongdan <> 'Y' THEN '{request["CenterMatchCode"]}' ELSE target.CenterMatchCode END)\r\n" +
+                    $"             , CenterMatchOrderCode = '{request["CenterMatchOrderCode"]}'\r\n" +
+                    $"             , CenterMatchSampleCode = '{request["CenterMatchSampleCode"]}'\r\n" +
+                    $"             , EditTime = GETDATE()\r\n" +
+                    $"             , EditormemberID = '{request["RegistMemberID"]}'\r\n" +
+                    $"WHEN NOT MATCHED THEN\r\n" +
+                    $"    INSERT ( CompCode, CompMatchCode\r\n" +
+                    $"           , CompMatchSubCode, CompMatchName\r\n" +
+                    $"           , CenterMatchCode, CenterMatchOrderCode\r\n" +
+                    $"           , CenterMatchSampleCode\r\n" +
+                    $"           , RegistTime, RegistMemberID)\r\n" +
+                    $"    VALUES ( source.CompCode, source.CompMatchCode\r\n" +
+                    $"           , source.CompMatchSubCode, '{request["CompMatchName"].ToString().Replace("'", "''")}'\r\n" +
+                    $"           , '{request["CenterMatchCode"]}', '{request["CenterMatchOrderCode"]}'\r\n" +
+                    $"           , '{request["CenterMatchSampleCode"]}'\r\n" +
+                    $"           , GETDATE(), '{request["RegistMemberID"]}');";
 
                 LabgeDatabase.ExecuteSql(sql);
 
@@ -88,7 +103,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
             catch (Exception ex)
             {                
                 string logPath = HttpContext.Current.Server.MapPath("/");
-                logPath += $"Log\\CodeMapping\\{DateTime.Now.ToString("yyyy")}\\{DateTime.Now.ToString("MMdd")}";
+                logPath += $"Log\\CodeMapping\\{DateTime.Now:yyyy}\\{DateTime.Now:MMdd}";
                 DirectoryInfo logDirInfo = new DirectoryInfo(logPath);
                 if (!logDirInfo.Exists)
                 {
@@ -96,9 +111,11 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 }
                 File.WriteAllText(logDirInfo + "\\" + DateTime.Now.ToString("yyyy-MM-dd_HHmmss_fff") + ".json", request.ToString(), Encoding.UTF8);
 
-                JObject objResponse = new JObject();
-                objResponse.Add("Status", Convert.ToInt32(HttpStatusCode.BadRequest));
-                objResponse.Add("Message", ex.Message);
+                JObject objResponse = new JObject
+                {
+                    { "Status", Convert.ToInt32(HttpStatusCode.BadRequest) },
+                    { "Message", ex.Message }
+                };
                 return Content(HttpStatusCode.BadRequest, objResponse);
             }
         }        
