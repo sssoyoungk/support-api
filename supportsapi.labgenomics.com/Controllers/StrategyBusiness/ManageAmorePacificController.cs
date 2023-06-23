@@ -59,7 +59,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                             $"VALUES\r\n" +
                             $"(\r\n" +
                             $"    'amorepacific', 'AP01',\r\n" +
-                            $"    '{Convert.ToDateTime(dr["결제일시"]):yyyy-MM-dd}', '{dr["주문번호"]}', '{dr["수취인명"]}', '{dr["주소"]}', '{dr["우편번호"]}', '{dr["수취인휴대전화번호"]}',\r\n" +
+                            $"    '{Convert.ToDateTime(dr["주문접수완료일시"]):yyyy-MM-dd}', '{dr["주문번호"]}', '{dr["수취인명"]}', '{dr["주소"]}', '{dr["우편번호"]}', '{dr["수취인휴대전화번호"]}',\r\n" +
                             $"    'Ordered'\r\n" +
                             $")\r\n" +
                             $"\r\n" +
@@ -69,7 +69,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                             $")\r\n" +
                             $"VALUES\r\n" +
                             $"(\r\n" +
-                            $"    'amorepacific', 'AP01', '{Convert.ToDateTime(dr["결제일시"]):yyyy-MM-dd}', '{dr["주문번호"]}', '60001', '위드진69'\r\n" +
+                            $"    'amorepacific', 'AP01', '{Convert.ToDateTime(dr["주문접수완료일시"]):yyyy-MM-dd}', '{dr["주문번호"]}', '60001', '위드진69'\r\n" +
                             $")\r\n";
                         LabgeDatabase.ExecuteSql(sql);
                     }
