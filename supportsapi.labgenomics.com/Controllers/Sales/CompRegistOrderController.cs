@@ -492,6 +492,10 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 {
                     customerCode = "fiet";
                 }
+                else if (compCode == "AP01")
+                {
+                    customerCode = "amorepacific";
+                }
                 else
                 {
                     customerCode = "";
@@ -511,7 +515,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
 
 
                 string sql = string.Empty;
-                if (customerCode == "banksalad" || customerCode == "fiet")
+                if (customerCode == "banksalad" || customerCode == "fiet" || customerCode == "amorepacific")
                 {
                     sql =
                         $"SELECT\r\n" +
