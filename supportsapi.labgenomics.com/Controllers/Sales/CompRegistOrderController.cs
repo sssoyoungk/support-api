@@ -500,19 +500,6 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 {
                     customerCode = "";
                 }
-                //else if (transKind.Contains("Ju"))
-                //{
-                //    customerCode = "Juvis";
-                //}
-                //else if (transKind.Contains("FE"))
-                //{
-                //    customerCode = "fiet";
-                //}
-                //else
-                //{
-                //
-                //}
-
 
                 string sql = string.Empty;
                 if (customerCode == "banksalad" || customerCode == "fiet" || customerCode == "amorepacific")
