@@ -514,10 +514,10 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                         $"    ppi.Age AS PatientAge, ppi.Barcode,\r\n" +
                         $"    ltmc.CenterMatchCode AS TestCode, ltmc.CenterMatchOrderCode AS OrderCode,\r\n" +
                         $"    pti.CompTestCode, null As CompTestSubCode, pti.CompTestName,\r\n" +
-                        $"    CASE" +
-                        $"      WHEN ISNULL(ltmc.CenterMatchSampleCode, '') <> '' THEN ltmc.CenterMatchSampleCode\r\n" +
-                        $"      ELSE ltc.SampleCode\r\n" +
-                        $"    END AS SampleCode," +
+                        $"    CASE\r\n" +
+                        $"        WHEN ISNULL(ltmc.CenterMatchSampleCode, '') <> '' THEN ltmc.CenterMatchSampleCode\r\n" +
+                        $"        ELSE ltc.SampleCode\r\n" +
+                        $"    END AS SampleCode,\r\n" +
                         $"    ltcoi.RegistTime\r\n" +
                         $"FROM PGSPatientInfo ppi\r\n" +
                         $"JOIN PGSTestInfo pti\r\n" +
@@ -535,7 +535,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                         $"AND ppi.CompOrderNo = ltcoi.CompOrderNo\r\n" +
                         $"AND pti.CompTestCode = ltcoi.CompTestCode\r\n" +
                         $"WHERE ppi.CustomerCode = '{customerCode}'\r\n" +
-                        $"AND ppi.Barcode = '{barcode}'" +
+                        $"AND ppi.Barcode = '{barcode}'\r\n" +
                         $"AND ltcoi.LabRegNo is null";
                 }
 
