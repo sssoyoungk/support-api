@@ -27,7 +27,8 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                           $"     , CASE WHEN ISNULL(SampleDrawDate, '') = '' THEN CompOrderDate ELSE SampleDrawDate END AS SampleDrawDate\r\n" +
                           $"     , CompTestCode, CompTestName\r\n" +
                           $"     , Dept, Ward, DoctorName\r\n" +
-                          $"     , match.CenterMatchCode AS TestCode, match.CenterMatchOrderCode AS OrderCode, SampleNo, testCode.SampleCode\r\n" +
+                          $"     , match.CenterMatchCode AS TestCode, match.CenterMatchOrderCode AS OrderCode, SampleNo\r\n" +
+                          $"     , CASE WHEN ISNULL(match.CenterMatchSampleCode, '') != '' THEN match.CenterMatchSampleCode ELSE testCode.SampleCode END AS SampleCode\r\n" +
                           $"     , PatientRegNo01 AS IdentificationNo1, master.dbo.AES_DecryptFunc(PatientRegNo02, 'labge$%#!dleorms') AS IdentificationNo2, '' AS CompTestSubCode\r\n" +
                           $"     , (SELECT TestDisplayName FROM LabTestCode WHERE TestCode = match.CenterMatchCode) AS CenterTestName\r\n" +
                           $"     , (SELECT TestDisplayName FROM LabTestCode WHERE TestCode = match.CenterMatchOrderCode) AS CenterOrderName\r\n" +
