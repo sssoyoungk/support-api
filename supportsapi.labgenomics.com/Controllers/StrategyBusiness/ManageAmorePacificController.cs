@@ -59,7 +59,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                             $"VALUES\r\n" +
                             $"(\r\n" +
                             $"    'amorepacific', 'AP01',\r\n" +
-                            $"    '{Convert.ToDateTime(dr["주문접수완료일시"]):yyyy-MM-dd}', '{dr["주문번호"]}', '{dr["수취인명"]}', '{dr["주소"]}', '{dr["우편번호"]}', '{dr["수취인휴대전화번호"]}',\r\n" +
+                            $"    '{Convert.ToDateTime(dr["주문접수완료일시"]):yyyy-MM-dd}', '{dr["주문번호"]}', '{dr["주문자"]}', '{dr["주소"]}', '{dr["우편번호"]}', '{dr["수취인휴대전화번호"]}',\r\n" +
                             $"    'Ordered'\r\n" +
                             $")\r\n" +
                             $"\r\n" +
@@ -166,7 +166,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                           $"  , PatientRegNo = '{objRequest["PatientRegNo"]}'\r\n" +
                           $"  , BirthDay = CASE WHEN ISNULL('{birthday}', '') = '' THEN NULL ELSE '{birthday}' END\r\n" +
                           $"  , EmailAddress = '{objRequest["EmailAddress"]}'\r\n" +
-                          $"  , PhoneNumber = '{objRequest["PhoneNumber"]}'\r\n" +
+                          $"  , PhoneNumber = '{objRequest["PhoneNumber"].ToString().Replace("-", "")}'\r\n" +
                           $"  , AgreeGeneTest = '{objRequest["agreeGeneTest"]}'\r\n" +
                           $"  , AgreeRequestTest = '{objRequest["agreeRequestTest"]}'\r\n" +
                           $"  , AgreeLabgePrivacyPolicy = '{objRequest["agreeLabgePrivacyPolicy"]}'\r\n" +
