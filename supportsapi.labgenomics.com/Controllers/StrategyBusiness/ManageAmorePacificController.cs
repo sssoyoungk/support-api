@@ -59,7 +59,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                             $"VALUES\r\n" +
                             $"(\r\n" +
                             $"    'amorepacific', 'AP01',\r\n" +
-                            $"    '{Convert.ToDateTime(dr["주문접수완료일시"]):yyyy-MM-dd}', '{dr["주문번호"]}', '{dr["주문자"]}', '{dr["주소"]}', '{dr["우편번호"]}', '{dr["수취인휴대전화번호"]}',\r\n" +
+                            $"    '{Convert.ToDateTime(dr["주문접수완료일시"]):yyyy-MM-dd}', '{dr["주문번호"]}', '{dr["주문자"]}', '{dr["주소"]}', '{dr["우편번호"]}', '{dr["주문자휴대전화번호"]}',\r\n" +
                             $"    'Ordered'\r\n" +
                             $")\r\n" +
                             $"\r\n" +
