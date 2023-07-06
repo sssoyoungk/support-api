@@ -14,26 +14,27 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
         public IHttpActionResult Get(DateTime beginDate, DateTime endDate, string isTestOutside, int beginNo, int endNo, string compMngCode)
         {
             string sql;
-            sql = $"SELECT A.LabRegDate, A.LabRegNo, A.CompCode\r\n" +
-                  $"     , (SELECT CompName FROM ProgCompCode WHERE A.CompCode = CompCode) AS CompName\r\n" +
-                  $"     , A.PatientName, A.PatientAge, A.PatientSex, A.PatientJuminNo01, A.PatientChartNo\r\n" +
-                  $"     , B.OrderCode, B.TestCode\r\n" +
-                  $"     , (SELECT TestDisplayName FROM LabTestCode WHERE B.TestCode = TestCode) AS TestDisplayName\r\n" +
-                  $"     , B.SampleCode\r\n" +
-                  $"     , (SELECT SampleName FROM LabSampleCode WHERE B.SampleCode = SampleCode) AS SampleName\r\n" +
-                  $"     , B.IsTestOutside, B.TestOutsideBeginTime, B.TestOutsideEndTime, B.TestOutsideCompCode, B.TestOutsideMemberID\r\n" +
-                  $"FROM LabRegInfo A\r\n" +
-                  $"JOIN LabRegTest B\r\n" +
-                  $"ON A.LabRegDate = B.LabRegDate\r\n" +
-                  $"AND A.LabRegNo = B.LabRegNo\r\n" +
-                  $"AND A.CompCode IN (SELECT CompCode FROM ProgAuthGroupCompList WHERE AuthGroupCode = 'c000119')\r\n" +
-                  $"JOIN LabOutsideTestCode C\r\n" +
-                  $"ON C.OutsideCompCode = '000119'\r\n" +
-                  $"AND C.OutsideTestCode = B.TestCode\r\n" +
-                  $"AND C.OutsideSampleCode = B.SampleCode\r\n" +
-                  $"WHERE A.LabRegDate BETWEEN '{beginDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
-                  $"AND B.IsTestOutSide = {isTestOutside}\r\n" +
-                  $"AND B.TestStateCode <> 'F'";
+            sql =
+                $"SELECT A.LabRegDate, A.LabRegNo, A.CompCode\r\n" +
+                $"     , (SELECT CompName FROM ProgCompCode WHERE A.CompCode = CompCode) AS CompName\r\n" +
+                $"     , A.PatientName, A.PatientAge, A.PatientSex, A.PatientJuminNo01, A.PatientChartNo\r\n" +
+                $"     , B.OrderCode, B.TestCode\r\n" +
+                $"     , (SELECT TestDisplayName FROM LabTestCode WHERE B.TestCode = TestCode) AS TestDisplayName\r\n" +
+                $"     , B.SampleCode\r\n" +
+                $"     , (SELECT SampleName FROM LabSampleCode WHERE B.SampleCode = SampleCode) AS SampleName\r\n" +
+                $"     , B.IsTestOutside, B.TestOutsideBeginTime, B.TestOutsideEndTime, B.TestOutsideCompCode, B.TestOutsideMemberID\r\n" +
+                $"FROM LabRegInfo A\r\n" +
+                $"JOIN LabRegTest B\r\n" +
+                $"ON A.LabRegDate = B.LabRegDate\r\n" +
+                $"AND A.LabRegNo = B.LabRegNo\r\n" +
+                $"AND A.CompCode IN (SELECT CompCode FROM ProgAuthGroupCompList WHERE AuthGroupCode = 'c000119')\r\n" +
+                $"JOIN LabOutsideTestCode C\r\n" +
+                $"ON C.OutsideCompCode = '000119'\r\n" +
+                $"AND C.OutsideTestCode = B.TestCode\r\n" +
+                $"AND C.OutsideSampleCode = B.SampleCode\r\n" +
+                $"WHERE A.LabRegDate BETWEEN '{beginDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'\r\n" +
+                $"AND B.IsTestOutSide = {isTestOutside}\r\n" +
+                $"AND B.TestStateCode <> 'F'";
 
             if (isTestOutside == "1")
             {
@@ -44,7 +45,9 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 sql += "AND ISNULL(B.TestOutsideCompCode, '') = ''\r\n";
             }
 
-            sql += "ORDER BY A.LabRegDate, A.LabRegNo, B.OrderCode";
+            sql +=
+                $"AND A.LabRegNo BETWEEN {beginNo} AND {endNo}\r\n" +
+                $"ORDER BY A.LabRegDate, A.LabRegNo, B.OrderCode";
 
             return Ok(LabgeDatabase.SqlToJArray(sql));
         }
