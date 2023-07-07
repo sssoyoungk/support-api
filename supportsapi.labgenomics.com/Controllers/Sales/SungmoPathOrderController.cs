@@ -19,7 +19,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 $"     , (SELECT CompName FROM ProgCompCode WHERE A.CompCode = CompCode) AS CompName\r\n" +
                 $"     , A.PatientName, A.PatientAge, A.PatientSex, A.PatientJuminNo01, A.PatientChartNo\r\n" +
                 $"     , B.OrderCode, B.TestCode\r\n" +
-                $"     , (SELECT TestDisplayName FROM LabTestCode WHERE B.TestCode = TestCode) AS TestDisplayName\r\n" +
+                $"     , (SELECT TestDisplayName FROM LabTestCode WHERE B.TestCode = TestCode) AS TestDisplayName, ltc.ReportCode\r\n" +
                 $"     , B.SampleCode\r\n" +
                 $"     , (SELECT SampleName FROM LabSampleCode WHERE B.SampleCode = SampleCode) AS SampleName\r\n" +
                 $"     , B.IsTestOutside, B.TestOutsideBeginTime, B.TestOutsideEndTime, B.TestOutsideCompCode, B.TestOutsideMemberID\r\n" +
@@ -32,6 +32,8 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 $"ON C.OutsideCompCode = '000119'\r\n" +
                 $"AND C.OutsideTestCode = B.TestCode\r\n" +
                 $"AND C.OutsideSampleCode = B.SampleCode\r\n" +
+                $"JOIN LabTestCode ltc\r\n" +
+                $"ON B.TestCode = ltc.TestCode\r\n" +
                 $"JOIN ProgCompCode pcc\r\n" +
                 $"ON pcc.CompCode = A.CompCode\r\n";
             if ((compMngCode ?? string.Empty) != string.Empty)
