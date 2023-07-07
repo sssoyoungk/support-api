@@ -108,7 +108,8 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                     $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, CONVERT(varchar, ppi.BirthDay, 23) as BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.EmailAddress, \r\n" +
                     $"    ppi.PhoneNumber, ppi.AgreeRequestTest, ppi.AgreePrivacyPolicy, ppi.AgreeLabgePrivacyPolicy, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer,\r\n" +
                     $"    ppi.PrevTrackingNumber, ppi.PrevBarcode, ppi.TrackingNumber, ppi.ReshippedCode , ppi.Barcode, \r\n" +
-                    $"    ppi.AgreeGeneThirdPartySensitive,ppi.AgreeSendResultEmail, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo\r\n" +
+                    $"    ppi.AgreeGeneThirdPartySensitive,ppi.AgreeSendResultEmail, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo,\r\n" +
+                    $"    ppi.DeliveryCompleteDateTime\r\n" +
                     $"FROM PGSPatientInfo ppi\r\n" +
                     $"LEFT OUTER JOIN LabTransCompOrderInfo ltcoi\r\n" +
                     $"ON ltcoi.CompOrderDate = ppi.CompOrderDate\r\n" +
@@ -262,6 +263,31 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                     $"AND CustomerCode = 'amorepacific'";
                 LabgeDatabase.ExecuteSql(sql);
 
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                JObject objResponse = new JObject
+                {
+                    { "Status", Convert.ToInt32(HttpStatusCode.BadRequest) },
+                    { "Message", ex.Message }
+                };
+                return Content(HttpStatusCode.BadRequest, objResponse);
+            }
+        }
+
+        [Route("api/StrategyBusiness/ManageAmorePacific/DeliveryComplete")]
+        public IHttpActionResult PutDeliveryComplete(JObject objRequest)
+        {
+            try
+            {
+                string sql;
+                sql =
+                    $"UPDATE PGSPatientInfo\r\n" +
+                    $"SET DeliveryCompleteDateTime = GETDATE()\r\n" +
+                    $"WHERE CustomerCode = 'amorepacific'\r\n" +
+                    $"AND Barcode = '{objRequest["Barcode"]}'";
+                LabgeDatabase.ExecuteSql(sql);
                 return Ok();
             }
             catch (Exception ex)
