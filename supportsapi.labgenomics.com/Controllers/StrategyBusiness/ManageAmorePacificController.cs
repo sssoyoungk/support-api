@@ -128,7 +128,8 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                     $"    ppi.PhoneNumber, ppi.AgreeRequestTest, ppi.AgreePrivacyPolicy, ppi.AgreeLabgePrivacyPolicy ,ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer,\r\n" +
                     $"    ppi.PrevTrackingNumber, ppi.PrevBarcode, ppi.TrackingNumber, ppi.ReshippedCode , ppi.Barcode, \r\n" +
                     $"    ppi.AgreeGeneThirdPartySensitive,AgreeSendResultEmail, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo,\r\n" +
-                    $"    CONVERT(varchar(19), lrr.ReportTransEndTime, 21) AS ReportTransEndTime, ISNULL(lrr.IsReportTransEnd, 0) as IsReportTransEnd\r\n" +
+                    $"    CONVERT(varchar(19), lrr.ReportTransEndTime, 21) AS ReportTransEndTime, ISNULL(lrr.IsReportTransEnd, 0) as IsReportTransEnd,\r\n" +
+                    $"    ppi.DeliveryCompleteDateTime\r\n" +
                     $"FROM PGSPatientInfo ppi\r\n" +
                     $"LEFT OUTER JOIN LabTransCompOrderInfo ltcoi\r\n" +
                     $"ON ltcoi.CompOrderDate = ppi.CompOrderDate\r\n" +
