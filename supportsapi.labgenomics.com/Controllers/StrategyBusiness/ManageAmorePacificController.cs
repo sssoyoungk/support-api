@@ -155,7 +155,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                 foreach (JObject objRequest in arrRequest.Cast<JObject>())
                 {
                     string birthday = string.Empty;
-                    if (DateTime.TryParse(objRequest["BirthDay"].ToString(), out DateTime parseBirthday)) 
+                    if (DateTime.TryParse(objRequest["BirthDay"].ToString(), out DateTime parseBirthday))
                     {
                         birthday = parseBirthday.ToString("yyyy-MM-dd");
                     }
@@ -236,7 +236,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                         $"AND CompOrderNo = '{compOrderNo}'";
                     LabgeDatabase.ExecuteSql(sql);
                 }
-                
+
                 return Ok();
             }
             catch (Exception ex)
@@ -282,14 +282,32 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
         {
             try
             {
+
                 string sql;
+                sql =
+                    $"SELECT\r\n" +
+                    $"    ppi.CompOrderDate, ppi.CompOrderNo, ppi.Gender, CONVERT(varchar, ppi.BirthDay, 23) as BirthDay, ppi.PatientName, ppi.ZipCode, ppi.Address, ppi.Address2, ppi.EmailAddress, \r\n" +
+                    $"    ppi.PhoneNumber, ppi.AgreeRequestTest, ppi.AgreePrivacyPolicy, ppi.AgreeLabgePrivacyPolicy, ppi.AgreePrivacyPolicyDateTime, ppi.AgreeGeneTest, ppi.AgreeThirdPartyOffer,\r\n" +
+                    $"    ppi.PrevTrackingNumber, ppi.PrevBarcode, ppi.TrackingNumber, ppi.ReshippedCode , ppi.Barcode, \r\n" +
+                    $"    ppi.AgreeGeneThirdPartySensitive,ppi.AgreeSendResultEmail, ppi.AgreeKeepDataAndFutureAnalysis, ppi.OrderStatus, CONVERT(varchar, ltcoi.LabRegDate, 23) AS LabRegDate, ltcoi.LabRegNo,\r\n" +
+                    $"    ppi.DeliveryCompleteDateTime\r\n" +
+                    $"FROM PGSPatientInfo ppi\r\n" +
+                    $"LEFT OUTER JOIN LabTransCompOrderInfo ltcoi\r\n" +
+                    $"ON ltcoi.CompOrderDate = ppi.CompOrderDate\r\n" +
+                    $"AND ltcoi.CompOrderNo = ppi.CompOrderNo\r\n" +
+                    $"AND ltcoi.CompCode = ppi.CompCode\r\n" +
+                    $"WHERE ppi.CustomerCode = 'amorepacific'\r\n" +
+                    $"AND ppi.Barcode = '{objRequest["Barcode"]}'";
+
+                JObject objResponse = LabgeDatabase.SqlToJObject(sql);
+
                 sql =
                     $"UPDATE PGSPatientInfo\r\n" +
                     $"SET DeliveryCompleteDateTime = GETDATE()\r\n" +
                     $"WHERE CustomerCode = 'amorepacific'\r\n" +
                     $"AND Barcode = '{objRequest["Barcode"]}'";
                 LabgeDatabase.ExecuteSql(sql);
-                return Ok();
+                return Ok(objResponse);
             }
             catch (Exception ex)
             {
