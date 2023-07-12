@@ -31,7 +31,6 @@ namespace supportsapi.labgenomics.com.Controllers.Preference
             JObject objResponse = LabgeDatabase.SqlToJObject(sql);
 
             //타임아웃을 설정할 수 있게 값을 추가해둔다.
-            objResponse.Add("ScreenSaveTimeOut", "600");
             return Ok(objResponse);
         }
     }
