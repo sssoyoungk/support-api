@@ -299,15 +299,18 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                     $"WHERE ppi.CustomerCode = 'amorepacific'\r\n" +
                     $"AND ppi.Barcode = '{objRequest["Barcode"]}'";
 
-                JObject objResponse = LabgeDatabase.SqlToJObject(sql);
+                JArray arrResponse = LabgeDatabase.SqlToJArray(sql);
 
-                sql =
-                    $"UPDATE PGSPatientInfo\r\n" +
-                    $"SET DeliveryCompleteDateTime = GETDATE()\r\n" +
-                    $"WHERE CustomerCode = 'amorepacific'\r\n" +
-                    $"AND Barcode = '{objRequest["Barcode"]}'";
-                LabgeDatabase.ExecuteSql(sql);
-                return Ok(objResponse);
+                if (arrResponse.Count > 0)
+                {
+                    sql =
+                        $"UPDATE PGSPatientInfo\r\n" +
+                        $"SET DeliveryCompleteDateTime = GETDATE()\r\n" +
+                        $"WHERE CustomerCode = 'amorepacific'\r\n" +
+                        $"AND Barcode = '{objRequest["Barcode"]}'";
+                    LabgeDatabase.ExecuteSql(sql);
+                }
+                return Ok(arrResponse);
             }
             catch (Exception ex)
             {
