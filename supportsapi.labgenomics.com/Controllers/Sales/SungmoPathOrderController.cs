@@ -70,6 +70,9 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                     sql =
                         $"UPDATE LabRegTest\r\n" +
                         $"SET TestOutsideCompCode = '000119'\r\n" +
+                        $", IsTestOutSide = '1'\r\n" +
+                        $", TestOutSideBeginTime = GETDATE()\r\n" +
+                        $", TestOutsideMemberID = '{objRequest["RegistMemberID"].ToString()}'\r\n" +
                         $"WHERE LabRegDate = '{Convert.ToDateTime(objRequest["LabRegDate"]).ToString("yyyy-MM-dd")}'\r\n" +
                         $"AND LabRegNo = {objRequest["LabRegNo"]}\r\n" +
                         $"AND TestCode = '{objRequest["TestCode"].ToString()}'";
