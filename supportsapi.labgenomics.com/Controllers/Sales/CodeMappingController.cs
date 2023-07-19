@@ -65,7 +65,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 JObject objTestCode = LabgeDatabase.SqlToJObject(sql);
 
                 //중지코드면 에러 리턴
-                if (!Convert.ToBoolean(objTestCode["IsTestUse"]))
+                if (!Convert.ToBoolean(objTestCode["IsOrderUse"]))
                 {
                     throw new Exception($"{request["CenterMatchCode"]}는 중지된 검사코드 입니다.");
                 }
