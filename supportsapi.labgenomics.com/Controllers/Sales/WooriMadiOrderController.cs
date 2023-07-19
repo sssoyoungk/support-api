@@ -58,7 +58,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
             {
                 sql = "SELECT ReportCode, ReportName\r\n" +
                       "FROM LabReportCode\r\n" +
-                      "WHERE ReportCode IN ('02', '03')";
+                      "WHERE ReportCode IN ('02', '03', '19')";
             }
             else if (value == "ProgCompMngCode")
             {
