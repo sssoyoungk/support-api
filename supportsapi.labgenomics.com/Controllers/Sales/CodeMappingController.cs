@@ -59,9 +59,9 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
 
                 //중지코드 확인
                 sql =
-                    $"SELECT IsTestUse\r\n" +
-                    $"FROM LabTestCode\r\n" +
-                    $"WHERE TestCode = '{request["CenterMatchCode"]}'\r\n";
+                    $"SELECT IsOrderUse\r\n" +
+                    $"FROM LabOrderCode\r\n" +
+                    $"WHERE OrderCode = '{request["CenterMatchCode"]}'\r\n";
                 JObject objTestCode = LabgeDatabase.SqlToJObject(sql);
 
                 //중지코드면 에러 리턴
