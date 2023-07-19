@@ -19,7 +19,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
         {
             string sql;
             sql = $"SELECT lri.LabRegDate, lri.LabRegNo, lri.CompCode\r\n" +
-                  $"     , (SELECT CompName FROM ProgCompCode WHERE lri.CompCode = CompCode) AS CompName\r\n" +
+                  $"     , (SELECT CompName FROM ProgCompCode WHERE lri.CompCode = CompCode) AS CompName , F.CompMngName\r\n" +
                   $"     , lri.PatientName, lri.PatientAge, lri.PatientSex, lri.PatientJuminNo01, lri.PatientChartNo\r\n" +
                   $"     , lrt.OrderCode, lrt.TestCode\r\n" +
                   $"     , (SELECT TestDisplayName FROM LabTestCode WHERE lrt.TestCode = TestCode) AS TestDisplayName, ltc.ReportCode\r\n" +
@@ -44,7 +44,9 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
             {
                 sql += $"AND pcc.CompMngCode = '{compMngCode}'\r\n";
             }
-            sql += $"WHERE lri.LabRegDate BETWEEN '{beginDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'\r\n" +
+            sql += $"JOIN ProgCompMngCode F\r\n" +
+                   $"ON F.CompMngCode = pcc.CompMngCode\r\n" + 
+                   $"WHERE lri.LabRegDate BETWEEN '{beginDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'\r\n" +
                    $"AND lrt.IsTestOutSide = {isTestOutside}\r\n"+
                    $"AND lri.LabRegNo BETWEEN {beginNo} AND {endNo}\r\n";
 

@@ -16,7 +16,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
             string sql;
             sql =
                 $"SELECT A.LabRegDate, A.LabRegNo, A.CompCode\r\n" +
-                $"     , (SELECT CompName FROM ProgCompCode WHERE A.CompCode = CompCode) AS CompName\r\n" +
+                $"     , (SELECT CompName FROM ProgCompCode WHERE A.CompCode = CompCode) AS CompName, F.CompMngName\r\n" +
                 $"     , A.PatientName, A.PatientAge, A.PatientSex, A.PatientJuminNo01, A.PatientChartNo\r\n" +
                 $"     , B.OrderCode, B.TestCode\r\n" +
                 $"     , (SELECT TestDisplayName FROM LabTestCode WHERE B.TestCode = TestCode) AS TestDisplayName, ltc.ReportCode\r\n" +
@@ -40,7 +40,9 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
             {
                 sql += $"AND pcc.CompMngCode = '{compMngCode}'\r\n";
             }
-            sql += $"WHERE A.LabRegDate BETWEEN '{beginDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'\r\n" +
+            sql += $"JOIN ProgCompMngCode F\r\n" +
+                   $"ON F.CompMngCode = pcc.CompMngCode\r\n" + 
+                   $"WHERE A.LabRegDate BETWEEN '{beginDate:yyyy-MM-dd}' AND '{endDate:yyyy-MM-dd}'\r\n" +
                 $"AND B.IsTestOutSide = {isTestOutside}\r\n" +
                 $"AND B.TestStateCode <> 'F'";
 
@@ -70,6 +72,9 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                     sql =
                         $"UPDATE LabRegTest\r\n" +
                         $"SET TestOutsideCompCode = '000119'\r\n" +
+                        $", IsTestOutSide = '1'\r\n" +
+                        $", TestOutSideBeginTime = GETDATE()\r\n" +
+                        $", TestOutsideMemberID = '{objRequest["RegistMemberID"].ToString()}'\r\n" +
                         $"WHERE LabRegDate = '{Convert.ToDateTime(objRequest["LabRegDate"]).ToString("yyyy-MM-dd")}'\r\n" +
                         $"AND LabRegNo = {objRequest["LabRegNo"]}\r\n" +
                         $"AND TestCode = '{objRequest["TestCode"].ToString()}'";
