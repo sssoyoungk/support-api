@@ -17,7 +17,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                   $"     , E.CompName, F.CompMngName\r\n" +
                   $"     , A.PatientName, A.PatientAge, A.PatientSex, A.PatientJuminNo01, A.PatientChartNo\r\n" +
                   $"     , B.OrderCode, B.TestCode\r\n" +
-                  $"     , D.TestDisplayName, D.ReportCode\r\n" +
+                  $"     , D.TestDisplayName, D.ReportCode, lrc.TestModuleCode\r\n" +
                   $"     , B.SampleCode\r\n" +
                   $"     , (SELECT SampleName FROM LabSampleCode WHERE B.SampleCode = SampleCode) AS SampleName\r\n" +
                   $"     , B.IsTestOutside, B.TestOutsideBeginTime, B.TestOutsideEndTime, B.TestOutsideCompCode, B.TestOutsideMemberID\r\n" +
@@ -35,6 +35,8 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                    $"AND C.OutsideSampleCode = B.SampleCode\r\n" +
                    $"JOIN LabTestCode D\r\n" +
                    $"ON B.TestCode = D.TestCode\r\n" +
+                   $"JOIN LabReportCode lrc\r\n" +
+                   $"ON D.ReportCode = lrc.ReportCode\r\n" +
                    $"JOIN ProgCompCode E\r\n" +
                    $"ON E.CompCode = A.CompCode\r\n";
             if ((compMngCode ?? string.Empty) != string.Empty)
@@ -64,6 +66,11 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
             {
                 sql = "SELECT CompMngCode, CompMngName\r\n" +
                       "FROM ProgCompMngCode";
+            }
+            else if (value == "TestModuleCode")
+            {
+                sql = "SELECT TestModuleCode, TestModuleName\r\n" +
+                      "FROM LabTestModuleCode";
             }
             JArray array = LabgeDatabase.SqlToJArray(sql);
             return Ok(array);

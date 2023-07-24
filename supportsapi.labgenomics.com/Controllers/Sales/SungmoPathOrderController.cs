@@ -19,7 +19,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 $"     , (SELECT CompName FROM ProgCompCode WHERE A.CompCode = CompCode) AS CompName, F.CompMngName\r\n" +
                 $"     , A.PatientName, A.PatientAge, A.PatientSex, A.PatientJuminNo01, A.PatientChartNo\r\n" +
                 $"     , B.OrderCode, B.TestCode\r\n" +
-                $"     , (SELECT TestDisplayName FROM LabTestCode WHERE B.TestCode = TestCode) AS TestDisplayName, ltc.ReportCode\r\n" +
+                $"     , (SELECT TestDisplayName FROM LabTestCode WHERE B.TestCode = TestCode) AS TestDisplayName, ltc.ReportCode, lrc.TestModuleCode\r\n" +
                 $"     , B.SampleCode\r\n" +
                 $"     , (SELECT SampleName FROM LabSampleCode WHERE B.SampleCode = SampleCode) AS SampleName\r\n" +
                 $"     , B.IsTestOutside, B.TestOutsideBeginTime, B.TestOutsideEndTime, B.TestOutsideCompCode, B.TestOutsideMemberID\r\n" +
@@ -34,6 +34,8 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 $"AND C.OutsideSampleCode = B.SampleCode\r\n" +
                 $"JOIN LabTestCode ltc\r\n" +
                 $"ON B.TestCode = ltc.TestCode\r\n" +
+                $"JOIN LabReportCode lrc\r\n" +
+                $"ON ltc.ReportCode = lrc.ReportCode\r\n" +
                 $"JOIN ProgCompCode pcc\r\n" +
                 $"ON pcc.CompCode = A.CompCode\r\n";
             if ((compMngCode ?? string.Empty) != string.Empty)

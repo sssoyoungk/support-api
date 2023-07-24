@@ -22,7 +22,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                   $"     , (SELECT CompName FROM ProgCompCode WHERE lri.CompCode = CompCode) AS CompName , F.CompMngName\r\n" +
                   $"     , lri.PatientName, lri.PatientAge, lri.PatientSex, lri.PatientJuminNo01, lri.PatientChartNo\r\n" +
                   $"     , lrt.OrderCode, lrt.TestCode\r\n" +
-                  $"     , (SELECT TestDisplayName FROM LabTestCode WHERE lrt.TestCode = TestCode) AS TestDisplayName, ltc.ReportCode\r\n" +
+                  $"     , (SELECT TestDisplayName FROM LabTestCode WHERE lrt.TestCode = TestCode) AS TestDisplayName, ltc.ReportCode, lrc.TestModuleCode\r\n" +
                   $"     , lrt.SampleCode\r\n" +
                   $"     , (SELECT SampleName FROM LabSampleCode WHERE lrt.SampleCode = SampleCode) AS SampleName\r\n" +
                   $"     , lrt.IsTestOutside, lrt.TestOutsideBeginTime, lrt.TestOutsideEndTime, lrt.TestOutsideCompCode, lrt.TestOutsideMemberID\r\n" +
@@ -37,6 +37,8 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                   $"AND lotc.OutsideSampleCode = lrt.SampleCode\r\n" +
                   $"JOIN LabTestCode ltc\r\n" +
                   $"ON lrt.TestCode = ltc.TestCode\r\n" +
+                  $"JOIN LabReportCode lrc\r\n" +
+                  $"ON ltc.ReportCode = lrc.ReportCode\r\n" +
                   $"JOIN ProgCompCode pcc\r\n" +
                   $"ON pcc.CompCode = lri.CompCode\r\n";
 
