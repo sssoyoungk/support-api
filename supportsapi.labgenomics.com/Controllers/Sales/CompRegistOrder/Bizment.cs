@@ -247,7 +247,8 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                           $"     , CASE WHEN match.CenterMatchCode <> '' THEN match.CenterMatchOrderCode ELSE code.OrderCode END AS OrderCode\r\n" +
                           $"     , (SELECT TestDisplayName FROM LabTestCode WHERE TestCode = match.CenterMatchCode) AS CenterTestName\r\n" +
                           $"     , (SELECT TestDisplayName FROM LabTestCode WHERE TestCode = match.CenterMatchOrderCode) AS CenterOrderName\r\n" +
-                          $"     , code.SampleCode, bizorder.CID, bizorder.ADMOPD, bizorder.CTEXT\r\n" +
+                          $"     , CASE WHEN ISNULL(code.SampleCode, '') = '' THEN ltc.SampleCode ELSE code.SampleCode END AS SampleCode\r\n" +
+                          $"     , bizorder.CID, bizorder.ADMOPD, bizorder.CTEXT\r\n" +
                           $"FROM RsltTransBizmentOrder AS bizorder\r\n" +
                           $"LEFT OUTER JOIN RsltTransBizmentCode AS code\r\n" +
                           $"ON code.BZCODE = bizorder.BZCODE\r\n" +
@@ -256,6 +257,8 @@ namespace supportsapi.labgenomics.com.Controllers.Sales.CompRegistOrder
                           $"ON match.CompCode = bizorder.CompCode\r\n" +
                           $"AND match.CompMatchCode = bizorder.BZCODE\r\n" +
                           $"AND match.CompMatchSubCode = bizorder.SBZCODE\r\n" +
+                          $"LEFT OUTER JOIN LabTestCode ltc\r\n" +
+                          $"ON ltc.TestCode = code.TestCode\r\n" +
                           $"WHERE bizorder.CompCode = '{compCode}'\r\n" +
                           $"AND bizorder.CompRegDate BETWEEN '{beginDate}' AND '{endDate}'\r\n" +
                           $"AND NOT EXISTS\r\n" +
