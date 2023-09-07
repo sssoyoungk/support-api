@@ -98,9 +98,9 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 cmd.CommandTimeout = 120;
 
                 DataTable dt = new DataTable();
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                SqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
 
-                adapter.Fill(dt);
+                dt.Load(dr);
 
                 //DataTable dt = LabgeDatabase.SqlToDataTable(sql);
                 dt.DefaultView.Sort = "LabRegDate, LabRegNo, TestCode";
