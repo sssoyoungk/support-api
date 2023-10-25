@@ -85,7 +85,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
 
                 if (dateKind == "E")
                 {
-                    sql += $"    AND lrr.LabRegDate BETWEEN DATEADD(YEAR, -1, '{endDate.ToString("yyyy-MM-dd")}') AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
+                    sql += //$"    AND lrr.LabRegDate BETWEEN DATEADD(YEAR, -1, '{endDate.ToString("yyyy-MM-dd")}') AND '{endDate.ToString("yyyy-MM-dd")}'\r\n" +
                            $"    AND lrt.TestEndTime >= '{beginDate.ToString("yyyy-MM-dd")}' AND lrt.TestEndTime < DATEADD(DAY, 1, '{endDate.ToString("yyyy-MM-dd")}')\r\n";
                 }
                 else
