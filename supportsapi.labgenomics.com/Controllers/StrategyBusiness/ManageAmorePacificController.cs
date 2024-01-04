@@ -69,7 +69,7 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
                             $")\r\n" +
                             $"VALUES\r\n" +
                             $"(\r\n" +
-                            $"    'amorepacific', 'AP01', '{Convert.ToDateTime(dr["주문접수완료일시"]):yyyy-MM-dd}', '{dr["주문번호"]}', '60001', '위드진69'\r\n" +
+                            $"    'amorepacific', 'AP01', '{Convert.ToDateTime(dr["주문접수완료일시"]):yyyy-MM-dd}', '{dr["주문번호"]}', '60047', '2024위드진69AP'\r\n" +
                             $")\r\n";
                         LabgeDatabase.ExecuteSql(sql);
                     }
