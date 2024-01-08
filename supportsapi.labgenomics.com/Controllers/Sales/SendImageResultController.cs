@@ -76,7 +76,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                         $"SELECT\r\n" +
                         $"    lri.LabRegDate, lri.LabRegNo, lri.PatientChartNo, lri.PatientName, ltcoi.CompSpcNo, ltcoi.CompTestCode,\r\n" +
                         $"    lrr.TestSubCode, lrp.ReportCode, lrp.LabRegReportID, lrp.IsReportTransEnd, lri.PatientSampleGetTime, lri.PatientImportCustomData01,\r\n" +
-                        $"    lrc.ReportName, pclr.ReportMatchCode, lri.CompDeptCode\r\n" +
+                        $"    lrc.ReportName, pclr.ReportMatchCode, lri.CompDeptCode, lri.LabRegPatientID\r\n" +
                         $"FROM LabRegInfo AS lri\r\n" +
                         $"JOIN LabRegResult AS lrr \r\n" +
                         $"ON lri.LabRegDate = lrr.LabRegDate \r\n" +
@@ -152,7 +152,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 {
                     sql = $"SELECT LabRegReportID, report.LabRegDate, report.LabRegNo, info.PatientChartNo, info.PatientName, report.ReportCode, report.IsReportTransEnd \r\n" +
                           $"     , info.PatientImportCustomData01, info.PatientSampleGetTime, info.CompDeptCode, reportCode.ReportName \r\n" +
-                          $"     , setting.IsReportTransFtp, setting.ReportMatchCode \r\n" +
+                          $"     , setting.IsReportTransFtp, setting.ReportMatchCode, lri.LabRegPatientID \r\n" +
                           $"FROM LabRegReport AS report \r\n" +
                           $"JOIN LabRegInfo AS info \r\n" +
                           $"ON info.LabRegDate = report.LabRegDate \r\n" +
