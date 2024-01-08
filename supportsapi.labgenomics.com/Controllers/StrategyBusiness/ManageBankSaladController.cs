@@ -17,7 +17,14 @@ namespace supportsapi.labgenomics.com.Controllers.StrategyBusiness
             string subQuery = "";
             if (testCode != null && testCode != string.Empty)
             {
-                subQuery = $"AND pi2.CompTestCode = '{testCode}' \r\n";
+                if(testCode == "60028")
+                {
+                    subQuery = $"AND pi2.CompTestCode in ('60028', '60040') \r\n";
+                }
+                else
+                {
+                    subQuery = $"AND pi2.CompTestCode = '{testCode}' \r\n";
+                }
             }
 
             if (mode == "Ordered")
