@@ -152,7 +152,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 {
                     sql = $"SELECT LabRegReportID, report.LabRegDate, report.LabRegNo, info.PatientChartNo, info.PatientName, report.ReportCode, report.IsReportTransEnd \r\n" +
                           $"     , info.PatientImportCustomData01, info.PatientSampleGetTime, info.CompDeptCode, reportCode.ReportName \r\n" +
-                          $"     , setting.IsReportTransFtp, setting.ReportMatchCode, lri.LabRegPatientID \r\n" +
+                          $"     , setting.IsReportTransFtp, setting.ReportMatchCode, info.LabRegPatientID \r\n" +
                           $"FROM LabRegReport AS report \r\n" +
                           $"JOIN LabRegInfo AS info \r\n" +
                           $"ON info.LabRegDate = report.LabRegDate \r\n" +
