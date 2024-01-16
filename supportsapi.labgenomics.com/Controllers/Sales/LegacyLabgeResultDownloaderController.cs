@@ -162,7 +162,7 @@ namespace supportsapi.labgenomics.com.Controllers.Sales
                 $"     , A.TestResultAbn AS 하이로우\r\n" +
                 $"     , dbo.FUNC_TESTREF_UNIT(A.LabRegDate, C.PatientAge, C.PatientSex, A.TestSubCode, D.SampleCode) AS 단위 \r\n" +
                 $"     , dbo.FUNC_TESTREF_TEXT(A.LabRegDate, C.PatientAge, C.PatientSex, A.TestSubCode, D.SampleCode) AS 참고치 \r\n" +
-                $"     , H.LabRegReportID, F.ReportCode, G.ReportName, H.IsReportTransEnd, A.LabRegDate, A.LabRegNo\r\n" +
+                $"     , H.LabRegReportID, F.ReportCode, G.ReportName, H.IsReportTransEnd, A.LabRegDate, A.LabRegNo, C.LabRegPatientID\r\n" +
                 $"FROM LabRegResult AS A\r\n" +
                 $"JOIN LabImportData AS B\r\n" +
                 $"ON A.LabRegDate = B.LabRegDate\r\n" +
