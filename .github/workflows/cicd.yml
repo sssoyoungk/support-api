@@ -9,7 +9,7 @@ jobs:
     runs-on: windows-2019 
 
     steps:
-    - name: Checkout repo
+    - name: Checkout repository
       uses: actions/checkout@v2
       
     - name: Setup MSBuild.exe
@@ -25,8 +25,26 @@ jobs:
 
     - name: Execute Windows batch command
       run:   del " ${{env.GITHUB_WORKSPACE}}\..\supportsapi.labgenomics.com\obj\Release\Package\PackageTmp\web.config"
-    # - name: Upload build artifacts
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: MSIX Package
-    #     path: ${{ env.Wap_Project_Directory }}\AppPackages
+
+    - name: Set up Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: build-output
+        path: "${{env.GITHUB_WORKSPACE}}\build"
+
+
+  deploy:
+    needs: build
+    runs-on: windows-2019
+    
+    steps:  
+     - name: Checkout repository
+       uses: actions/checkout@v2
+       
+     - name: Download Artifact
+       uses: actions/download-artifact@v2
+       with:
+         name: build-output
+         path: "${{env.GITHUB_WORKSPACE}}\build"
+
+       
