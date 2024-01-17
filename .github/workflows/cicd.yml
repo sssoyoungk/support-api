@@ -15,11 +15,11 @@ jobs:
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1  
 
-    - name: Set NuGet
-        uses: nuget/setup-nuget@v1
-        with:
-          nuget-version: ${{ env.NUGET_VERSION }}
-
+    - name: Setup NuGet
+      uses: nuget/setup-nuget@v1
+      with:
+        nuget-version: '5.x'
+        
     - name: Build using MSBuild
       run:  msbuild -p:Configuration=Release -p:DeployOnBuild=true -t:restore,build -p:RestorePackagesConfig=true
 
