@@ -20,6 +20,11 @@ jobs:
 
     - name: Build a Visual Studio project or solution using MSBuild
       run:  msbuild -p:Configuration=Release -p:DeployOnBuild=true -t:restore,build -p:RestorePackagesConfig=true
+
+    -  name: Setup .NET SDK
+       uses: actions/setup-dotnet@v2
+       with:
+        dotnet-version: '4.6.1' 
   
     - name: Execute Windows batch command
       run: \supportsapi.labgenomics.com\supportsapi.labgenomics.com\obj\Release\Package\PackageTmp\web.config
