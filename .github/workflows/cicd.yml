@@ -45,6 +45,7 @@ jobs:
        uses: actions/download-artifact@v2
        with:
          name: build-output
-         path: "${{env.GITHUB_WORKSPACE}}\build"
+         path: ${{env.GITHUB_WORKSPACE}}\supportsapi.labgenomics.com\obj\Release\Package\PackageTmp
+
 
        
