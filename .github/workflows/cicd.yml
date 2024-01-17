@@ -48,10 +48,12 @@ jobs:
          path: ${{env.GITHUB_WORKSPACE}}\supportsapi.labgenomics.com\obj\Release\Package\PackageTmp
 
      - name: Upload ftp
-       uses: sebastianpopp/ftp-action@releases/v2
-       with:
-         host: ${{ secrets.FTP_SERVER }}
-         user: ${{ secrets.FTP_USERNAME }}
-         password: ${{ secrets.FTP_PASSWORD }}
-         localDir: supportsapi.labgenomics.com/obj/Release/Package/PackageTmp/**
-         remoteDir: /supportsapi.labgenomics.com
+       run: |
+         $webClient = New-Object System.Net.WebClient
+         $webClient.Credentials = New-Object System.Net.NetworkCredential('${{ secrets.FTP_USERNAME }}', '${{ secrets.FTP_PASSWORD }}')
+
+         Get-ChildItem -Path "${{ env.GITHUB_WORKSPACE }}\supportsapi.labgenomics.com\obj\Release\Package\PackageTmp" -Recurse | ForEach-Object {
+             $remotePath = "/supportsapi.labgenomics.com/" + $_.FullName.Substring(${{ env.GITHUB_WORKSPACE }}.Length + 1).Replace("\", "/")
+             Write-Host "Uploading $($_.FullName) to ftp://${{ secrets.FTP_SERVER }}$($remotePath)"
+             $webClient.UploadFile("ftp://${{ secrets.FTP_SERVER }}$($remotePath)", "STOR", $_.FullName)
+         }
