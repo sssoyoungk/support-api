@@ -10,7 +10,7 @@ jobs:
 
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
       
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1  
@@ -18,11 +18,7 @@ jobs:
     - name: Setup NuGet
       uses: nuget/setup-nuget@v1
       with:
-        nuget-version: '5.x'
-        
-    - name: Install .NET Framework 4.6.1
-      run: |
-        choco install dotnet4.6.1    
+        nuget-version: ${{ env.NUGET_VERSION }}    
         
     - name: Build using MSBuild
       run:  msbuild -p:Configuration=Release -p:DeployOnBuild=true -t:restore,build -p:RestorePackagesConfig=true
