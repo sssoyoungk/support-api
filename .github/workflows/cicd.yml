@@ -19,7 +19,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
 
     - name: Build a Visual Studio project or solution using MSBuild
-      run: -p:Configuration=Release -p:DeployOnBuild=true -t:restore,build -p:RestorePackagesConfig=true
+      run:  msbuild -p:Configuration=Release -p:DeployOnBuild=true -t:restore,build -p:RestorePackagesConfig=true
   
     - name: Execute Windows batch command
       run: \supportsapi.labgenomics.com\supportsapi.labgenomics.com\obj\Release\Package\PackageTmp\web.config
