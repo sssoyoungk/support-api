@@ -47,13 +47,9 @@ jobs:
          name: build-output
          path: ${{env.GITHUB_WORKSPACE}}\supportsapi.labgenomics.com\obj\Release\Package\PackageTmp
 
-     - name: Upload ftp
-       run: |
-         $webClient = New-Object System.Net.WebClient
-         $webClient.Credentials = New-Object System.Net.NetworkCredential('${{ secrets.FTP_USERNAME }}', '${{ secrets.FTP_PASSWORD }}')
-
-         Get-ChildItem -Path "${{ env.GITHUB_WORKSPACE }}\supportsapi.labgenomics.com\obj\Release\Package\PackageTmp" -Recurse | ForEach-Object {
-             $remotePath = "/supportsapi.labgenomics.com/" + $_.FullName.Substring(${{ env.GITHUB_WORKSPACE }}.Length + 1).Replace("\", "/")
-             $Write-Host "Uploading $($_.FullName) to ftp://${{ secrets.FTP_SERVER }}$($remotePath)"
-             $webClient.UploadFile("ftp://${{ secrets.FTP_SERVER }}$($remotePath)", "STOR", $_.FullName)
-         }
+     - name: Send files over FTP
+       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+       with:
+         server: ${{ secrets.FTP_SERVER }}
+         username: ${{ secrets.FTP_USERNAME }}
+         password: ${{ secrets.FTP_PASSWORD }}
