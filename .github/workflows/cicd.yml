@@ -24,7 +24,7 @@ jobs:
       run:  msbuild -p:Configuration=Release -p:DeployOnBuild=true -t:restore,build -p:RestorePackagesConfig=true
 
     - name: Execute Windows batch command
-      run:   del " ${{env.GITHUB_WORKSPACE}}\supportsapi.labgenomics.com\obj\Release\Package\PackageTmp\web.config"
+      run:   del " ${{env.GITHUB_WORKSPACE}}\..\supportsapi.labgenomics.com\obj\Release\Package\PackageTmp\web.config"
     # - name: Upload build artifacts
     #   uses: actions/upload-artifact@v3
     #   with:
