@@ -20,6 +20,10 @@ jobs:
       with:
         nuget-version: '5.x'
         
+    - name: Install .NET Framework 4.6.1
+      run: |
+        choco install dotnet4.6.1    
+        
     - name: Build using MSBuild
       run:  msbuild -p:Configuration=Release -p:DeployOnBuild=true -t:restore,build -p:RestorePackagesConfig=true
 
